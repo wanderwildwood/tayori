@@ -79,5 +79,11 @@
                 />
         </receiver>
 
+
+        <!-- The unread count for Glance's lock-screen panel; it answers Glance alone. -->
+        <provider
+            android:name="com.wanderwildwood.tayori.glance.UnreadOnLockScreen"
+            android:authorities="${applicationId}.glance"
+            android:exported="true" />
     </application>
 </manifest>

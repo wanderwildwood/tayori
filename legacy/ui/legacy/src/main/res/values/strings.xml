@@ -1163,6 +1163,14 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="debug_feature_flags">DEBUG: Feature Flags</string>
     <string name="no_network_message_will_be_sent_later_toast">Offline. Message will be sent once connection is available</string>
 
+    <!-- Settings: whether the unread count shows on the lock screen, through the Glance app -->
+    <string name="lock_screen_unread_title">Unread mail on the lock screen</string>
+    <!-- On the lock screen, through Glance -->
+    <plurals name="lock_screen_unread_email">
+        <item quantity="one">%d email</item>
+        <item quantity="other">%d emails</item>
+    </plurals>
+
     <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
     <string name="tayori_about_title">Email <xliff:g id="version">%s</xliff:g></string>
     <string name="tayori_about_privacy">It talks to the mail servers you give it. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers at autoconfig.thunderbird.net, how to reach them; Mozilla sees the domain, not the address.</string>

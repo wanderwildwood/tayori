@@ -21,6 +21,13 @@ just a promise.
 There is no sign-in through Google, Microsoft or anyone else, no push service, no update
 check and no server of this project's.
 
+## The lock screen
+
+With [Glance](https://github.com/wanderwildwood/hitome) installed and its panel on, Email hands
+it one number - how much mail in the unified inbox is unread - to show on the lock screen. It
+answers Glance alone and hands over nothing while **Settings → General settings → Notifications →
+Unread mail on the lock screen** is off. No subject, sender or text is shared.
+
 ## Permissions
 
 From `aapt2 dump badging` on the APK:

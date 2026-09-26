@@ -442,6 +442,11 @@
             />
 
         <CheckBoxPreference
+            android:key="lock_screen_unread"
+            android:title="@string/lock_screen_unread_title"
+            />
+
+        <CheckBoxPreference
             android:key="notification_summary_delete"
             android:title="@string/notification_summary_delete_title"
             android:summary="@string/notification_summary_delete_summary"

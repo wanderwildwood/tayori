@@ -28,6 +28,11 @@ redrawn for this one.
   them.
 - **It opens on your address.** No welcome page and no Thundermail.
 
+## On the lock screen
+
+With [Glance](https://github.com/wanderwildwood/hitome) installed, how much mail is unread shows
+on the Kompakt's lock screen, beside Messaging's count. The switch is in Settings.
+
 ## Signing in
 
 Any server that speaks IMAP or POP3 and SMTP with a password. Setting up an account, it
