@@ -99,10 +99,13 @@ object MessageItemAvatarCircleDefaults {
      *  from the provided base color.
      */
     @Composable
+    // A black ring and a black letter on white. A 15% tint is a grey wash on E Ink, and the
+    // content colour upstream derives from the full-strength colour would be white on that wash.
+    @Suppress("UNUSED_PARAMETER")
     fun colorsFrom(color: Color) = MessageItemAvatarCircleColors(
-        borderColor = color,
-        containerColor = color.copy(alpha = .15f),
-        contentColor = contentColorFor(color),
+        borderColor = Color.Black,
+        containerColor = Color.White,
+        contentColor = Color.Black,
     )
 }
 

@@ -30,29 +30,28 @@ class ThemeManager(
     private val generalSettings: GeneralSettings
         get() = generalSettingsManager.getConfig()
 
+    // One theme, always light: an E Ink panel read outdoors has no use for a dark one, and a
+    // dark theme is a screenful of black to repaint. The setting is kept so upstream's
+    // settings code is untouched, but nothing it chooses is honoured.
     override val appTheme: Theme
-        get() = when (generalSettings.display.coreSettings.appTheme) {
-            AppTheme.LIGHT -> Theme.LIGHT
-            AppTheme.DARK -> Theme.DARK
-            AppTheme.FOLLOW_SYSTEM -> getSystemTheme()
-        }
+        get() = Theme.LIGHT
 
     override val messageViewTheme: Theme
-        get() = resolveTheme(generalSettings.display.coreSettings.messageViewTheme)
+        get() = Theme.LIGHT
 
     override val messageComposeTheme: Theme
-        get() = resolveTheme(generalSettings.display.coreSettings.messageComposeTheme)
+        get() = Theme.LIGHT
 
     @get:StyleRes
     override val appThemeResourceId: Int = themeProvider.appThemeResourceId
 
     @get:StyleRes
     override val messageViewThemeResourceId: Int
-        get() = getSubThemeResourceId(generalSettings.display.coreSettings.messageViewTheme)
+        get() = themeProvider.appLightThemeResourceId
 
     @get:StyleRes
     override val messageComposeThemeResourceId: Int
-        get() = getSubThemeResourceId(generalSettings.display.coreSettings.messageComposeTheme)
+        get() = themeProvider.appLightThemeResourceId
 
     @get:StyleRes
     override val dialogThemeResourceId: Int = themeProvider.dialogThemeResourceId
@@ -71,12 +70,9 @@ class ThemeManager(
     }
 
     private fun updateAppTheme(appTheme: AppTheme) {
-        val defaultNightMode = when (appTheme) {
-            AppTheme.LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
-            AppTheme.DARK -> AppCompatDelegate.MODE_NIGHT_YES
-            AppTheme.FOLLOW_SYSTEM -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-        }
-        AppCompatDelegate.setDefaultNightMode(defaultNightMode)
+        @Suppress("UNUSED_VARIABLE")
+        val ignored = appTheme
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     fun toggleMessageViewTheme() {

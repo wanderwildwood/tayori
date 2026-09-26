@@ -39,10 +39,11 @@ fun Avatar(
     onClick: (() -> Unit)? = null,
     selected: Boolean = false,
 ) {
-    val surfaceContainerColor = color.toSurfaceContainer(alpha = AVATAR_ALPHA)
-    val backgroundColor = remember(avatar, color, surfaceContainerColor) {
-        if (avatar is Avatar.Monogram) surfaceContainerColor else color
-    }
+    // Black ink on white, whatever colour the account was given: sixteen greys turn a pastel
+    // circle into a smudge, and a tint of the account colour into a grey one.
+    @Suppress("NAME_SHADOWING", "UNUSED_PARAMETER")
+    val color = Color.Black
+    val backgroundColor = if (avatar is Avatar.Monogram) Color.White else color
 
     Box(
         contentAlignment = Alignment.TopStart,

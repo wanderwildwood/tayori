@@ -80,10 +80,25 @@ class K9WebViewClient(
     override fun shouldInterceptRequest(webView: WebView, request: WebResourceRequest): WebResourceResponse? {
         val uri = request.url
 
-        return if (uri.scheme == CID_SCHEME) {
+        return if (uri.scheme == CID_SCHEME && uri.schemeSpecificPart.startsWith(FONT_PREFIX)) {
+            handleFontUri(uri, webView)
+        } else if (uri.scheme == CID_SCHEME) {
             handleCidUri(uri, webView)
         } else {
             RESULT_DO_NOT_INTERCEPT
+        }
+    }
+
+    // The message body is set in Lato, the app's own face, served from its resources. A font is
+    // only used across origins with a CORS header, so the response carries one.
+    private fun handleFontUri(uri: Uri, webView: WebView): WebResourceResponse {
+        val name = uri.schemeSpecificPart.removePrefix(FONT_PREFIX)
+        val resources = webView.context.resources
+        @Suppress("DiscouragedApi")
+        val id = resources.getIdentifier(name, "font", webView.context.packageName)
+        if (id == 0 || name !in FONT_NAMES) return RESULT_DUMMY_RESPONSE
+        return WebResourceResponse("font/ttf", null, resources.openRawResource(id)).apply {
+            responseHeaders = mapOf("Access-Control-Allow-Origin" to "*")
         }
     }
 
@@ -132,6 +147,8 @@ class K9WebViewClient(
 
     companion object {
         private const val CID_SCHEME = "cid"
+        private const val FONT_PREFIX = "tayori-font/"
+        private val FONT_NAMES = setOf("lato_regular", "lato_bold", "lato_italic", "lato_bold_italic")
         private const val FILE_SCHEME = "file"
 
         private val RESULT_DO_NOT_INTERCEPT: WebResourceResponse? = null

@@ -9,7 +9,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AlertDialog;
 import net.thunderbird.legacy.logging.Log;
 
 public class ConfirmationDialogFragment extends DialogFragment implements OnClickListener,
@@ -59,7 +59,7 @@ public class ConfirmationDialogFragment extends DialogFragment implements OnClic
         String confirmText = args.getString(ARG_CONFIRM_TEXT);
         String cancelText = args.getString(ARG_CANCEL_TEXT);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title);
         builder.setMessage(message);
         if (confirmText != null && cancelText != null) {

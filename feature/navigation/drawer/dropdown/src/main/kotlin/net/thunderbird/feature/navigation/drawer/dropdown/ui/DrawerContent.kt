@@ -76,7 +76,7 @@ internal fun DrawerContent(
     modifier: Modifier = Modifier,
 ) {
     val additionalWidth = getAdditionalWidth()
-    val areAnimationsEnabled = areSystemAnimationsEnabled()
+    val areAnimationsEnabled = false
 
     Surface(
         modifier = modifier

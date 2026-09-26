@@ -5,10 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +21,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceScreen
 import androidx.preference.SwitchPreference
+import androidx.recyclerview.widget.RecyclerView
 import app.k9mail.feature.launcher.FeatureLauncherActivity
 import app.k9mail.feature.launcher.FeatureLauncherTarget
 import com.fsck.k9.activity.ManageIdentities
@@ -38,6 +42,8 @@ import com.fsck.k9.ui.settings.onClick
 import com.fsck.k9.ui.settings.oneTimeClickListener
 import com.fsck.k9.ui.settings.remove
 import com.fsck.k9.ui.settings.removeEntry
+import com.fsck.k9.ui.settings.withoutIconSpace
+import com.fsck.k9.view.turnsAPageOnSwipe
 import com.takisoft.preferencex.PreferenceFragmentCompat
 import net.thunderbird.core.android.account.AccountDefaultsProvider.Companion.NO_OPENPGP_KEY
 import net.thunderbird.core.android.account.LegacyAccountDto
@@ -84,6 +90,20 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
         checkNotNull(arguments?.getString(ARG_ACCOUNT_UUID)) { "$ARG_ACCOUNT_UUID == null" }
     }
     private var title: CharSequence? = null
+
+    override fun onCreateRecyclerView(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        savedInstanceState: Bundle?,
+    ): RecyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState).apply {
+        itemAnimator = null
+        turnsAPageOnSwipe()
+    }
+
+    override fun onCreateAdapter(preferenceScreen: PreferenceScreen): RecyclerView.Adapter<*> {
+        preferenceScreen.withoutIconSpace()
+        return super.onCreateAdapter(preferenceScreen)
+    }
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         val account = getAccount()

@@ -101,12 +101,6 @@ private fun RowScope.AccountSelectedView(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(BoltTheme.spacings.double),
         ) {
-            AccountAvatar(
-                account = targetAccount,
-                onClick = { onAvatarClick() },
-                selected = false,
-            )
-
             Column(
                 verticalArrangement = Arrangement.spacedBy(BoltTheme.spacings.half),
                 modifier = Modifier

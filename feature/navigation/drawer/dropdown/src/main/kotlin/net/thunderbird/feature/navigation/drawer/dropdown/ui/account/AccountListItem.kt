@@ -17,12 +17,8 @@ import net.thunderbird.components.ui.bolt.atom.text.TextBodyLargeAutoResize
 import net.thunderbird.components.ui.bolt.atom.text.TextBodyMedium
 import net.thunderbird.components.ui.bolt.organism.drawer.NavigationDrawerItem
 import net.thunderbird.components.ui.bolt.theme.BoltTheme
-import net.thunderbird.feature.account.avatar.ui.Avatar
-import net.thunderbird.feature.account.avatar.ui.AvatarSize
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayAccount
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.MailDisplayAccount
-import net.thunderbird.feature.navigation.drawer.dropdown.ui.common.getDisplayAccountAvatar
-import net.thunderbird.feature.navigation.drawer.dropdown.ui.common.getDisplayAccountColor
 import net.thunderbird.feature.navigation.drawer.dropdown.ui.common.getDisplayAccountName
 
 @Composable
@@ -33,9 +29,6 @@ internal fun AccountListItem(
     showStarredCount: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val color = getDisplayAccountColor(account)
-    val avatar = getDisplayAccountAvatar(account)
-
     NavigationDrawerItem(
         label = { AccountLabel(account = account) },
         selected = selected,
@@ -43,13 +36,6 @@ internal fun AccountListItem(
         modifier = modifier
             .fillMaxWidth()
             .height(BoltTheme.sizes.large),
-        icon = {
-            Avatar(
-                avatar = avatar,
-                color = color,
-                size = AvatarSize.MEDIUM,
-            )
-        },
         badge = {
             Crossfade(account.hasError) { hasError ->
                 if (hasError) {

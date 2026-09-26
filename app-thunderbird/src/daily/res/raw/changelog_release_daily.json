@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "version": "Daily",
+  "version": "0.1.0",
   "versioncode": 1,
-  "date": "2024-06-27",
+  "date": "2026-09-26",
   "notes": [
     {
-      "type": "changed",
-      "text": "Daily snapshot of current development at github.com/thunderbird/thunderbird-android",
-      "source": "ckchangelog-xml"
+      "type": "new",
+      "text": "First release.",
+      "source": "tayori"
     }
   ]
 }

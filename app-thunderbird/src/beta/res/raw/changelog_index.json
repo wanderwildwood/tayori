@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "releases":[
+  "releases": [
     {
-      "version": "Beta",
+      "version": "0.1.0",
       "versioncode": 1,
-      "date": "2024-06-27",
+      "date": "2026-09-26",
       "resourceName": "changelog_release_beta"
     }
   ]

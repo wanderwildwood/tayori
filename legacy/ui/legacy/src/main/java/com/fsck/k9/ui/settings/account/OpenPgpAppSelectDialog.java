@@ -28,7 +28,7 @@ import com.fsck.k9.Preferences;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.ui.base.BaseActivity;
 import com.fsck.k9.ui.base.ThemeType;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AlertDialog;
 import org.openintents.openpgp.util.OpenPgpApi;
 import org.openintents.openpgp.util.OpenPgpProviderUtil;
 import net.thunderbird.legacy.logging.Log;
@@ -162,7 +162,7 @@ public class OpenPgpAppSelectDialog extends BaseActivity {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             builder.setTitle(R.string.account_settings_crypto_app_select_title);
 
@@ -230,7 +230,7 @@ public class OpenPgpAppSelectDialog extends BaseActivity {
         @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
 
             builder.setTitle(R.string.dialog_openkeychain_info_title);
             builder.setView(getLayoutInflater().inflate(

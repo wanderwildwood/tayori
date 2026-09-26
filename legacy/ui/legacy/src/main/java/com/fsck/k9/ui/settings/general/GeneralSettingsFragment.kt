@@ -2,16 +2,19 @@ package com.fsck.k9.ui.settings.general
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
+import androidx.recyclerview.widget.RecyclerView
 import androidx.work.WorkInfo
 import app.k9mail.feature.telemetry.api.TelemetryManager
 import com.fsck.k9.job.K9JobManager
@@ -21,6 +24,8 @@ import com.fsck.k9.ui.base.extensions.withArguments
 import com.fsck.k9.ui.observe
 import com.fsck.k9.ui.settings.notificationactions.NotificationActionsSettingsActivity
 import com.fsck.k9.ui.settings.remove
+import com.fsck.k9.ui.settings.withoutIconSpace
+import com.fsck.k9.view.turnsAPageOnSwipe
 import com.google.android.material.snackbar.Snackbar
 import com.takisoft.preferencex.PreferenceFragmentCompat
 import java.text.SimpleDateFormat
@@ -74,6 +79,20 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
                 }
             }
         }
+
+    override fun onCreateRecyclerView(
+        inflater: LayoutInflater,
+        parent: ViewGroup,
+        savedInstanceState: Bundle?,
+    ): RecyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState).apply {
+        itemAnimator = null
+        turnsAPageOnSwipe()
+    }
+
+    override fun onCreateAdapter(preferenceScreen: PreferenceScreen): RecyclerView.Adapter<*> {
+        preferenceScreen.withoutIconSpace()
+        return super.onCreateAdapter(preferenceScreen)
+    }
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         preferenceManager.preferenceDataStore = dataStore

@@ -24,6 +24,7 @@
             android:layout_height="40dp"
             android:contentDescription="@string/account_settings_action"
             android:padding="8dp"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_mail"
             />
 
@@ -35,7 +36,7 @@
             android:orientation="vertical"
             android:gravity="center_vertical"
             android:paddingBottom="4dp"
-            android:paddingStart="24dp"
+            android:paddingStart="8dp"
             android:paddingEnd="16dp"
             >
 

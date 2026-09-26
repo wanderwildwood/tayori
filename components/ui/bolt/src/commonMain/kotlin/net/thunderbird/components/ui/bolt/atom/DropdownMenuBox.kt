@@ -1,9 +1,12 @@
 package net.thunderbird.components.ui.bolt.atom
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import androidx.compose.material3.DropdownMenu as Material3DropdownMenu
 import androidx.compose.material3.DropdownMenuItem as Material3DropdownMenuItem
@@ -36,6 +39,10 @@ fun <T> DropdownMenuBox(
         Material3DropdownMenu(
             expanded = expanded,
             onDismissRequest = { onExpandedChange(false) },
+            // A rim rather than a shadow: a shadow on E Ink is a band of dithered grey.
+            shadowElevation = 0.dp,
+            tonalElevation = 0.dp,
+            border = BorderStroke(2.dp, Color.Black),
         ) {
             options.forEach { option ->
                 Material3DropdownMenuItem(

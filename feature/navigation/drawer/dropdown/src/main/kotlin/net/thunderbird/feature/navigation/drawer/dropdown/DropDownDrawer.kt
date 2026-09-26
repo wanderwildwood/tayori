@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
+import androidx.compose.ui.draw.drawWithContent
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,6 +45,11 @@ class DropDownDrawer(
     init {
         drawer.addDrawerListener(createDrawerListener())
 
+        // No dimming behind the open drawer, and no shadow along its edge: on E Ink either is a
+        // screenful of dithered grey, repainted on the way in and again on the way out.
+        drawer.setScrimColor(android.graphics.Color.TRANSPARENT)
+        drawer.drawerElevation = 0f
+
         // Make insets available to the drawer's Compose content
         ViewCompat.setOnApplyWindowInsetsListener(drawer) { _, insets ->
             drawerContent.dispatchApplyWindowInsets(insets.toWindowInsets())
@@ -54,16 +60,31 @@ class DropDownDrawer(
             themeProvider.WithTheme {
                 val state = drawerState.collectAsStateWithLifecycle()
 
-                DrawerView(
-                    drawerState = state.value,
-                    openAccount = openAccount,
-                    openFolder = openFolder,
-                    openUnifiedFolder = openUnifiedFolder,
-                    openManageFolders = openManageFolders,
-                    openSettings = openSettings,
-                    openAddAccount = openAddAccount,
-                    closeDrawer = { close() },
-                )
+                // With no shadow and no dimming, a rule down the open edge is what says where the
+                // drawer ends and the page behind it begins.
+                androidx.compose.foundation.layout.Box(
+                    modifier = androidx.compose.ui.Modifier.drawWithContent {
+                        drawContent()
+                        val x = size.width - 0.5f
+                        drawLine(
+                            color = androidx.compose.ui.graphics.Color.Black,
+                            start = androidx.compose.ui.geometry.Offset(x, 0f),
+                            end = androidx.compose.ui.geometry.Offset(x, size.height),
+                            strokeWidth = 1.5f,
+                        )
+                    },
+                ) {
+                    DrawerView(
+                        drawerState = state.value,
+                        openAccount = openAccount,
+                        openFolder = openFolder,
+                        openUnifiedFolder = openUnifiedFolder,
+                        openManageFolders = openManageFolders,
+                        openSettings = openSettings,
+                        openAddAccount = openAddAccount,
+                        closeDrawer = { close() },
+                    )
+                }
             }
         }
     }

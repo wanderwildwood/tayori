@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.view.HighlightDialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AlertDialog;
 
 
 public class PgpEncryptDescriptionDialog extends HighlightDialogFragment {
@@ -34,7 +34,7 @@ public class PgpEncryptDescriptionDialog extends HighlightDialogFragment {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(activity).inflate(R.layout.openpgp_encrypt_description_dialog, null);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setView(view);
 
         builder.setPositiveButton(R.string.openpgp_sign_only_ok, new OnClickListener() {

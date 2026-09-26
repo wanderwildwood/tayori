@@ -1,8 +1,5 @@
 package net.thunderbird.core.ui.animation.manager
 
-import android.animation.ValueAnimator
-import android.os.Build
-import net.thunderbird.core.preference.AnimationPreference
 import net.thunderbird.core.preference.display.visualSettings.DisplayVisualSettingsPreferenceManager
 
 interface AnimationManager {
@@ -12,17 +9,6 @@ interface AnimationManager {
 class DefaultAnimationManager(
     private val visualSettingsPreferenceManager: DisplayVisualSettingsPreferenceManager,
 ) : AnimationManager {
-    override fun shouldShowAnimations(): Boolean {
-        return when (visualSettingsPreferenceManager.getConfig().animationPreference) {
-            AnimationPreference.ON -> true
-
-            AnimationPreference.OFF -> false
-
-            AnimationPreference.FOLLOW_SYSTEM -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                ValueAnimator.areAnimatorsEnabled()
-            } else {
-                true
-            }
-        }
-    }
+    // Nothing animates on an E Ink panel: motion is a smear and a battery cost.
+    override fun shouldShowAnimations(): Boolean = false
 }

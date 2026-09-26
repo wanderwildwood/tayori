@@ -1,5 +1,8 @@
 package net.thunderbird.components.ui.bolt.organism
 
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog as MaterialAlertDialog
@@ -86,7 +89,10 @@ fun AlertDialog(
             }
         },
         onDismissRequest = onDismissRequest,
-        modifier = modifier,
+        // The house dialog: a 2dp rim and a 12dp corner rather than a tonal shadow.
+        modifier = modifier.border(2.dp, BoltTheme.colors.onSurface, RoundedCornerShape(12.dp)),
+        shape = RoundedCornerShape(12.dp),
+        tonalElevation = 0.dp,
     )
 }
 

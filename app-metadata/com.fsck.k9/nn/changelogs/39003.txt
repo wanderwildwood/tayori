@@ -1,1 +1,0 @@
-- Fiksa ein krasj når ein meldingsliste sveip-funksjon var sett til "Ingen"

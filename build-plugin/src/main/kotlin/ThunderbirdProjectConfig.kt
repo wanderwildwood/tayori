@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 object ThunderbirdProjectConfig {
 
     object Android {
-        const val sdkMin = 23
+        const val sdkMin = 26
 
         // Only needed for application
         const val sdkTarget = 36

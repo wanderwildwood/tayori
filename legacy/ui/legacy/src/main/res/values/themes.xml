@@ -3,7 +3,7 @@
 
     <!-- TODO remove when properties have been replaced -->
     <style name="Theme.Legacy.Test" parent="Theme.Material3.Light">
-        <item name="contactTokenBackgroundColor">#ccc</item>
+        <item name="contactTokenBackgroundColor">@drawable/recipient_token_background</item>
         <item name="openpgp_black">#000</item>
         <item name="openpgp_orange">#FF8800</item>
         <item name="openpgp_red">#CC0000</item>

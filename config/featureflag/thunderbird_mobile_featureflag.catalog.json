@@ -29,7 +29,7 @@
     },
     {
       "key": "use_compose_for_message_list_items",
-      "default": false,
+      "default": true,
       "description": "Renders the legacy message-list items using Jetpack Compose."
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "key": "enable_avatar_customization",
-      "default": true,
+      "default": false,
       "description": "Enables avatar customization in account settings."
     },
     {
@@ -60,7 +60,7 @@
     },
     {
       "key": "thundermail_onboarding_enabled",
-      "default": true,
+      "default": false,
       "description": "Enables Thundermail onboarding flow.",
       "time_to_promote": "2026-12-31"
     }

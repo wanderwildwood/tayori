@@ -16,7 +16,7 @@ class DefaultPlainTextMessagePreElementCssStyleProvider(
         |  pre.${cssClassNameProvider.plainTextMessagePreClassName} {
         |    white-space: pre-wrap;
         |    word-wrap: break-word;
-        |    font-family: ${if (useFixedWidthFont) "monospace" else "sans-serif"};
+        |    font-family: ${if (useFixedWidthFont) "monospace" else "'Lato', sans-serif"};
         |    margin-top: 0px;
         |  }
         |</style>

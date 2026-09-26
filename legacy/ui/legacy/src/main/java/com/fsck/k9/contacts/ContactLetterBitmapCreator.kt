@@ -42,16 +42,10 @@ class ContactLetterBitmapCreator(
         return bitmap
     }
 
-    fun calcUnknownContactColor(address: Address): Int {
-        if (config.hasDefaultBackgroundColor) {
-            return config.defaultBackgroundColor
-        }
-
-        val hash = address.hashCode()
-        val backgroundColors = config.backgroundColors
-        val colorIndex = (hash and Integer.MAX_VALUE) % backgroundColors.size
-        return backgroundColors[colorIndex]
-    }
+    // One ink for every sender. Upstream hashes the address into a palette of pastels, which an
+    // E Ink panel shows as a set of near-identical greys.
+    @Suppress("UNUSED_PARAMETER")
+    fun calcUnknownContactColor(address: Address): Int = 0xFF000000.toInt()
 
     fun signatureOf(address: Address): String {
         return calcUnknownContactColor(address).toString()

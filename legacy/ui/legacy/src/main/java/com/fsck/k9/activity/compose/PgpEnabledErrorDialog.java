@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.view.HighlightDialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AlertDialog;
 
 
 public class PgpEnabledErrorDialog extends HighlightDialogFragment {
@@ -39,7 +39,7 @@ public class PgpEnabledErrorDialog extends HighlightDialogFragment {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(activity).inflate(R.layout.openpgp_enabled_error_dialog, null);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setView(view);
 
         builder.setNegativeButton(isGotItDialog ? R.string.openpgp_enabled_error_gotit :

@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.view.HighlightDialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AlertDialog;
 
 
 public class PgpSignOnlyDialog extends HighlightDialogFragment {
@@ -38,7 +38,7 @@ public class PgpSignOnlyDialog extends HighlightDialogFragment {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(activity).inflate(R.layout.openpgp_sign_only_dialog, null);
 
-        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
         builder.setView(view);
 
         if (getArguments().getInt(ARG_FIRST_TIME) != 0) {

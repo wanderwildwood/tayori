@@ -1,1 +1,0 @@
-- Az üzenetlista balra húzási műveletének „Nincs” értékre állítása miatt fellépő összeomlás javítása

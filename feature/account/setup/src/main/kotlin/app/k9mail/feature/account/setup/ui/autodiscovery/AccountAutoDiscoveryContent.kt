@@ -1,7 +1,6 @@
 package app.k9mail.feature.account.setup.ui.autodiscovery
 
 import android.content.res.Resources
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +33,6 @@ import net.thunderbird.components.ui.bolt.molecule.input.EmailAddressInput
 import net.thunderbird.components.ui.bolt.molecule.input.PasswordInput
 import net.thunderbird.components.ui.bolt.template.ResponsiveWidthContainer
 import net.thunderbird.components.ui.bolt.theme.BoltTheme
-import net.thunderbird.feature.thundermail.ui.component.ThundermailButtonPanel
 
 @Composable
 internal fun AccountAutoDiscoveryContent(
@@ -162,16 +160,6 @@ internal fun ContentView(
                 )
             }
             Spacer(modifier = Modifier.height(BoltTheme.spacings.double))
-        }
-
-        AnimatedVisibility(state.emailAddress.value.isBlank()) {
-            ThundermailButtonPanel(
-                onThundermailClick = onThundermailClick,
-                onScanQrCodeClick = onScanQrCodeClick,
-                modifier = Modifier
-                    .testTag("thundermail_panel")
-                    .padding(bottom = BoltTheme.spacings.quadruple),
-            )
         }
 
         EmailAddressInput(

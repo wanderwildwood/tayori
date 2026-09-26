@@ -25,6 +25,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:id="@+id/alternate_contact_photo"
+        android:visibility="gone"
             tools:src="@drawable/ic_account_circle"
             />
 

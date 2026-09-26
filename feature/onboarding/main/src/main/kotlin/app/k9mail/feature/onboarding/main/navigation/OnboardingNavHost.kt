@@ -39,7 +39,7 @@ private fun NavController.navigateToSettingsImportQrCode() {
 
 private fun NavController.navigateToPermissions() {
     navigate(NESTED_NAVIGATION_ROUTE_PERMISSIONS) {
-        popUpTo(NESTED_NAVIGATION_ROUTE_WELCOME) {
+        popUpTo(graph.id) {
             inclusive = true
         }
     }
@@ -60,7 +60,9 @@ fun OnboardingNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = NESTED_NAVIGATION_ROUTE_WELCOME,
+        // Straight to the address: a welcome page is a screen to read past before the one
+        // that does anything. Importing settings is in Settings.
+        startDestination = NESTED_NAVIGATION_ROUTE_ACCOUNT_SETUP,
     ) {
         composable(route = NESTED_NAVIGATION_ROUTE_WELCOME) {
             WelcomeScreen(

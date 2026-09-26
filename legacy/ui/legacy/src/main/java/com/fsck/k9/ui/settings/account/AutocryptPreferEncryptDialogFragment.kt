@@ -7,7 +7,7 @@ import android.view.View
 import androidx.preference.PreferenceDialogFragmentCompat
 import com.fsck.k9.ui.R
 import com.google.android.material.checkbox.MaterialCheckBox
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textview.MaterialTextView
 import com.fsck.k9.ui.base.R as BaseR
 
@@ -30,7 +30,7 @@ class AutocryptPreferEncryptDialogFragment : PreferenceDialogFragmentCompat() {
             preferEncryptCheckbox.performClick()
         }
 
-        return MaterialAlertDialogBuilder(requireContext())
+        return AlertDialog.Builder(requireContext())
             .setView(view)
             .setPositiveButton(BaseR.string.okay_action, ::onClick)
             .setNegativeButton(BaseR.string.cancel_action, ::onClick)

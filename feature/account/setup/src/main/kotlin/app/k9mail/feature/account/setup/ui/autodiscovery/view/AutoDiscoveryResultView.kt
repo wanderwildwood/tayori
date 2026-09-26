@@ -41,7 +41,7 @@ internal fun AutoDiscoveryResultView(
             modifier = Modifier
                 .border(
                     width = 1.dp,
-                    color = Color.Gray.copy(alpha = 0.5f),
+                    color = Color.Black,
                     shape = BoltTheme.shapes.small,
                 ).let {
                     if (discoveryResultHeaderState.isExpandable) {

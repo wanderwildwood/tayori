@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id(ThunderbirdPlugins.App.androidCompose)
     alias(libs.plugins.dependency.guard)
@@ -13,13 +15,13 @@ android {
     namespace = "net.thunderbird.android"
 
     defaultConfig {
-        applicationId = "net.thunderbird.android"
-        testApplicationId = "net.thunderbird.android.tests"
+        applicationId = "com.wanderwildwood.tayori"
+        testApplicationId = "com.wanderwildwood.tayori.tests"
 
-        versionCode = 4
-        versionName = "25.0"
+        versionCode = 1
+        versionName = "0.1.0"
 
-        buildConfigField("String", "CLIENT_INFO_APP_NAME", "\"Thunderbird for Android\"")
+        buildConfigField("String", "CLIENT_INFO_APP_NAME", "\"tayori\"")
     }
 
     androidResources {
@@ -81,15 +83,21 @@ android {
         )
     }
 
-    signingConfigs {
-        val useUploadKey = providers.gradleProperty("tb.useUploadKey")
-            .map(String::toBoolean)
-            .orElse(true)
-            .get()
-
-        createSigningConfig(project, SigningType.TB_RELEASE, isUpload = useUploadKey)
-        createSigningConfig(project, SigningType.TB_BETA, isUpload = useUploadKey)
-        createSigningConfig(project, SigningType.TB_DAILY, isUpload = useUploadKey)
+    // The key lives in a gitignored signing/ and there is no fallback: without it a
+    // release builds unsigned, which will not install anywhere.
+    val signingPropertiesFile = isolated.rootProject.projectDirectory.file("signing/signing.properties").asFile
+    val realSigningConfig = if (signingPropertiesFile.isFile) {
+        val signingProperties = Properties().apply {
+            signingPropertiesFile.inputStream().use(::load)
+        }
+        signingConfigs.create("real") {
+            storeFile = isolated.rootProject.projectDirectory.file("signing/signing.keystore").asFile
+            storePassword = signingProperties.getProperty("STORE_PASSWORD")
+            keyAlias = signingProperties.getProperty("KEY_ALIAS")
+            keyPassword = signingProperties.getProperty("KEY_PASSWORD")
+        }
+    } else {
+        null
     }
 
     buildTypes {
@@ -97,7 +105,7 @@ android {
             .map(String::toBoolean)
             .orElse(false)
         release {
-            signingConfig = signingConfigs.getByType(SigningType.TB_RELEASE)
+            signingConfig = realSigningConfig
 
             isMinifyEnabled = !isCI.get()
             isShrinkResources = !isCI.get()
@@ -114,7 +122,7 @@ android {
         create("beta") {
             initWith(getByName("release"))
 
-            signingConfig = signingConfigs.getByType(SigningType.TB_BETA)
+            signingConfig = realSigningConfig
 
             applicationIdSuffix = ".beta"
             versionNameSuffix = "b0"
@@ -136,7 +144,7 @@ android {
         create("daily") {
             initWith(getByName("release"))
 
-            signingConfig = signingConfigs.getByType(SigningType.TB_DAILY)
+            signingConfig = realSigningConfig
 
             applicationIdSuffix = ".daily"
             versionNameSuffix = "a1"
@@ -255,7 +263,7 @@ dependencies {
     debugImplementation(projects.feature.autodiscovery.demo)
     "dailyImplementation"(projects.feature.autodiscovery.demo)
 
-    "fossImplementation"(projects.feature.funding.link)
+    "fossImplementation"(projects.feature.funding.noop)
 
     fullDebugImplementation(projects.feature.funding.googleplay)
     fullDailyImplementation(projects.feature.funding.googleplay)

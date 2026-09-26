@@ -1,2 +1,0 @@
-- Fixat krasch när delad skärm var aktiverad
-- Uppdaterade översättningar

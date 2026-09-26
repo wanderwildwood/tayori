@@ -9,7 +9,6 @@
     >
 
     <PreferenceScreen
-        android:icon="@drawable/ic_monitor"
         android:key="display_preferences"
         android:title="@string/display_preferences"
         search:ignore="true"
@@ -27,42 +26,6 @@
                 android:key="language"
                 app:useSimpleSummaryProvider="true"
                 android:title="@string/settings_language_label"
-                />
-
-            <ListPreference
-                android:dialogTitle="@string/settings_theme_label"
-                android:entries="@array/theme_entries"
-                android:entryValues="@array/theme_values"
-                android:key="theme"
-                app:useSimpleSummaryProvider="true"
-                android:title="@string/settings_theme_label"
-                />
-
-            <CheckBoxPreference
-                android:key="fixed_message_view_theme"
-                android:summaryOff="@string/settings_message_theme_selection_summary_off"
-                android:summaryOn="@string/settings_message_theme_selection_summary_on"
-                search:summary=""
-                android:title="@string/settings_message_theme_selection_label"
-                />
-
-            <ListPreference
-                android:dependency="fixed_message_view_theme"
-                android:dialogTitle="@string/settings_message_theme_label"
-                android:entries="@array/message_theme_entries"
-                android:entryValues="@array/message_theme_values"
-                android:key="messageViewTheme"
-                app:useSimpleSummaryProvider="true"
-                android:title="@string/settings_message_theme_label"
-                />
-
-            <ListPreference
-                android:dialogTitle="@string/settings_compose_theme_label"
-                android:entries="@array/message_theme_entries"
-                android:entryValues="@array/message_theme_values"
-                android:key="message_compose_theme"
-                app:useSimpleSummaryProvider="true"
-                android:title="@string/settings_compose_theme_label"
                 />
 
             <PreferenceScreen
@@ -192,15 +155,6 @@
 
             </PreferenceScreen>
 
-            <ListPreference
-                android:dialogTitle="@string/animations_title"
-                android:entries="@array/animation_entries"
-                android:entryValues="@array/animation_values"
-                android:key="animations"
-                app:useSimpleSummaryProvider="true"
-                android:title="@string/animations_title"
-                />
-
         </PreferenceCategory>
 
         <PreferenceCategory
@@ -304,19 +258,6 @@
                 />
 
             <CheckBoxPreference
-                android:key="messagelist_show_contact_picture"
-                android:summary="@string/global_settings_show_contact_picture_summary"
-                android:title="@string/global_settings_show_contact_picture_label"
-                />
-
-            <CheckBoxPreference
-                android:dependency="messagelist_show_contact_picture"
-                android:key="messagelist_colorize_missing_contact_pictures"
-                android:summary="@string/global_settings_colorize_missing_contact_pictures_summary"
-                android:title="@string/global_settings_colorize_missing_contact_pictures_label"
-                />
-
-            <CheckBoxPreference
                 android:key="messagelist_background_as_unread_indicator"
                 android:summary="@string/global_settings_background_as_unread_indicator_summary"
                 android:title="@string/global_settings_background_as_unread_indicator_label"
@@ -382,7 +323,6 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_touch_app"
         android:key="interaction_preferences"
         android:title="@string/interaction_preferences"
         search:ignore="true"
@@ -450,7 +390,6 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_notifications"
         android:key="notification_preferences"
         android:title="@string/notifications_title"
         search:ignore="true"
@@ -508,16 +447,9 @@
             android:summary="@string/notification_summary_delete_summary"
             />
 
-        <SwitchPreferenceCompat
-            android:key="notification_show_contact_picture"
-            android:title="@string/notification_show_contact_picture_title"
-            android:summary="@string/notification_show_contact_picture_summary"
-            />
-
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_swap_vert"
         android:key="network_preferences"
         android:title="@string/network_preferences"
         search:ignore="true"
@@ -535,7 +467,6 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_security"
         android:key="privacy_preferences"
         android:title="@string/privacy_preferences"
         search:ignore="true"
@@ -562,7 +493,6 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_analytics"
         android:key="data_collection"
         android:title="@string/settings_ui_data_collection"
         search:ignore="true"
@@ -577,7 +507,6 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_bug_report"
         android:key="debug_preferences"
         android:title="@string/debug_preferences"
         search:ignore="true"

@@ -25,7 +25,7 @@
 
         <item name="contactPictureFallbackDefaultBackgroundColor">#ffababab</item>
         <item name="contactPictureFallbackBackgroundColors">@array/contact_picture_fallback_background_colors_light</item>
-        <item name="contactTokenBackgroundColor">#ccc</item>
+        <item name="contactTokenBackgroundColor">@drawable/recipient_token_background</item>
         <item name="tintColorBulletPointPositive">#77aa22</item>
         <item name="tintColorBulletPointNegative">#dd2222</item>
         <item name="tintColorBulletPointNeutral">#888</item>

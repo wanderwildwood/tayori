@@ -16,6 +16,7 @@
         android:layout_height="36dp"
         android:layout_marginStart="12dp"
         android:id="@+id/contact_photo"
+        android:visibility="gone"
         tools:src="@drawable/ic_account_circle"
         />
 

@@ -36,7 +36,7 @@ class RecipientTokenLayout(context: Context, attrs: AttributeSet?) : ViewGroup(c
 
         val height = recipientName.measuredHeight.coerceAtLeast(minimumHeight)
 
-        val contactPictureWidth = height
+        val contactPictureWidth = 0
         val fixedWidthComponent = contactPictureWidth + cryptoStatus.measuredWidth
         val desiredWidth = fixedWidthComponent + recipientName.measuredWidth
 
@@ -54,8 +54,8 @@ class RecipientTokenLayout(context: Context, attrs: AttributeSet?) : ViewGroup(c
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        val contactPictureSize = height
-        background.layout(contactPictureSize / 2, 0, width, height)
+        val contactPictureSize = 0
+        background.layout(0, 0, width, height)
         contactPicture.layout(0, 0, contactPictureSize, contactPictureSize)
 
         val recipientNameHeight = recipientName.measuredHeight

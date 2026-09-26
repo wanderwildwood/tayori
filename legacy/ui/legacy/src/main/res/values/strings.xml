@@ -5,8 +5,8 @@
     <!-- Used in the about dialog -->
     <string name="about_app_authors_k9">The K-9 Dog Walkers</string>
     <string name="about_app_authors_thunderbird">Thunderbird Mobile Team</string>
-    <string name="open_camera">Open Camera</string>
-    <string name="attach_file">Attach File</string>
+    <string name="open_camera">Open camera</string>
+    <string name="attach_file">Attach file</string>
     <string name="camera_permission_denied">Camera Permission Denied! Unable to take photo</string>
     <string name="camera_capture_lost">Captured image was lost because the app was closed. Please try again.</string>
     <string name="source_code">Source code</string>
@@ -48,7 +48,7 @@
     <string name="compose_title_forward">Forward</string>
     <string name="compose_title_forward_as_attachment">Forward as attachment</string>
 
-    <string name="choose_folder_title">Choose Folder</string>
+    <string name="choose_folder_title">Choose folder</string>
     <string name="choose_folder_move_title">Move to…</string>
     <string name="choose_folder_copy_title">Copy to…</string>
 
@@ -143,8 +143,8 @@
     <string name="notification_additional_messages">+ <xliff:g id="additional_messages">%1$d</xliff:g> more on <xliff:g id="account">%2$s</xliff:g></string>
 
     <string name="notification_action_reply">Reply</string>
-    <string name="notification_action_mark_as_read">Mark Read</string>
-    <string name="notification_action_mark_all_as_read">Mark All Read</string>
+    <string name="notification_action_mark_as_read">Mark read</string>
+    <string name="notification_action_mark_all_as_read">Mark all read</string>
     <string name="notification_actions_settings_title">Notification actions</string>
     <string name="notification_actions_settings_summary">Choose which actions appear in email notifications</string>
     <string name="notification_summary_delete_title">Show Delete on multi-message notifications</string>
@@ -164,9 +164,9 @@
     <string name="accessibility_move_cutoff_down">Move shown actions cutoff down</string>
     <string name="notification_action_delete">Delete</string>
     <string name="notification_action_star">Star</string>
-    <string name="notification_action_delete_all">Delete All</string>
+    <string name="notification_action_delete_all">Delete all</string>
     <string name="notification_action_archive">Archive</string>
-    <string name="notification_action_archive_all">Archive All</string>
+    <string name="notification_action_archive_all">Archive all</string>
     <string name="notification_action_spam">Spam</string>
     <string name="notification_certificate_error_public">Certificate error</string>
     <string name="notification_certificate_error_title">Certificate error for <xliff:g id="account">%s</xliff:g></string>
@@ -309,7 +309,7 @@
     <string name="global_settings_confirm_actions_title">Confirm actions</string>
     <string name="global_settings_confirm_actions_summary">Show a dialog whenever you perform selected actions</string>
     <string name="global_settings_confirm_action_delete">Delete</string>
-    <string name="global_settings_confirm_action_delete_starred">Delete Starred (in message view)</string>
+    <string name="global_settings_confirm_action_delete_starred">Delete starred (in message view)</string>
     <string name="global_settings_confirm_action_spam">Spam</string>
     <string name="global_settings_confirm_menu_discard">Discard message</string>
     <string name="global_settings_confirm_menu_mark_all_read">Mark all messages as read</string>
@@ -349,7 +349,7 @@
     <string name="general_settings_ui_density_relaxed">Relaxed</string>
 
     <!-- Message List Date/Time format title -->
-    <string name="general_settings_message_list_date_time_format_title">Date/Time Format</string>
+    <string name="general_settings_message_list_date_time_format_title">Date and time format</string>
     <!-- Message List Date/Time format default setting option: contextual -->
     <string name="general_settings_message_list_date_time_format_contextual">Contextual</string>
     <!-- Message List Date/Time format setting option: full -->
@@ -369,19 +369,19 @@
     <string name="global_settings_notification_quick_delete_when_single_msg">For single message notification</string>
     <string name="global_settings_notification_quick_delete_always">Always</string>
 
-    <string name="global_settings_lock_screen_notification_visibility_title">Lock Screen Notifications</string>
+    <string name="global_settings_lock_screen_notification_visibility_title">Lock screen notifications</string>
     <string name="global_settings_lock_screen_notification_visibility_nothing">No lock screen notifications</string>
     <string name="global_settings_lock_screen_notification_visibility_app_name">Application name</string>
     <string name="global_settings_lock_screen_notification_visibility_message_count">New message count</string>
     <string name="global_settings_lock_screen_notification_visibility_senders">Message count and senders</string>
     <string name="global_settings_lock_screen_notification_visibility_everything">Same as when screen unlocked</string>
 
-    <string name="quiet_time">Quiet Time</string>
+    <string name="quiet_time">Quiet time</string>
     <string name="quiet_time_description">Disable ringing, buzzing and flashing at night</string>
     <string name="quiet_time_notification">Disable notifications</string>
-    <string name="quiet_time_notification_description">Completely disable notifications during Quiet Time</string>
-    <string name="quiet_time_starts">Quiet Time starts</string>
-    <string name="quiet_time_ends">Quiet Time ends</string>
+    <string name="quiet_time_notification_description">Completely disable notifications during quiet time</string>
+    <string name="quiet_time_starts">Quiet time starts</string>
+    <string name="quiet_time_ends">Quiet time ends</string>
 
     <string name="account_setup_basics_title">Set up a new account</string>
 
@@ -477,8 +477,8 @@
     <string name="account_settings_strip_signature_label">Strip signatures on reply</string>
     <string name="account_settings_strip_signature_summary">Signatures will be removed from quoted messages</string>
 
-    <string name="account_settings_message_format_label">Message Format</string>
-    <string name="account_settings_message_format_text">Plain Text (remove images and formatting)</string>
+    <string name="account_settings_message_format_label">Message format</string>
+    <string name="account_settings_message_format_text">Plain text (remove images and formatting)</string>
     <string name="account_settings_message_format_html">HTML (keep images and formatting)</string>
     <string name="account_settings_message_format_auto">Automatic</string>
 
@@ -556,7 +556,7 @@
 
     <string name="folder_settings_visible_label">Show folder</string>
     <string name="folder_settings_sync_label">Enable sync</string>
-    <string name="folder_settings_push_label">Enable Push</string>
+    <string name="folder_settings_push_label">Enable push</string>
     <string name="folder_settings_notifications_label">Notifications</string>
     <string name="folder_settings_clear_local_folder_action">Clear local messages</string>
 
@@ -624,14 +624,14 @@
     <string name="edit_identity_signature_label">Signature</string>
     <string name="edit_identity_signature_hint">(Optional)</string>
 
-    <string name="account_settings_signature_use_label">Use Signature</string>
+    <string name="account_settings_signature_use_label">Use signature</string>
     <string name="account_settings_signature_label">Signature</string>
-    <string name="account_settings_signature_html_label">HTML Signature</string>
+    <string name="account_settings_signature_html_label">HTML signature</string>
     <string name="account_settings_signature_is_html_label">Save signature as HTML</string>
     <string name="account_settings_signature_is_html_summary">Interpret the signature as HTML. Scripts and event handlers will be removed for security.</string>
     <string name="account_settings_signature_preview">Signature preview</string>
     <string name="account_settings_signature_preview_empty">Your signature preview will appear here</string>
-    <string name="account_settings_signature_clear_label">Clear Signature</string>
+    <string name="account_settings_signature_clear_label">Clear signature</string>
 
     <string name="default_identity_description">Initial identity</string>
     <string name="choose_identity_title">Choose identity</string>
@@ -664,7 +664,7 @@
     <string name="sort_by_attach">Attachments</string>
     <string name="sort_by_indicator">•</string>
 
-    <string name="account_delete_dlg_title">Remove Account</string>
+    <string name="account_delete_dlg_title">Remove account</string>
 
     <string name="folder_list_filter_hint">Folder name contains</string>
     <string name="folder_list_show_hidden_folders">Show hidden folders</string>
@@ -683,7 +683,7 @@
     <string name="network_preferences">Network</string>
     <string name="interaction_preferences">Interaction</string>
     <string name="accountlist_preferences">Account list</string>
-    <string name="navigation_drawer_preferences">Side Menu</string>
+    <string name="navigation_drawer_preferences">Side menu</string>
     <string name="messagelist_preferences">Message lists</string>
     <string name="messageview_preferences">Messages</string>
     <string name="settings_theme_label">Theme</string>
@@ -724,9 +724,9 @@
     <string name="volume_navigation_title_short">Volume key navigation</string>
     <string name="volume_navigation_summary">Navigate between messages using the volume keys in message view</string>
 
-    <string name="show_unified_inbox_title">Show Unified Inbox</string>
+    <string name="show_unified_inbox_title">Show unified inbox</string>
     <string name="show_starred_count_title">Show starred count</string>
-    <string name="expand_folders">Expand Folders</string>
+    <string name="expand_folders">Expand folders</string>
 
     <string name="integrated_inbox_title">Unified Inbox</string>
     <string name="integrated_inbox_detail">All messages in unified folders</string>
@@ -770,8 +770,8 @@
     <string name="send_failed_reason">Send failed: %s</string>
 
     <string name="save_or_discard_draft_message_dlg_title">Save draft message?</string>
-    <string name="save_or_discard_draft_message_instructions_fmt">Save or Discard this message?</string>
-    <string name="save_or_discard_draft_message_changes">Save or Discard changes?</string>
+    <string name="save_or_discard_draft_message_instructions_fmt">Save or discard this message?</string>
+    <string name="save_or_discard_draft_message_changes">Save or discard changes?</string>
 
     <string name="confirm_discard_draft_message_title">Discard message?</string>
     <string name="confirm_discard_draft_message">Are you sure you want to discard this message?</string>
@@ -841,12 +841,12 @@
     <string name="webview_contextmenu_image_clipboard_label">Image URL</string>
 
     <string name="webview_contextmenu_phone_call_action">Call number</string>
-    <string name="webview_contextmenu_phone_save_action">Save to Contacts</string>
+    <string name="webview_contextmenu_phone_save_action">Save to contacts</string>
     <string name="webview_contextmenu_phone_copy_action">Copy number to clipboard</string>
     <string name="webview_contextmenu_phone_clipboard_label">Phone number</string>
 
     <string name="webview_contextmenu_email_send_action">Send mail</string>
-    <string name="webview_contextmenu_email_save_action">Save to Contacts</string>
+    <string name="webview_contextmenu_email_save_action">Save to contacts</string>
     <string name="webview_contextmenu_email_copy_action">Copy address to clipboard</string>
     <string name="webview_contextmenu_email_clipboard_label">Email address</string>
 
@@ -887,7 +887,7 @@
     <string name="global_settings_splitview_mode_label">Show split-screen</string>
     <string name="global_settings_splitview_always">Always</string>
     <string name="global_settings_splitview_never">Never</string>
-    <string name="global_settings_splitview_when_in_landscape">When in Landscape orientation</string>
+    <string name="global_settings_splitview_when_in_landscape">When in landscape orientation</string>
     <string name="global_settings_splitview_when_unfolded">When device is unfolded</string>
 
     <string name="message_view_empty">Please select a message on the left</string>
@@ -911,15 +911,15 @@
 
     <!-- Note: This references message_view_download_remainder -->
     <string name="preview_encrypted">*Encrypted*</string>
-    <string name="add_from_contacts">Add from Contacts</string>
+    <string name="add_from_contacts">Add from contacts</string>
     <string name="recipient_cc">Cc</string>
     <string name="recipient_bcc">Bcc</string>
     <string name="recipient_to">To</string>
     <string name="recipient_from">From</string>
     <string name="reply_to_label">Reply to</string>
     <string name="expand_content_description">Expand</string>
-    <string name="unknown_recipient">&lt;Unknown Recipient&gt;</string>
-    <string name="unknown_sender">&lt;Unknown Sender&gt;</string>
+    <string name="unknown_recipient">&lt;Unknown recipient&gt;</string>
+    <string name="unknown_sender">&lt;Unknown sender&gt;</string>
     <string name="address_type_home">Home</string>
     <string name="address_type_work">Work</string>
     <string name="address_type_other">Other</string>
@@ -941,10 +941,10 @@
     <string name="openpgp_inline_minus_attach">Attachments are not supported</string>
     <string name="openpgp_inline_ok">Got it!</string>
     <string name="openpgp_inline_disable">Disable</string>
-    <string name="openpgp_inline_keep_enabled">Keep Enabled</string>
+    <string name="openpgp_inline_keep_enabled">Keep enabled</string>
     <string name="openpgp_sign_only_ok">Got it!</string>
     <string name="openpgp_sign_only_disable">Disable</string>
-    <string name="openpgp_sign_only_keep_enabled">Keep Enabled</string>
+    <string name="openpgp_sign_only_keep_enabled">Keep enabled</string>
     <string name="openpgp_dialog_sign_only_title">PGP Sign-Only Mode</string>
     <string name="openpgp_dialog_sign_only_text">In this mode, your PGP key will be used to create a cryptographic signature of an unencrypted email.</string>
     <string name="openpgp_dialog_sign_only_plus_verified">This does not encrypt the email, but verifies that it was sent from your key.</string>
@@ -1003,22 +1003,22 @@
     <string name="account_settings_crypto_hide_sign_only_on">Only encrypted signatures will be displayed</string>
     <string name="account_settings_crypto_hide_sign_only_off">All signatures will be displayed</string>
     <string name="error_sign_only_no_encryption">Encryption unavailable in sign-only mode!</string>
-    <string name="unsigned_text_divider_label">Unsigned Text</string>
+    <string name="unsigned_text_divider_label">Unsigned text</string>
     <string name="crypto_no_provider_title">This email is encrypted</string>
     <string name="crypto_no_provider_message">This email has been encrypted with OpenPGP.\nTo read it, you need to install and configure a compatible OpenPGP App.</string>
-    <string name="crypto_no_provider_button">Go to Settings</string>
+    <string name="crypto_no_provider_button">Go to settings</string>
 
     <string name="openpgp_enabled_error_title">Encryption not possible</string>
     <string name="openpgp_enabled_error_msg">Some of the selected recipients don\'t support this feature!</string>
-    <string name="enable_encryption">Enable Encryption</string>
-    <string name="disable_encryption">Disable Encryption</string>
+    <string name="enable_encryption">Enable encryption</string>
+    <string name="disable_encryption">Disable encryption</string>
     <string name="openpgp_description_text1">Encrypting messages ensures they can be read by the recipient, and nobody else.</string>
     <string name="openpgp_description_text3">Encryption will only show up if supported by all recipients, and they must have sent you an email before.</string>
     <string name="openpgp_description_text2">Toggle encryption by clicking this icon.</string>
     <string name="openpgp_enabled_error_gotit">Got it</string>
     <string name="openpgp_enabled_error_back">Back</string>
-    <string name="openpgp_enabled_error_disable">Disable Encryption</string>
-    <string name="openpgp_encryption">OpenPGP Encryption</string>
+    <string name="openpgp_enabled_error_disable">Disable encryption</string>
+    <string name="openpgp_encryption">OpenPGP encryption</string>
 
     <string name="account_settings_crypto_prefer_encrypt">Autocrypt mutual mode</string>
     <string name="dialog_autocrypt_mutual_title">Autocrypt mutual mode</string>
@@ -1043,12 +1043,12 @@
 
     <string name="ac_transfer_title">Autocrypt Setup Message</string>
     <string name="ac_transfer_intro">An Autocrypt Setup Message securely shares your end-to-end setup with other devices.</string>
-    <string name="ac_transfer_button_send">Send Setup Message</string>
+    <string name="ac_transfer_button_send">Send setup message</string>
     <string name="ac_transfer_will_be_sent">The message will be sent to your address:</string>
     <string name="ac_transfer_generating">Generating setup message…</string>
     <string name="ac_transfer_sending_to">Sending message to:</string>
     <string name="ac_transfer_finish">To finish, open the message on your other device and enter the setup code.</string>
-    <string name="ac_transfer_show_code">Show Setup Code</string>
+    <string name="ac_transfer_show_code">Show setup code</string>
 
     <string name="ac_transfer_msg_subject">Autocrypt Setup Message</string>
     <string name="ac_transfer_msg_body">This message contains all information to transfer your Autocrypt settings along with your secret key securely from your original device.
@@ -1072,13 +1072,13 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="push_notification_info">Tap to learn more.</string>
     <string name="push_notification_grant_alarm_permission">Tap to grant permission.</string>
 
-    <string name="push_info_title">Push Info</string>
+    <string name="push_info_title">Push info</string>
     <string name="push_info_notification_explanation_text">When using Push, <xliff:g id="app_name">%1$s</xliff:g> maintains a connection to the mail server. Android requires displaying an ongoing notification while the app is active in the background. <xliff:g id="optional_extended_explanation">%2$s</xliff:g></string>
     <string name="push_info_configure_notification_text">However, Android also allows you to hide the notification.</string>
     <string name="push_info_learn_more_text">Learn more</string>
     <string name="push_info_configure_notification_action">Configure notification</string>
     <string name="push_info_disable_push_text">If you don\'t need instant notifications about new messages, you should disable Push and use Polling. Polling checks for new mail at regular intervals and does not need the notification.</string>
-    <string name="push_info_disable_push_action">Disable Push</string>
+    <string name="push_info_disable_push_action">Disable push</string>
 
     <!-- Name of the swipe action to select a message. Try to keep it short. -->
     <!-- Name of the swipe action to deselect a message. Try to keep it short. -->
@@ -1162,4 +1162,15 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="debug_invalidate_access_token_already_modified">Stored access token already modified.</string>
     <string name="debug_feature_flags">DEBUG: Feature Flags</string>
     <string name="no_network_message_will_be_sent_later_toast">Offline. Message will be sent once connection is available</string>
+
+    <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
+    <string name="tayori_about_title">Email <xliff:g id="version">%s</xliff:g></string>
+    <string name="tayori_about_privacy">It talks to the mail servers you give it. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers at autoconfig.thunderbird.net, how to reach them; Mozilla sees the domain, not the address.</string>
+    <!-- The name of the app's licence -->
+    <string name="tayori_about_licence">GNU General Public License v3</string>
+    <string name="tayori_about_after">After Thunderbird for Android, by MZLA Technologies and the K-9 Mail contributors, Apache 2.0. Lato by Łukasz Dziedzic, SIL Open Font License 1.1. The libraries it bundles are each under their own licence.</string>
+    <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
+    <string name="tayori_about_feed_the_llamas">feed the llamas</string>
+    <string name="tayori_about_no_browser">There is no browser on this phone to open that with.</string>
+    <string name="tayori_about_close">Close</string>
 </resources>

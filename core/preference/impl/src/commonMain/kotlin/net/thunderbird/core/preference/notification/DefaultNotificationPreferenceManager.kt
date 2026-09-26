@@ -85,10 +85,7 @@ class DefaultNotificationPreferenceManager(
                 defValue = NOTIFICATION_PREFERENCE_DEFAULT_MESSAGE_ACTIONS_CUTOFF,
             ),
             isSummaryDeleteActionEnabled = isSummaryDeleteActionEnabled,
-            isShowContactPictureInNotification = storage.getBoolean(
-                key = NotificationSettingKey.ShowContactPictureInNotification.value,
-                defValue = NOTIFICATION_PREFERENCE_DEFAULT_IS_SHOW_CONTACT_PICTURE_IN_NOTIFICATION,
-            ),
+            isShowContactPictureInNotification = false,
             notificationQuickDeleteBehaviour = notificationQuickDeleteBehaviour,
             lockScreenNotificationVisibility = storage.getEnumOrDefault(
                 key = NotificationSettingKey.LockScreenNotificationVisibility.value,

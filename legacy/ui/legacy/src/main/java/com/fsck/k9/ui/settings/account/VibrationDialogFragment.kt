@@ -14,7 +14,7 @@ import androidx.preference.PreferenceDialogFragmentCompat
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.bundle.getEnum
 import com.fsck.k9.ui.base.bundle.putEnum
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textview.MaterialTextView
 import net.thunderbird.feature.notification.NotificationVibration
 import net.thunderbird.feature.notification.VibratePattern
@@ -53,7 +53,7 @@ class VibrationDialogFragment : PreferenceDialogFragmentCompat() {
             vibrationTimes,
         )
 
-        return MaterialAlertDialogBuilder(context)
+        return AlertDialog.Builder(context)
             .setAdapter(adapter, null)
             .setPositiveButton(BaseR.string.okay_action, ::onClick)
             .setNegativeButton(BaseR.string.cancel_action, ::onClick)

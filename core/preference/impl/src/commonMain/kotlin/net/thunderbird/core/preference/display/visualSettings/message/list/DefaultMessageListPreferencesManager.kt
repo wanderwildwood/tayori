@@ -52,10 +52,7 @@ class DefaultMessageListPreferencesManager(
             DisplayMessageListSettingKey.ShowContactName.value,
             MESSAGE_LIST_SETTINGS_DEFAULT_IS_SHOW_CONTACT_NAME,
         ),
-        isShowContactPicture = storage.getBoolean(
-            DisplayMessageListSettingKey.ShowContactPicture.value,
-            MESSAGE_LIST_SETTINGS_DEFAULT_IS_SHOW_CONTACT_PICTURE,
-        ),
+        isShowContactPicture = false,
         previewLines = storage.getInt(
             DisplayMessageListSettingKey.MessageListPreviewLines.value,
             MESSAGE_LIST_SETTINGS_DEFAULT_PREVIEW_LINES,

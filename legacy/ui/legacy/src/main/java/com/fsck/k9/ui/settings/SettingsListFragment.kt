@@ -5,11 +5,20 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,6 +31,7 @@ import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.livedata.observeNotNull
 import com.fsck.k9.ui.settings.account.AccountSettingsActivity
 import com.fsck.k9.view.DraggableFrameLayout
+import com.fsck.k9.view.turnsAPageOnSwipe
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.ItemAdapter
@@ -30,15 +40,14 @@ import com.mikepenz.fastadapter.drag.SimpleDragCallback
 import com.mikepenz.fastadapter.utils.DragDropUtil
 import net.thunderbird.core.android.account.LegacyAccountDto
 import net.thunderbird.core.common.provider.BrandNameProvider
-import net.thunderbird.feature.funding.api.FundingManager
-import net.thunderbird.feature.funding.api.FundingType
+import net.thunderbird.core.ui.theme.api.FeatureThemeProvider
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import app.k9mail.feature.settings.importing.R as SettingsImportR
 
 class SettingsListFragment : Fragment(), ItemTouchCallback {
     private val viewModel: SettingsViewModel by viewModel()
-    private val fundingManager: FundingManager by inject()
+    private val themeProvider: FeatureThemeProvider by inject()
     private val brandNameProvider: BrandNameProvider by inject()
 
     private lateinit var itemAdapter: ItemAdapter<GenericItem>
@@ -50,6 +59,43 @@ class SettingsListFragment : Fragment(), ItemTouchCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initializeSettingsList(recyclerView = view.findViewById(R.id.settings_list))
         populateSettingsList()
+        initializeAbout(view.findViewById(R.id.about_host))
+    }
+
+    // About is an i in the top bar opening a dialog, not a row: it is not a setting.
+    private fun initializeAbout(host: ComposeView) {
+        var showAbout by mutableStateOf(false)
+        host.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        host.setContent {
+            if (showAbout) {
+                themeProvider.WithTheme {
+                    AboutDialog(version = appVersion(), onDismiss = { showAbout = false })
+                }
+            }
+        }
+
+        requireActivity().addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menu.add(Menu.NONE, R.id.settings_about, Menu.NONE, R.string.about_action).apply {
+                        setIcon(Icons.Outlined.Info)
+                        setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    }
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    if (menuItem.itemId != R.id.settings_about) return false
+                    showAbout = true
+                    return true
+                }
+            },
+            viewLifecycleOwner,
+        )
+    }
+
+    private fun appVersion(): String {
+        val context = requireContext()
+        return context.packageManager.getPackageInfo(context.packageName, 0).versionName.orEmpty()
     }
 
     private fun initializeSettingsList(recyclerView: RecyclerView) {
@@ -77,6 +123,7 @@ class SettingsListFragment : Fragment(), ItemTouchCallback {
 
         recyclerView.adapter = settingsListAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.turnsAPageOnSwipe()
         touchHelper.attachToRecyclerView(recyclerView)
     }
 
@@ -125,50 +172,11 @@ class SettingsListFragment : Fragment(), ItemTouchCallback {
                 )
             }
 
-            addSection(title = getString(R.string.settings_list_miscellaneous_category)) {
-                addAction(
-                    text = getString(R.string.about_action),
-                    navigationAction = R.id.action_settingsListScreen_to_aboutScreen,
-                    icon = Icons.Outlined.Info,
-                )
-
-                addUrlAction(
-                    text = getString(R.string.get_help_title),
-                    url = getString(R.string.user_forum_url),
-                    icon = Icons.Outlined.Help,
-                )
-
-                addFunding()
-            }
         }
 
         itemAdapter.setNewList(listItems)
     }
 
-    private fun SettingsListBuilder.addFunding() {
-        when (fundingManager.getFundingType()) {
-            FundingType.GOOGLE_PLAY -> {
-                addIntent(
-                    text = getString(R.string.settings_list_action_support, brandNameProvider.brandName),
-                    icon = Icons.Outlined.Favorite,
-                    intent = FeatureLauncherActivity.getIntent(
-                        context = requireActivity(),
-                        target = FeatureLauncherTarget.Funding,
-                    ),
-                )
-            }
-
-            FundingType.LINK -> {
-                addUrlAction(
-                    text = getString(R.string.settings_list_action_support, brandNameProvider.brandName),
-                    url = getString(R.string.funding_url, requireContext().getPackageName()),
-                    icon = Icons.Outlined.Favorite,
-                )
-            }
-
-            FundingType.NO_FUNDING -> Unit
-        }
-    }
 
     private fun handleItemClick(item: GenericItem) {
         when (item) {

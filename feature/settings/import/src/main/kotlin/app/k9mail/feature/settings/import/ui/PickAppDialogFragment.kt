@@ -12,7 +12,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import app.k9mail.feature.settings.importing.R
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ internal class PickAppDialogFragment : DialogFragment() {
             selectedPackageName = packageName
         }
 
-        return MaterialAlertDialogBuilder(requireContext())
+        return AlertDialog.Builder(requireContext())
             .setTitle(R.string.settings_import_pick_app_dialog_title)
             .setAdapter(adapter, clickListener)
             .setNegativeButton(BaseR.string.cancel_action, null)

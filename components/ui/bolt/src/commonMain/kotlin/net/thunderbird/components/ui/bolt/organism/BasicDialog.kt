@@ -1,5 +1,7 @@
 package net.thunderbird.components.ui.bolt.organism
 
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.border
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -109,9 +111,10 @@ internal fun BasicDialogContent(
     showDividers: Boolean = BasicDialogDefaults.showDividers,
     dividerColor: Color = BasicDialogDefaults.dividerColor,
 ) {
+    // The house dialog: a 2dp rim and a 12dp corner rather than a tonal shadow.
     Surface(
-        modifier = modifier,
-        shape = BoltTheme.shapes.extraLarge,
+        modifier = modifier.border(2.dp, BoltTheme.colors.onSurface, RoundedCornerShape(12.dp)),
+        shape = RoundedCornerShape(12.dp),
     ) {
         Column {
             Column(

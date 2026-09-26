@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -64,8 +65,71 @@ public class NonLockingScrollView extends ScrollView {
 
     private boolean mSkipWebViewScroll = true;
 
+    /*
+     * A swipe turns one page and stops, as the lists do. A message has no rows to land on, so
+     * the page moves by pixels and keeps about a line of the old page at the new one's edge to
+     * read on from. Only a plainly vertical one-finger swipe is claimed: a sideways swipe or a
+     * pinch still reaches the message itself. Once a page has turned, the rest of the drag is
+     * swallowed, so one swipe is one page however far the finger travels.
+     */
+    private float pageDownX;
+    private float pageDownY;
+    private boolean pageTurned = false;
+
+    private boolean turnsAPage(MotionEvent ev) {
+        switch (getActionMasked(ev)) {
+            case MotionEvent.ACTION_DOWN:
+                pageDownX = ev.getX();
+                pageDownY = ev.getY();
+                pageTurned = false;
+                return false;
+            case MotionEvent.ACTION_MOVE:
+                if (pageTurned) return true;
+                if (ev.getPointerCount() > 1) return false;
+                float dy = ev.getY() - pageDownY;
+                float dx = ev.getX() - pageDownX;
+                int slop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+                if (Math.abs(dy) > slop && Math.abs(dy) > Math.abs(dx)) {
+                    pageTurned = true;
+                    turnPage(dy < 0);
+                    return true;
+                }
+                return false;
+            default:
+                return pageTurned;
+        }
+    }
+
+    private void turnPage(boolean forward) {
+        int overlap = (int) (32 * getResources().getDisplayMetrics().density);
+        int page = getHeight() - getPaddingTop() - getPaddingBottom() - overlap;
+        if (page <= 0) return;
+        scrollBy(0, forward ? page : -page);
+    }
+
+    @Override
+    public void fling(int velocityY) {
+        // Letting go stops the page where it is.
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (turnsAPage(ev) || pageTurned) {
+            if (getActionMasked(ev) == MotionEvent.ACTION_UP || getActionMasked(ev) == MotionEvent.ACTION_CANCEL) {
+                pageTurned = false;
+            }
+            return true;
+        }
+        return super.onTouchEvent(ev);
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (turnsAPage(ev)) {
+            mInCustomDrag = false;
+            return true;
+        }
+
         final int action = getActionMasked(ev);
         final boolean isUp = action == MotionEvent.ACTION_UP;
 

@@ -11,48 +11,100 @@
         <!-- Draw action mode above content -->
         <item name="windowActionModeOverlay">true</item>
 
+        <!-- Mudita Mindful Design: Lato everywhere, and no animated press ripple. -->
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+        <!-- Secondary and tertiary text in black too: Material's are grey, and a grey line on a
+             sixteen-grey panel read outdoors is a line that is not read. -->
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="android:textColorTertiary">@android:color/black</item>
+
         <item name="android:textColorHighlight">?attr/colorPrimaryFixedDim</item>
 
-        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Material3.DisplayLarge</item>
-        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Material3.DisplayMedium</item>
-        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Material3.DisplaySmall</item>
-        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Material3.HeadlineLarge</item>
-        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Material3.HeadlineMedium</item>
-        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Material3.HeadlineSmall</item>
-        <item name="textAppearanceTitleLarge">@style/TextAppearance.Material3.TitleLarge</item>
-        <item name="textAppearanceTitleMedium">@style/TextAppearance.Material3.TitleMedium</item>
-        <item name="textAppearanceTitleSmall">@style/TextAppearance.Material3.TitleSmall</item>
-        <item name="textAppearanceBodyLarge">@style/TextAppearance.Material3.BodyLarge</item>
-        <item name="textAppearanceBodyMedium">@style/TextAppearance.Material3.BodyMedium</item>
-        <item name="textAppearanceBodySmall">@style/TextAppearance.Material3.BodySmall</item>
-        <item name="textAppearanceLabelLarge">@style/TextAppearance.Material3.LabelLarge</item>
-        <item name="textAppearanceLabelMedium">@style/TextAppearance.Material3.LabelMedium</item>
-        <item name="textAppearanceLabelSmall">@style/TextAppearance.Material3.LabelSmall</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Mmd.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Mmd.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Mmd.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Mmd.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Mmd.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Mmd.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Mmd.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Mmd.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Mmd.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Mmd.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Mmd.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Mmd.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Mmd.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Mmd.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Mmd.LabelSmall</item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.MediumComponent</item>
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent</item>
+
+        <!-- Nothing animates, and a dialog does not grey out the screen behind it: on E Ink a
+             scrim is a screenful of dithered grey, repainted on the way in and again on the
+             way out. The house dialog is white inside a 2dp black rim. -->
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:dialogTheme">@style/Theme2.EInkDialog</item>
+        <item name="alertDialogTheme">@style/Theme2.EInkDialog.Alert</item>
+        <item name="materialAlertDialogTheme">@style/Theme2.EInkDialog.Alert</item>
+        <item name="popupMenuStyle">@style/Theme2.EInkPopupMenu</item>
+        <item name="actionOverflowMenuStyle">@style/Theme2.EInkPopupMenu.Overflow</item>
+        <item name="listPopupWindowStyle">@style/Theme2.EInkListPopupWindow</item>
+    </style>
+
+    <style name="Theme2.EInkPopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/eink_popup_background</item>
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+    </style>
+
+    <style name="Theme2.EInkPopupMenu.Overflow" parent="Widget.Material3.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/eink_popup_background</item>
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+    </style>
+
+    <style name="Theme2.EInkListPopupWindow" parent="Widget.Material3.PopupMenu.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/eink_popup_background</item>
+        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupAnimationStyle">@null</item>
+    </style>
+
+    <style name="Theme2.EInkDialog" parent="ThemeOverlay.Material3.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="Theme2.EInkDialog.Alert" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@drawable/eink_dialog_background</item>
+        <item name="android:windowElevation">0dp</item>
     </style>
 
     <style name="Theme2.Main.Dark.Common" parent="Theme2.Main.Dark.Base">
         <!-- Draw action mode above content -->
         <item name="windowActionModeOverlay">true</item>
 
-        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Material3.DisplayLarge</item>
-        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Material3.DisplayMedium</item>
-        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Material3.DisplaySmall</item>
-        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Material3.HeadlineLarge</item>
-        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Material3.HeadlineMedium</item>
-        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Material3.HeadlineSmall</item>
-        <item name="textAppearanceTitleLarge">@style/TextAppearance.Material3.TitleLarge</item>
-        <item name="textAppearanceTitleMedium">@style/TextAppearance.Material3.TitleMedium</item>
-        <item name="textAppearanceTitleSmall">@style/TextAppearance.Material3.TitleSmall</item>
-        <item name="textAppearanceBodyLarge">@style/TextAppearance.Material3.BodyLarge</item>
-        <item name="textAppearanceBodyMedium">@style/TextAppearance.Material3.BodyMedium</item>
-        <item name="textAppearanceBodySmall">@style/TextAppearance.Material3.BodySmall</item>
-        <item name="textAppearanceLabelLarge">@style/TextAppearance.Material3.LabelLarge</item>
-        <item name="textAppearanceLabelMedium">@style/TextAppearance.Material3.LabelMedium</item>
-        <item name="textAppearanceLabelSmall">@style/TextAppearance.Material3.LabelSmall</item>
+        <item name="textAppearanceDisplayLarge">@style/TextAppearance.Mmd.DisplayLarge</item>
+        <item name="textAppearanceDisplayMedium">@style/TextAppearance.Mmd.DisplayMedium</item>
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Mmd.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Mmd.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Mmd.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Mmd.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Mmd.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Mmd.TitleMedium</item>
+        <item name="textAppearanceTitleSmall">@style/TextAppearance.Mmd.TitleSmall</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Mmd.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.Mmd.BodyMedium</item>
+        <item name="textAppearanceBodySmall">@style/TextAppearance.Mmd.BodySmall</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Mmd.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Mmd.LabelMedium</item>
+        <item name="textAppearanceLabelSmall">@style/TextAppearance.Mmd.LabelSmall</item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.MediumComponent</item>
@@ -79,5 +131,68 @@
     See <values-v28/themes.xml>.
     -->
     <style name="Theme2.Main.Startup" parent="Theme2.Main.Dark" />
+
+    <!-- Material 3's text appearances name their font outright, so a theme-wide font never
+         reaches them. Each gets a Lato twin at the same size. -->
+    <style name="TextAppearance.Mmd.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+    <style name="TextAppearance.Mmd.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
 
 </resources>

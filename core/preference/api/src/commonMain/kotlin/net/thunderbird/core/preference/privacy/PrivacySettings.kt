@@ -1,7 +1,7 @@
 package net.thunderbird.core.preference.privacy
 
 const val PRIVACY_SETTINGS_DEFAULT_HIDE_TIME_ZONE = false
-const val PRIVACY_SETTINGS_DEFAULT_HIDE_USER_AGENT = false
+const val PRIVACY_SETTINGS_DEFAULT_HIDE_USER_AGENT = true
 const val PRIVACY_SETTINGS_DEFAULT_INCOGNITO_KEYBOARD = false
 
 data class PrivacySettings(

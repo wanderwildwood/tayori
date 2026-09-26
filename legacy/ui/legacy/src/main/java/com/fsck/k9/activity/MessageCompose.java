@@ -135,7 +135,7 @@ import com.fsck.k9.ui.compose.QuotedMessagePresenter;
 import com.fsck.k9.ui.compose.WrapUriTextWatcher;
 import com.fsck.k9.ui.helper.SizeFormatter;
 import com.fsck.k9.ui.messagelist.DefaultFolderProvider;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.textview.MaterialTextView;
 import net.thunderbird.core.android.account.MessageFormat;
 import net.thunderbird.core.android.contact.ContactIntentHelper;
@@ -1377,10 +1377,10 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
 
     @Override
     public Dialog onCreateDialog(int id) {
-        final MaterialAlertDialogBuilder builder;
+        final AlertDialog.Builder builder;
         switch (id) {
             case DIALOG_SAVE_OR_DISCARD_DRAFT_MESSAGE:
-                builder = new MaterialAlertDialogBuilder(this)
+                builder = new AlertDialog.Builder(this)
                         .setTitle(R.string.save_or_discard_draft_message_dlg_title);
                 if (draftMessageId == null) {
                     builder
@@ -1413,7 +1413,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
                         })
                         .create();
             case DIALOG_CONFIRM_DISCARD_ON_BACK:
-                return new MaterialAlertDialogBuilder(this)
+                return new AlertDialog.Builder(this)
                         .setTitle(R.string.confirm_discard_draft_message_title)
                         .setMessage(R.string.confirm_discard_draft_message)
                         .setPositiveButton(com.fsck.k9.ui.base.R.string.cancel_action, new DialogInterface.OnClickListener() {
@@ -1436,7 +1436,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
             case DIALOG_CHOOSE_IDENTITY:
                 int dialogThemeResourceId = getThemeManager().getDialogThemeResourceId();
                 Context context = new ContextThemeWrapper(this, dialogThemeResourceId);
-                builder = new MaterialAlertDialogBuilder(context);
+                builder = new AlertDialog.Builder(context);
                 builder.setTitle(R.string.send_as);
                 final IdentityAdapter adapter = new IdentityAdapter(context);
                 builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
@@ -1449,7 +1449,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
 
                 return builder.create();
             case DIALOG_CONFIRM_DISCARD: {
-                return new MaterialAlertDialogBuilder(this)
+                return new AlertDialog.Builder(this)
                         .setTitle(R.string.dialog_confirm_delete_title)
                         .setMessage(R.string.dialog_confirm_delete_message)
                         .setPositiveButton(R.string.dialog_confirm_delete_confirm_button,
