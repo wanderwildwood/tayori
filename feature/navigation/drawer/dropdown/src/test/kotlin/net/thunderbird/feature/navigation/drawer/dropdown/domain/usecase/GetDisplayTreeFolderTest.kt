@@ -8,6 +8,7 @@ import kotlinx.collections.immutable.persistentListOf
 import net.thunderbird.core.logging.testing.TestLogger
 import net.thunderbird.feature.mail.folder.FolderType
 import net.thunderbird.feature.mail.folder.api.Folder
+import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.AccountHeaderDisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayTreeFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.MailDisplayFolder
@@ -43,6 +44,68 @@ class GetDisplayTreeFolderTest {
                     displayName = regularFolder.folder.name,
                     totalUnreadCount = regularFolder.unreadMessageCount,
                     totalStarredCount = regularFolder.starredMessageCount,
+                ),
+            ),
+        )
+        assertThat(result).isEqualTo(expected)
+    }
+
+    @Test
+    fun `should keep each account's folders apart under its header`() {
+        // arrange
+        val unifiedFolder = createDisplayUnifiedFolder(
+            unifiedFolderType = UnifiedDisplayFolderType.INBOX,
+            unreadMessageCount = 3,
+            starredMessageCount = 0,
+        )
+        val headerA = AccountHeaderDisplayFolder(accountId = "a", name = "First")
+        val sentA = createDisplayAccountFolder(1L, "Sent", 1, 0, accountId = "a")
+        val headerB = AccountHeaderDisplayFolder(accountId = "b", name = "Second")
+        val sentB = createDisplayAccountFolder(1L, "Sent", 2, 1, accountId = "b")
+        val folders = listOf(unifiedFolder, headerA, sentA, headerB, sentB)
+        val testSubject = GetDisplayTreeFolder(logger = TestLogger())
+
+        // act
+        val result = testSubject(folders, 1)
+
+        // assert
+        val expected = createDisplayTreeFolder(
+            totalUnreadCount = 3,
+            totalStarredCount = 1,
+            children = persistentListOf(
+                createDisplayTreeFolder(
+                    displayFolder = unifiedFolder,
+                    displayName = unifiedFolder.unifiedType.id,
+                    totalUnreadCount = 3,
+                    totalStarredCount = 0,
+                ),
+                createDisplayTreeFolder(
+                    displayFolder = headerA,
+                    displayName = "First",
+                    totalUnreadCount = 1,
+                    totalStarredCount = 0,
+                    children = persistentListOf(
+                        createDisplayTreeFolder(
+                            displayFolder = sentA,
+                            displayName = "Sent",
+                            totalUnreadCount = 1,
+                            totalStarredCount = 0,
+                        ),
+                    ),
+                ),
+                createDisplayTreeFolder(
+                    displayFolder = headerB,
+                    displayName = "Second",
+                    totalUnreadCount = 2,
+                    totalStarredCount = 1,
+                    children = persistentListOf(
+                        createDisplayTreeFolder(
+                            displayFolder = sentB,
+                            displayName = "Sent",
+                            totalUnreadCount = 2,
+                            totalStarredCount = 1,
+                        ),
+                    ),
                 ),
             ),
         )

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import net.thunderbird.account.fake.FakeAccountData.ACCOUNT_ID_RAW
+import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.AccountHeaderDisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.MailDisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.UnifiedDisplayAccount
@@ -28,6 +29,7 @@ internal class GetDisplayFoldersForAccountTest {
         val testSubject = GetDisplayFoldersForAccount(
             displayFolderRepository = displayFolderRepository,
             unifiedFolderRepository = unifiedFolderRepository,
+            accountManager = FakeLegacyAccountDtoManager(accounts = listOf(FakeData.ACCOUNT)),
         )
 
         val result = testSubject(accountId).first()
@@ -36,7 +38,7 @@ internal class GetDisplayFoldersForAccountTest {
     }
 
     @Test
-    fun `should return unifed account folders when account id is unified`() = runTest {
+    fun `should return unified inbox then each account's folders when account id is unified`() = runTest {
         val accountId = UnifiedDisplayAccount.UNIFIED_ACCOUNT_ID
         val legacyDisplayFolderFlow = MutableStateFlow(LEGACY_DISPLAY_FOLDERS)
         val displayFolderRepository = FakeDisplayFolderRepository(legacyDisplayFolderFlow)
@@ -45,6 +47,7 @@ internal class GetDisplayFoldersForAccountTest {
         val testSubject = GetDisplayFoldersForAccount(
             displayFolderRepository = displayFolderRepository,
             unifiedFolderRepository = unifiedFolderRepository,
+            accountManager = FakeLegacyAccountDtoManager(accounts = listOf(FakeData.ACCOUNT)),
         )
 
         val result = testSubject(accountId).first()
@@ -62,6 +65,7 @@ internal class GetDisplayFoldersForAccountTest {
         val testSubject = GetDisplayFoldersForAccount(
             displayFolderRepository = displayFolderRepository,
             unifiedFolderRepository = unifiedFolderRepository,
+            accountManager = FakeLegacyAccountDtoManager(accounts = listOf(FakeData.ACCOUNT)),
         )
 
         testSubject(accountId).test {
@@ -85,6 +89,7 @@ internal class GetDisplayFoldersForAccountTest {
         val testSubject = GetDisplayFoldersForAccount(
             displayFolderRepository = displayFolderRepository,
             unifiedFolderRepository = unifiedFolderRepository,
+            accountManager = FakeLegacyAccountDtoManager(accounts = listOf(FakeData.ACCOUNT)),
         )
 
         testSubject(accountId).test {
@@ -93,7 +98,12 @@ internal class GetDisplayFoldersForAccountTest {
             legacyDisplayFolderFlow.emit(LEGACY_DISPLAY_FOLDERS_2)
             unifiedFolderFlow.emit(DISPLAY_UNIFIED_FOLDER_2)
 
-            assertThat(awaitItem()).isEqualTo(listOf(DISPLAY_UNIFIED_FOLDER_2))
+            assertThat(awaitItem()).isEqualTo(
+                listOf(DISPLAY_UNIFIED_FOLDER, DISPLAY_ACCOUNT_HEADER) + DISPLAY_ACCOUNT_FOLDERS_2,
+            )
+            assertThat(awaitItem()).isEqualTo(
+                listOf(DISPLAY_UNIFIED_FOLDER_2, DISPLAY_ACCOUNT_HEADER) + DISPLAY_ACCOUNT_FOLDERS_2,
+            )
         }
     }
 
@@ -143,7 +153,10 @@ internal class GetDisplayFoldersForAccountTest {
             starredMessageCount = 3,
         )
 
-        val DISPLAY_UNIFIED_FOLDERS = listOf(DISPLAY_UNIFIED_FOLDER)
+        val DISPLAY_ACCOUNT_HEADER = AccountHeaderDisplayFolder(
+            accountId = ACCOUNT_ID_RAW,
+            name = FakeData.ACCOUNT.displayName,
+        )
 
         val DISPLAY_ACCOUNT_FOLDERS = listOf<DisplayFolder>(
             MailDisplayFolder(
@@ -166,6 +179,8 @@ internal class GetDisplayFoldersForAccountTest {
                 pathDelimiter = "/",
             ),
         )
+
+        val DISPLAY_UNIFIED_FOLDERS = listOf(DISPLAY_UNIFIED_FOLDER, DISPLAY_ACCOUNT_HEADER) + DISPLAY_ACCOUNT_FOLDERS
 
         val DISPLAY_ACCOUNT_FOLDERS_2 = DISPLAY_ACCOUNT_FOLDERS + MailDisplayFolder(
             accountId = ACCOUNT_ID_RAW,

@@ -19,6 +19,7 @@ import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayF
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayTreeFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.MailDisplayAccount
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.MailDisplayFolder
+import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.UnifiedDisplayAccount
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.UnifiedDisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.ui.DrawerContract.Effect
 import net.thunderbird.feature.navigation.drawer.dropdown.ui.DrawerContract.Event
@@ -46,6 +47,12 @@ internal class DrawerViewModel(
     initialState = initialState,
 ),
     ViewModel {
+
+    /**
+     * True while a folder opened from the unified list is showing. Opening it makes the app select that folder's
+     * account; the drawer stays on the unified list instead, so it still reads the same the next time it opens.
+     */
+    private var keepUnifiedAccount = false
 
     init {
         viewModelScope.launch {
@@ -191,6 +198,8 @@ internal class DrawerViewModel(
     }
 
     private fun selectAccount(accountId: String?) {
+        if (keepUnifiedAccount && state.value.selectedAccountId == UnifiedDisplayAccount.UNIFIED_ACCOUNT_ID) return
+
         if (accountId != state.value.selectedAccountId) {
             viewModelScope.launch {
                 updateState {
@@ -226,6 +235,12 @@ internal class DrawerViewModel(
 
     private fun openAccount(account: DisplayAccount?) {
         if (account != null) {
+            // Chosen by hand, so it holds. Set it here too: the app already holds that account from the folder
+            // opened last, so its echo of it would never arrive.
+            if (keepUnifiedAccount) {
+                keepUnifiedAccount = false
+                updateState { it.copy(selectedAccountId = account.id) }
+            }
             emitEffect(Effect.OpenAccount(account.id))
             viewModelScope.launch {
                 delay(DRAWER_CLOSE_DELAY)
@@ -255,6 +270,7 @@ internal class DrawerViewModel(
     private fun openFolder(folder: DisplayFolder) {
         // Update the selected folder ID in the state
         selectFolder(folder.id)
+        keepUnifiedAccount = state.value.selectedAccountId == UnifiedDisplayAccount.UNIFIED_ACCOUNT_ID
 
         if (folder is MailDisplayFolder) {
             if (folder.accountId != null) {

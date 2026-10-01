@@ -8,6 +8,7 @@ import net.thunderbird.feature.mail.folder.api.FOLDER_DEFAULT_PATH_DELIMITER
 import net.thunderbird.feature.mail.folder.api.Folder
 import net.thunderbird.feature.mail.folder.api.FolderPathDelimiter
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.DomainContract.UseCase
+import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.AccountHeaderDisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.DisplayTreeFolder
 import net.thunderbird.feature.navigation.drawer.dropdown.domain.entity.MailDisplayFolder
@@ -29,13 +30,24 @@ internal class GetDisplayTreeFolder(
             )
         }
 
-        val pathDelimiter = folders.firstOrNull()?.pathDelimiter ?: FOLDER_DEFAULT_PATH_DELIMITER
-        val accountFolders = folders.filterIsInstance<MailDisplayFolder>().map {
-            val path = flattenPath(it.folder.name, pathDelimiter, maxDepth)
-            logger.debug { "Flattened path for ${it.folder.name} → $path" }
-            path to it
+        val headers = folders.filterIsInstance<AccountHeaderDisplayFolder>()
+        val mailFolders = folders.filterIsInstance<MailDisplayFolder>()
+        val accountFolderTreeList = if (headers.isEmpty()) {
+            buildAccountFolderTree(mailFolders, maxDepth)
+        } else {
+            // Unified list: each account's folders are built on their own, under its name, so that two
+            // accounts' "Sent" stay two folders rather than merging into one.
+            headers.map { header ->
+                val children = buildAccountFolderTree(mailFolders.filter { it.accountId == header.accountId }, maxDepth)
+                DisplayTreeFolder(
+                    displayFolder = header,
+                    displayName = header.name,
+                    totalUnreadCount = children.sumOf { it.totalUnreadCount },
+                    totalStarredCount = children.sumOf { it.totalStarredCount },
+                    children = children.toImmutableList(),
+                )
+            }
         }
-        val accountFolderTreeList = buildAccountFolderTree(accountFolders, pathDelimiter)
 
         return DisplayTreeFolder(
             displayFolder = null,
@@ -44,6 +56,16 @@ internal class GetDisplayTreeFolder(
             totalStarredCount = accountFolderTreeList.sumOf { it.totalStarredCount },
             children = (unifiedFolderTreeList + accountFolderTreeList).toImmutableList(),
         )
+    }
+
+    private fun buildAccountFolderTree(folders: List<MailDisplayFolder>, maxDepth: Int): List<DisplayTreeFolder> {
+        val pathDelimiter = folders.firstOrNull()?.pathDelimiter ?: FOLDER_DEFAULT_PATH_DELIMITER
+        val accountFolders = folders.map {
+            val path = flattenPath(it.folder.name, pathDelimiter, maxDepth)
+            logger.debug { "Flattened path for ${it.folder.name} → $path" }
+            path to it
+        }
+        return buildAccountFolderTree(accountFolders, pathDelimiter)
     }
 
     private fun flattenPath(folderName: String, folderPathDelimiter: FolderPathDelimiter, maxDepth: Int): List<String> {

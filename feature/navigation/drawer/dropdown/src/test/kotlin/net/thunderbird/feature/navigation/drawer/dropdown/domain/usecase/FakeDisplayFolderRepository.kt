@@ -12,7 +12,7 @@ internal class FakeDisplayFolderRepository(
         account: LegacyAccountDto,
         includeHiddenFolders: Boolean,
     ): Flow<List<DisplayFolder>> {
-        TODO("Not yet implemented")
+        return foldersFlow
     }
 
     override fun getDisplayFoldersFlow(accountUuid: String): Flow<List<DisplayFolder>> {

@@ -17,7 +17,7 @@
         android:layout_margin="@dimen/floatingActionButtonMargin"
         android:contentDescription="@string/compose_action"
         android:focusable="true"
-        app:layout_behavior="com.fsck.k9.ui.fab.HideFabOnScrollBehavior"
+        app:layout_dodgeInsetEdges="bottom"
         app:srcCompat="@drawable/ic_edit"
         />
 

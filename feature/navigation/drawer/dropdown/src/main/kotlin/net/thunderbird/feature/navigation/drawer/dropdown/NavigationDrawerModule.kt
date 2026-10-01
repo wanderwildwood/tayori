@@ -49,6 +49,7 @@ val navigationDropDownDrawerModule: Module = module {
         GetDisplayFoldersForAccount(
             displayFolderRepository = get(),
             unifiedFolderRepository = get(),
+            accountManager = get(),
         )
     }
 
