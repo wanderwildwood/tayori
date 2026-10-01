@@ -50,6 +50,25 @@ an account also asks the address's own domain, and Mozilla's list of providers a
 `autoconfig.thunderbird.net`, how to reach them; Mozilla is told the domain, not the
 address. Pictures in a message are not fetched unless you ask. See [PRIVACY.md](PRIVACY.md).
 
+## On a Mudita Kompakt
+
+DuraSpeed, a MediaTek service on the Kompakt, closes installed apps a few minutes after the
+screen goes dark and keeps them closed until they are opened again. For Email that means new
+mail is not looked for until you open the app. Mudita's own apps are on its allow list; this one
+has to be added, once.
+
+Kompakt's Settings has no way in to DuraSpeed: no menu entry, and no search box to look for it
+in. Its own screen will not open for another app either, but its App info page will. Messaging
+and Whereabouts each have a button that goes there; without either, from a computer with `adb`:
+
+    adb shell am start -a android.settings.APPLICATION_DETAILS_SETTINGS -d package:com.mediatek.duraspeed
+
+Then, on the phone:
+
+1. Tap **Open** on DuraSpeed's App info page.
+2. Switch **Email** on in the list. **On means allowed** to run in the background, which is
+   easy to read the wrong way round. Switching DuraSpeed off at the top works too, for every app.
+
 ## Getting it, and keeping it
 
 Download <https://github.com/wanderwildwood/tayori/releases/latest/download/tayori.apk> and
