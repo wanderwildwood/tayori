@@ -628,6 +628,8 @@ open class MessageHomeActivity :
         if (displayMode != DisplayMode.MESSAGE_VIEW) {
             onMessageListDisplayed()
         }
+
+        DuraSpeed.onResume(this)
     }
 
     override fun onPostResume() {

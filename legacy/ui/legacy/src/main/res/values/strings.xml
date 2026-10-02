@@ -1181,4 +1181,13 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="tayori_about_feed_the_llamas">feed the llamas</string>
     <string name="tayori_about_no_browser">There is no browser on this phone to open that with.</string>
     <string name="tayori_about_close">Close</string>
+    <!-- On a Mudita Kompakt: the phone's DuraSpeed setting shuts the app down. Notification and dialog -->
+    <string name="duraspeed_channel">DuraSpeed</string>
+    <string name="duraspeed_title">Email can miss new mail</string>
+    <string name="duraspeed_text">The phone\'s DuraSpeed setting can shut Email down, and no new mail is looked for until you open it again. Open DuraSpeed, tap Open, and switch Email on.</string>
+    <string name="duraspeed_open">Open DuraSpeed</string>
+    <string name="duraspeed_allowed">It\'s switched on</string>
+    <string name="duraspeed_later">Not now</string>
+    <string name="duraspeed_not_yet">Not yet</string>
+    <string name="duraspeed_ask_done">Is Email switched on in DuraSpeed now?</string>
 </resources>
