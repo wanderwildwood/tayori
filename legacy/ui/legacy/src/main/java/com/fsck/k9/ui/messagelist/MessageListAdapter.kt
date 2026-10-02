@@ -34,6 +34,7 @@ private const val IN_APP_NOTIFICATION_BANNER_INLINE_LIST_ID = -1L
 private const val TYPE_MESSAGE = 0
 private const val TYPE_FOOTER = 1
 private const val TYPE_IN_APP_NOTIFICATION_BANNER_INLINE_LIST = 2
+private const val TYPE_COMPOSABLE_MESSAGE = 3
 
 @Suppress("LongParameterList")
 class MessageListAdapter internal constructor(
@@ -167,9 +168,16 @@ class MessageListAdapter internal constructor(
         return viewItems[position].viewId
     }
 
+    // The feature flags load in the background, so on a slow phone the first rows can be built before
+    // USE_COMPOSE_FOR_MESSAGE_LIST_ITEMS turns on. The two kinds of row are therefore two view types: a row built
+    // as one kind is never handed to the other kind's bind, which crashed when coming back from Settings.
     override fun getItemViewType(position: Int): Int {
-        return viewItems[position].viewType
+        val viewType = viewItems[position].viewType
+        return if (viewType == TYPE_MESSAGE && useComposableMessageRows) TYPE_COMPOSABLE_MESSAGE else viewType
     }
+
+    private val useComposableMessageRows: Boolean
+        get() = featureFlagProvider.provide(GeneratedFeatureFlagKey.USE_COMPOSE_FOR_MESSAGE_LIST_ITEMS).isEnabled()
 
     fun refreshFormattedDates() {
         notifyItemRangeChanged(0, itemCount)
@@ -211,14 +219,9 @@ class MessageListAdapter internal constructor(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageListViewHolder {
         return when (viewType) {
-            TYPE_MESSAGE -> {
-                val result = featureFlagProvider.provide(GeneratedFeatureFlagKey.USE_COMPOSE_FOR_MESSAGE_LIST_ITEMS)
-                if (result.isEnabled()) {
-                    createComposableMessageViewHolder(parent)
-                } else {
-                    createMessageViewHolder(parent)
-                }
-            }
+            TYPE_MESSAGE -> createMessageViewHolder(parent)
+
+            TYPE_COMPOSABLE_MESSAGE -> createComposableMessageViewHolder(parent)
 
             TYPE_FOOTER -> FooterViewHolder.create(layoutInflater, parent, footerClickListener)
 
@@ -266,20 +269,17 @@ class MessageListAdapter internal constructor(
             TYPE_IN_APP_NOTIFICATION_BANNER_INLINE_LIST if isInAppNotificationEnabled ->
                 (holder as BannerInlineListInAppNotificationViewHolder).bind()
 
-            TYPE_MESSAGE -> {
+            TYPE_MESSAGE, TYPE_COMPOSABLE_MESSAGE -> {
                 val messageListItem = getItem(position)
                 val formattedMessageListItem = messageListItem.withFormattedDate()
-                val result = featureFlagProvider.provide(GeneratedFeatureFlagKey.USE_COMPOSE_FOR_MESSAGE_LIST_ITEMS)
-                if (result.isEnabled()) {
-                    val messageViewHolder = holder as ComposableMessageViewHolder
-                    messageViewHolder.bind(
+                if (holder is ComposableMessageViewHolder) {
+                    holder.bind(
                         item = formattedMessageListItem,
                         isActive = isActiveMessage(messageListItem),
                         isSelected = isSelected(messageListItem),
                     )
                 } else {
-                    val messageViewHolder = holder as MessageViewHolder
-                    messageViewHolder.bind(
+                    (holder as MessageViewHolder).bind(
                         messageListItem = formattedMessageListItem,
                         isActive = isActiveMessage(messageListItem),
                         isSelected = isSelected(messageListItem),
@@ -369,12 +369,10 @@ class MessageListAdapter internal constructor(
     }
 
     private fun getItemFromView(view: View): MessageListItem? {
-        if (featureFlagProvider.provide(GeneratedFeatureFlagKey.USE_COMPOSE_FOR_MESSAGE_LIST_ITEMS).isEnabled()) {
-            val messageViewHolder = view.tag as ComposableMessageViewHolder
-            return getItemById(messageViewHolder.uniqueId)
-        } else {
-            val messageViewHolder = view.tag as MessageViewHolder
-            return getItemById(messageViewHolder.uniqueId)
+        return when (val messageViewHolder = view.tag) {
+            is ComposableMessageViewHolder -> getItemById(messageViewHolder.uniqueId)
+            is MessageViewHolder -> getItemById(messageViewHolder.uniqueId)
+            else -> null
         }
     }
 

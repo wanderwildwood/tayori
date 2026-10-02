@@ -8,17 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".messagelist.LegacyMessageListFragment"
     >
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/floatingActionButtonMargin"
-        android:contentDescription="@string/compose_action"
-        app:layout_dodgeInsetEdges="bottom"
-        app:srcCompat="@drawable/ic_edit"
-        android:focusable="true"
-        />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
@@ -55,6 +44,19 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
+    <!-- Last, so it is drawn over the list and takes the taps there. First, it lay under the list and
+         relied on its elevation alone to show; on the Kompakt the list was drawn over it within
+         seconds, hiding it and taking the taps. -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/floatingActionButtonMargin"
+        android:contentDescription="@string/compose_action"
+        app:layout_dodgeInsetEdges="bottom"
+        app:srcCompat="@drawable/ic_edit"
+        android:focusable="true"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

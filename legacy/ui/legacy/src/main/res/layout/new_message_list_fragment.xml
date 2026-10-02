@@ -9,6 +9,15 @@
     tools:context=".messagelist.MessageListFragment"
     >
 
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/message_list_compose_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <!-- Last, so it is drawn over the list and takes the taps there. First, it lay under the list and
+         relied on its elevation alone to show; on the Kompakt the list was drawn over it within
+         seconds, hiding it and taking the taps. -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
@@ -19,12 +28,6 @@
         android:focusable="true"
         app:layout_dodgeInsetEdges="bottom"
         app:srcCompat="@drawable/ic_edit"
-        />
-
-    <androidx.compose.ui.platform.ComposeView
-        android:id="@+id/message_list_compose_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

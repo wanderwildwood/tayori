@@ -14,6 +14,8 @@ import androidx.core.view.isVisible
 import assertk.Assert
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isInstanceOf
+import assertk.assertions.isNotEqualTo
 import assertk.assertions.isNull
 import assertk.assertions.support.expected
 import com.fsck.k9.FontSizes
@@ -25,6 +27,7 @@ import com.fsck.k9.mail.AuthType
 import com.fsck.k9.mail.ConnectionSecurity
 import com.fsck.k9.mail.ServerSettings
 import com.fsck.k9.ui.R
+import com.fsck.k9.ui.messagelist.item.MessageViewHolder
 import com.google.android.material.textview.MaterialTextView
 import kotlin.time.ExperimentalTime
 import net.thunderbird.core.android.account.Identity
@@ -57,6 +60,21 @@ class MessageListAdapterTest : RobolectricTest() {
 
     val contactsPictureLoader: ContactPictureLoader = mock()
     val listItemListener: MessageListItemActionListener = mock()
+
+    @Test
+    fun composeRowsTurningOnAfterARowWasBuilt_shouldBindThatRowAsBuilt() {
+        val featureFlagProvider = FakeFeatureFlagProvider()
+        val adapter = createAdapter(featureFlagProvider = featureFlagProvider)
+        adapter.viewItems = listOf(MessageListViewItem.Message(createMessageListItem()))
+        val builtAs = adapter.getItemViewType(0)
+        val holder = adapter.onCreateViewHolder(LinearLayout(context), builtAs)
+
+        featureFlagProvider.composeRows = true
+        adapter.onBindViewHolder(holder, 0)
+
+        assertThat(holder).isInstanceOf<MessageViewHolder>()
+        assertThat(adapter.getItemViewType(0)).isNotEqualTo(builtAs)
+    }
 
     @Test
     fun withShowAccountIndicator_shouldShowAccountIndicator() {
@@ -416,6 +434,7 @@ class MessageListAdapterTest : RobolectricTest() {
         showAccountIndicator: Boolean = false,
         density: UiDensity = UiDensity.Default,
         dateTimeFormat: MessageListDateTimeFormat = DATE_TIME_FORMAT,
+        featureFlagProvider: FeatureFlagProvider = FakeFeatureFlagProvider(),
     ): MessageListAdapter {
         val appearance = MessageListAppearance(
             fontSizes,
@@ -439,7 +458,7 @@ class MessageListAdapterTest : RobolectricTest() {
             listItemListener = listItemListener,
             appearance = { appearance },
             themeProvider = FakeThemeProvider(),
-            featureFlagProvider = FakeFeatureFlagProvider(),
+            featureFlagProvider = featureFlagProvider,
             avatarMonogramCreator = mock(),
             contactRepository = mock(),
             formatDate = { "12:34" },
@@ -609,6 +628,9 @@ class MessageListAdapterTest : RobolectricTest() {
 
     private class FakeFeatureFlagProvider : FeatureFlagProvider {
         // Disabled as the test is primarily concerned with the XML based UI
-        override fun provide(key: FeatureFlagKey): FeatureFlagResult = FeatureFlagResult.Disabled
+        var composeRows = false
+
+        override fun provide(key: FeatureFlagKey): FeatureFlagResult =
+            if (composeRows) FeatureFlagResult.Enabled else FeatureFlagResult.Disabled
     }
 }
