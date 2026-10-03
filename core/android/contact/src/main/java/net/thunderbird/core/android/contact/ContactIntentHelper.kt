@@ -1,11 +1,43 @@
 package net.thunderbird.core.android.contact
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.ContactsContract
+import android.view.View
 import com.fsck.k9.mail.Address
 
 object ContactIntentHelper {
+    /**
+     * Contacts (enishi), the address book made to sit beside this app. When it is on the phone
+     * every contacts request goes to it by name, so a phone with two contacts apps does not ask
+     * "Complete action using" for each kind of request in turn. When it is not, the request goes
+     * out unnamed, exactly as before.
+     */
+    const val CONTACTS_APP = "com.wanderwildwood.enishi"
+
+    @JvmStatic
+    fun preferContactsApp(context: Context, intent: Intent): Intent {
+        val named = Intent(intent).setPackage(CONTACTS_APP)
+        return if (named.resolveActivity(context.packageManager) != null) named else intent
+    }
+
+    /** A person, shown in Contacts if it is here, or in Android's own quick view if not. */
+    @JvmStatic
+    fun showContact(context: Context, view: View, lookupUri: Uri) {
+        val quick = Intent(ContactsContract.QuickContact.ACTION_QUICK_CONTACT)
+            .setData(lookupUri)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val named = preferContactsApp(context, quick)
+        if (named.`package` != null) {
+            context.startActivity(named)
+        } else {
+            ContactsContract.QuickContact.showQuickContact(
+                context, view, lookupUri, ContactsContract.QuickContact.MODE_LARGE, null,
+            )
+        }
+    }
+
     @JvmStatic
     fun getContactPickerIntent(): Intent {
         return Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Email.CONTENT_URI)

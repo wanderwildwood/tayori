@@ -10,6 +10,9 @@
     </application>
 
     <queries>
+        <!-- Contacts (enishi), named outright when it is installed. See ContactIntentHelper. -->
+        <package android:name="com.wanderwildwood.enishi" />
+
         <intent>
             <!-- Used to check whether to display the "Add from Contacts" menu item in the compose screen -->
             <action android:name="android.intent.action.PICK" />

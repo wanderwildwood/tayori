@@ -1009,7 +1009,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
     public void showContactPicker(int requestCode) {
         requestCode |= REQUEST_MASK_RECIPIENT_PRESENTER;
         isInSubActivity = true;
-        startActivityForResult(ContactIntentHelper.getContactPickerIntent(), requestCode);
+        startActivityForResult(
+                ContactIntentHelper.preferContactsApp(this, ContactIntentHelper.getContactPickerIntent()), requestCode);
     }
 
     @Override

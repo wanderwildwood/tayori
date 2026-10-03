@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.provider.ContactsContract
+import net.thunderbird.core.android.contact.ContactIntentHelper
 
 internal class AddToContactsLauncher {
     fun launch(context: Context, name: String?, email: String): Boolean {
@@ -20,7 +21,7 @@ internal class AddToContactsLauncher {
         }
 
         return try {
-            context.startActivity(intent)
+            context.startActivity(ContactIntentHelper.preferContactsApp(context, intent))
             true
         } catch (_: ActivityNotFoundException) {
             false

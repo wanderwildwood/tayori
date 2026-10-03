@@ -14,7 +14,7 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
-import android.provider.ContactsContract.QuickContact;
+import net.thunderbird.core.android.contact.ContactIntentHelper;
 import android.provider.ContactsContract.RawContacts;
 import android.util.AttributeSet;
 import android.view.View;
@@ -131,8 +131,7 @@ public class ContactBadge extends CircleImageView implements OnClickListener {
         // wasn't assigned previously.
         final Bundle extras = (this.extras == null) ? new Bundle() : this.extras;
         if (contactUri != null) {
-            QuickContact.showQuickContact(getContext(), ContactBadge.this, contactUri,
-                    QuickContact.MODE_LARGE, null);
+            ContactIntentHelper.showContact(getContext(), ContactBadge.this, contactUri);
         } else if (contactEmail != null) {
             extras.putString(EXTRA_URI_CONTENT, contactEmail);
             queryHandler.startQuery(TOKEN_EMAIL_LOOKUP_AND_TRIGGER, extras,
@@ -208,15 +207,14 @@ public class ContactBadge extends CircleImageView implements OnClickListener {
 
             if (trigger && lookupUri != null) {
                 // Found contact, so trigger QuickContact
-                QuickContact.showQuickContact(
-                        getContext(), ContactBadge.this, lookupUri, QuickContact.MODE_LARGE, null);
+                ContactIntentHelper.showContact(getContext(), ContactBadge.this, lookupUri);
             } else if (createUri != null) {
                 // Prompt user to add this person to contacts
                 try {
                     final Intent intent = new Intent(Intents.SHOW_OR_CREATE_CONTACT, createUri);
                     extras.remove(EXTRA_URI_CONTENT);
                     intent.putExtras(extras);
-                    getContext().startActivity(intent);
+                    getContext().startActivity(ContactIntentHelper.preferContactsApp(getContext(), intent));
                 } catch (ActivityNotFoundException e) {
                     Toast.makeText(getContext(), R.string.error_activity_not_found, Toast.LENGTH_LONG).show();
                 }

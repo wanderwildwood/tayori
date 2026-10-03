@@ -302,7 +302,7 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
 
                 MENU_ITEM_PHONE_SAVE -> {
                     val intent = ContactIntentHelper.getAddPhoneContactIntent(phoneNumber)
-                    startActivityIfAvailable(context, intent)
+                    startActivityIfAvailable(context, ContactIntentHelper.preferContactsApp(context, intent))
                 }
 
                 MENU_ITEM_PHONE_COPY -> {
@@ -352,7 +352,7 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
                     val intent = ContactIntentHelper.getAddEmailContactIntent(
                         Address(email),
                     )
-                    startActivityIfAvailable(context, intent)
+                    startActivityIfAvailable(context, ContactIntentHelper.preferContactsApp(context, intent))
                 }
 
                 MENU_ITEM_EMAIL_COPY -> {
