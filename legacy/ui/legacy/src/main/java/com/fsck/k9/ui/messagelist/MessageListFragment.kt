@@ -248,6 +248,8 @@ class MessageListFragment :
     private lateinit var recentChangesSnackbar: Snackbar
     private var coordinatorLayout: CoordinatorLayout? = null
     private var floatingActionButton: FloatingActionButton? = null
+    private var isFloatingActionButtonWanted = true
+    private var isDrawerOpen = false
 
     private var searchView: SearchView? = null
     private var initialSearchViewQuery: String? = null
@@ -1902,12 +1904,26 @@ class MessageListFragment :
         maybeShowFloatingActionButton()
     }
 
+    override fun setDrawerOpen(open: Boolean) {
+        if (isDrawerOpen == open) return
+        isDrawerOpen = open
+        updateFloatingActionButtonVisibility()
+    }
+
     private fun maybeShowFloatingActionButton() {
-        floatingActionButton?.isVisible = true
+        isFloatingActionButtonWanted = true
+        updateFloatingActionButtonVisibility()
     }
 
     private fun maybeHideFloatingActionButton() {
-        floatingActionButton?.isGone = true
+        isFloatingActionButtonWanted = false
+        updateFloatingActionButtonVisibility()
+    }
+
+    // The open side menu stops short of the compose button, which would otherwise sit beside it
+    // looking as if it were part of the menu.
+    private fun updateFloatingActionButtonVisibility() {
+        floatingActionButton?.isVisible = isFloatingActionButtonWanted && !isDrawerOpen
     }
 
     private val isMarkAllAsReadSupported: Boolean

@@ -692,6 +692,7 @@ open class MessageHomeActivity :
     private fun createDrawerListener(): DrawerListener {
         return object : DrawerListener {
             override fun onDrawerClosed(drawerView: View) {
+                messageListFragment?.setDrawerOpen(false)
                 if (openFolderTransaction != null) {
                     commitOpenFolderTransaction()
                 }
@@ -704,7 +705,9 @@ open class MessageHomeActivity :
                 messageListFragment?.finishActionMode()
             }
 
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) = Unit
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                messageListFragment?.setDrawerOpen(slideOffset > 0f)
+            }
         }
     }
 

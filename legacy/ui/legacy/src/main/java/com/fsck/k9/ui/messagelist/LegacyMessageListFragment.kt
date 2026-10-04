@@ -206,6 +206,8 @@ class LegacyMessageListFragment :
     private var itemTouchHelper: ItemTouchHelper? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var floatingActionButton: FloatingActionButton? = null
+    private var isFloatingActionButtonWanted = true
+    private var isDrawerOpen = false
 
     private lateinit var adapter: MessageListAdapter
 
@@ -2127,12 +2129,26 @@ class LegacyMessageListFragment :
         maybeShowFloatingActionButton()
     }
 
+    override fun setDrawerOpen(open: Boolean) {
+        if (isDrawerOpen == open) return
+        isDrawerOpen = open
+        updateFloatingActionButtonVisibility()
+    }
+
     private fun maybeShowFloatingActionButton() {
-        floatingActionButton?.isVisible = true
+        isFloatingActionButtonWanted = true
+        updateFloatingActionButtonVisibility()
     }
 
     private fun maybeHideFloatingActionButton() {
-        floatingActionButton?.isGone = true
+        isFloatingActionButtonWanted = false
+        updateFloatingActionButtonVisibility()
+    }
+
+    // The open side menu stops short of the compose button, which would otherwise sit beside it
+    // looking as if it were part of the menu.
+    private fun updateFloatingActionButtonVisibility() {
+        floatingActionButton?.isVisible = isFloatingActionButtonWanted && !isDrawerOpen
     }
 
     // For the last N displayed messages we remember the original 'read' and 'starred' state of the messages. We pass

@@ -51,6 +51,7 @@ interface MessageListFragmentBridgeContract {
     fun finishActionMode()
     fun setActiveMessage(messageReference: MessageReference?)
     fun onFullyActive()
+    fun setDrawerOpen(open: Boolean)
     // endregion [ methods used on MessageHomeActivity ]
 
     interface MessageListFragmentListener {
