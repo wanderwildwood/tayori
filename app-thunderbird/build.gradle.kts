@@ -18,8 +18,8 @@ android {
         applicationId = "com.wanderwildwood.tayori"
         testApplicationId = "com.wanderwildwood.tayori.tests"
 
-        versionCode = 9
-        versionName = "0.1.8"
+        versionCode = 10
+        versionName = "0.1.9"
 
         buildConfigField("String", "CLIENT_INFO_APP_NAME", "\"tayori\"")
     }
