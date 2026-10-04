@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+      No splash screen.
+
+      Android 12 shows one whether or not an app asks, and the only lever is what it
+      draws, so it draws nothing: a transparent icon on white, the same white as the
+      message list it gives way to (both of tayori's surfaces are white, night or day).
+      A logo that flashes up and vanishes costs a full-panel e-ink refresh before the
+      mail has even been looked at. MainActivity's installSplashScreen() still holds
+      this window until startup has decided where to go; it just holds a blank one.
+
+      Under values-v31 because minSdk is 26 and these attributes arrived in 31.
+    -->
+    <style name="Theme.Thunderbird.Startup" parent="Theme2.Main.Startup">
+        <item name="android:windowSplashScreenBackground">@android:color/white</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_nothing</item>
+        <item name="android:windowSplashScreenAnimationDuration">0</item>
+    </style>
+</resources>
