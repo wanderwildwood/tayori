@@ -2,32 +2,16 @@ package net.thunderbird.feature.changelog.internal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import net.thunderbird.core.preference.GeneralSettingsManager
 
-@OptIn(ExperimentalCoroutinesApi::class)
+@Suppress("UnusedPrivateProperty")
 class RecentChangesViewModel(
     private val generalSettingsManager: GeneralSettingsManager,
     private val changeLogManager: ChangeLogManager,
 ) : ViewModel() {
-    val shouldShowRecentChangesHint = changeLogManager.changelogFlow.flatMapLatest { changeLog ->
-        if (changeLog.isFirstRun() && !changeLog.isFirstRunEver()) {
-            getShowRecentChangesFlow()
-        } else {
-            flowOf(false)
-        }
-    }.asLiveData()
-
-    private fun getShowRecentChangesFlow(): Flow<Boolean> {
-        return generalSettingsManager.getConfigFlow()
-            .map { generalSettings -> generalSettings.display.miscSettings.showRecentChanges }
-            .distinctUntilChanged()
-    }
+    // tayori ships no changelog, so the "what's new" hint never shows.
+    val shouldShowRecentChangesHint = flowOf(false).asLiveData()
 
     fun onRecentChangesHintDismissed() {
         changeLogManager.writeCurrentVersion()
