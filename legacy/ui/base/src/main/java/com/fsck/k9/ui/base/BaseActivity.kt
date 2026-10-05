@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat.Type.systemBars
 import androidx.core.view.children
 import androidx.core.view.updatePadding
 import androidx.lifecycle.asLiveData
+import com.fsck.k9.K9
 import com.fsck.k9.controller.push.PushController
 import java.util.Locale
 import kotlin.math.max
@@ -37,15 +38,31 @@ abstract class BaseActivity(
     private val appLanguageManager: AppLanguageManager by inject()
 
     private var overrideLocaleOnLaunch: Locale? = null
+    private var textScalePercentOnLaunch = K9.DEFAULT_TEXT_SCALE_PERCENT
 
     override fun attachBaseContext(baseContext: Context) {
         overrideLocaleOnLaunch = appLanguageManager.getOverrideLocale()
+        textScalePercentOnLaunch = K9.textScalePercent
+
+        val scaledContext = if (textScalePercentOnLaunch != K9.DEFAULT_TEXT_SCALE_PERCENT) {
+            TextScaleContextWrapper(baseContext, textScalePercentOnLaunch / 100f)
+        } else {
+            baseContext
+        }
 
         val newBaseContext = overrideLocaleOnLaunch?.let { locale ->
-            LocaleContextWrapper(baseContext, locale)
-        } ?: baseContext
+            LocaleContextWrapper(scaledContext, locale)
+        } ?: scaledContext
 
         super.attachBaseContext(newBaseContext)
+    }
+
+    // A screen left open behind the one where the text size was changed picks up the new size on its way back.
+    override fun onResume() {
+        super.onResume()
+        if (K9.textScalePercent != textScalePercentOnLaunch) {
+            recreateCompat()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

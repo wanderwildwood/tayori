@@ -158,6 +158,7 @@ class GeneralSettingsDataStore(
         val messageListSettings = visualSettings.messageListSettings
         return when (key) {
             "language" -> appLanguageManager.getAppLanguage()
+            "text_size" -> K9.textScalePercent.toString()
             "theme" -> appThemeToString(coreSettings.appTheme)
             "animations" -> animationPreferenceToString(visualSettings.animationPreference)
             "message_compose_theme" -> subThemeToString(coreSettings.messageComposeTheme)
@@ -199,6 +200,7 @@ class GeneralSettingsDataStore(
                 appLanguageManager.setAppLanguage(value)
             }
 
+            "text_size" -> K9.textScalePercent = value.toInt()
             "theme" -> setTheme(value)
             "animations" -> setAnimationPreference(stringToAnimationPreference(value))
             "message_compose_theme" -> setMessageComposeTheme(value)

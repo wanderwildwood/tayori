@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,6 +41,7 @@ import app.k9mail.core.android.common.activity.CreateDocumentResultContract
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
 import app.k9mail.legacy.message.controller.MessageReference
 import com.eygraber.uri.toKmpUri
+import com.fsck.k9.K9
 import com.fsck.k9.activity.MessageCompose
 import com.fsck.k9.activity.MessageLoaderHelper
 import com.fsck.k9.activity.MessageLoaderHelper.MessageLoaderCallbacks
@@ -494,6 +496,7 @@ class MessageViewFragment :
             R.id.move_to_drafts -> onMoveToDrafts()
             R.id.unsubscribe -> onUnsubscribe()
             R.id.show_headers -> onShowHeaders()
+            R.id.text_size -> onTextSize()
             R.id.print -> {
                 printMessage()
                 return true
@@ -523,6 +526,22 @@ class MessageViewFragment :
             appName = appNameProvider.appName,
             noSubjectText = getString(R.string.general_no_subject),
         ).print(messageViewInfo)
+    }
+
+    // The same choice as in Settings. Recreating the screen keeps this message open and redraws it at the new size.
+    private fun onTextSize() {
+        val values = resources.getStringArray(R.array.text_size_values).map { it.toInt() }
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.settings_text_size_label)
+            .setSingleChoiceItems(R.array.text_size_entries, values.indexOf(K9.textScalePercent)) { dialog, which ->
+                dialog.dismiss()
+                if (values[which] != K9.textScalePercent) {
+                    K9.textScalePercent = values[which]
+                    K9.saveSettingsAsync()
+                    requireActivity().recreate()
+                }
+            }
+            .show()
     }
 
     private fun onShowHeaders() {

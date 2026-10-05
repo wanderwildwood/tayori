@@ -115,6 +115,12 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
             true
         }
         findPreference<Preference>("sync_debug_logging")?.onPreferenceChangeListener = listener
+        // Redraw this screen at the new size once the choice is saved; the screens behind it follow on their way back.
+        findPreference<Preference>("text_size")?.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { _, _ ->
+                view?.post { activity?.recreate() }
+                true
+            }
         featureFlagProvider.provide(GeneratedFeatureFlagKey.DISABLE_FONT_SIZE_CONFIG)
             .onEnabled {
                 val parentPreference = findPreference<PreferenceCategory>("global_preferences")

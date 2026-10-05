@@ -2,7 +2,6 @@ package com.fsck.k9.view
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.util.AttributeSet
 import android.webkit.WebView
 import com.fsck.k9.core.BuildConfig
@@ -66,8 +65,9 @@ class MessageWebView : WebView, KoinComponent, ThunderbirdWebViewSettings {
 
             textZoom = config.textZoom
 
-            // Values range from smaller than default (1.0) to double size: 0.85, 1.0, 1.15, 1.3, 1.5, 1.8, 2.0
-            val fontScale = Resources.getSystem().configuration.fontScale
+            // The system's font size times the app's own text size (see TextScaleContextWrapper), so the body grows
+            // with the rest of the screen.
+            val fontScale = context.resources.configuration.fontScale
             settings.textZoom = (settings.textZoom * fontScale).roundToInt()
         }
 

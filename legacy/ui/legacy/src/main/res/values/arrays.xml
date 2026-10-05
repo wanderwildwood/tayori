@@ -16,6 +16,23 @@
 
 <resources>
 
+    <string-array name="text_size_entries">
+        <item>@string/text_size_small</item>
+        <item>@string/text_size_normal</item>
+        <item>@string/text_size_large</item>
+        <item>@string/text_size_larger</item>
+        <item>@string/text_size_largest</item>
+    </string-array>
+
+    <!-- Percent of the size the screens were drawn at -->
+    <string-array name="text_size_values" translatable="false">
+        <item>85</item>
+        <item>100</item>
+        <item>125</item>
+        <item>150</item>
+        <item>200</item>
+    </string-array>
+
     <string-array name="font_entries">
         <item>@string/font_size_default</item>
         <item>@string/font_size_tiniest</item>

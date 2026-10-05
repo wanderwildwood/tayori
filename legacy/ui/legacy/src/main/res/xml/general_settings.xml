@@ -28,6 +28,15 @@
                 android:title="@string/settings_language_label"
                 />
 
+            <ListPreference
+                android:key="text_size"
+                android:title="@string/settings_text_size_label"
+                android:dialogTitle="@string/settings_text_size_label"
+                android:entries="@array/text_size_entries"
+                android:entryValues="@array/text_size_values"
+                app:useSimpleSummaryProvider="true"
+                />
+
             <PreferenceScreen
                 android:key="font_size"
                 android:summary="@string/font_size_settings_description"

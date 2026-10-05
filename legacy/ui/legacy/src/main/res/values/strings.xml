@@ -690,6 +690,13 @@
     <string name="settings_message_theme_label">Message view theme</string>
     <string name="settings_compose_theme_label">Composer theme</string>
     <string name="settings_language_label">Language</string>
+    <!-- Settings row and message menu item: how big all of the app's text is, the message itself included -->
+    <string name="settings_text_size_label">Text size</string>
+    <string name="text_size_small">Small</string>
+    <string name="text_size_normal">Normal</string>
+    <string name="text_size_large">Large</string>
+    <string name="text_size_larger">Larger</string>
+    <string name="text_size_largest">Largest</string>
     <string name="preference_search_no_results">No settings found</string>
 
     <string name="settings_message_theme_selection_label">Fixed message theme</string>

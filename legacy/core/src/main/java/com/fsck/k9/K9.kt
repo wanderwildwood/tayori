@@ -110,6 +110,13 @@ object K9 : KoinComponent {
     @JvmStatic
     val fontSizes = FontSizes()
 
+    /**
+     * Scales all of the app's text, the message body included. 100 is the size the screens were drawn at.
+     * Applied by BaseActivity, so a change shows once a screen is recreated.
+     */
+    @JvmStatic
+    var textScalePercent = DEFAULT_TEXT_SCALE_PERCENT
+
     @get:Synchronized
     @set:Synchronized
     @JvmStatic
@@ -181,6 +188,8 @@ object K9 : KoinComponent {
         fundingReminderReferenceTimestamp = storage.getLong("fundingReminderReferenceTimestamp", 0)
         fundingReminderShownTimestamp = storage.getLong("fundingReminderShownTimestamp", 0)
         fundingActivityCounterInMillis = storage.getLong("fundingActivityCounterInMillis", 0)
+
+        textScalePercent = storage.getInt("textScalePercent", DEFAULT_TEXT_SCALE_PERCENT)
     }
 
     @Suppress("LongMethod")
@@ -200,6 +209,7 @@ object K9 : KoinComponent {
         editor.putLong("fundingActivityCounterInMillis", fundingActivityCounterInMillis)
 
         fontSizes.save(editor)
+        editor.putInt("textScalePercent", textScalePercent)
     }
 
     @JvmStatic
@@ -234,6 +244,8 @@ object K9 : KoinComponent {
      * How many times should K-9 try to deliver a message before giving up until the app is killed and restarted
      */
     const val MAX_SEND_ATTEMPTS = 5
+
+    const val DEFAULT_TEXT_SCALE_PERCENT = 100
 
     const val MANUAL_WAKE_LOCK_TIMEOUT = 120000
 }
