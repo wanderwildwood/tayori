@@ -128,9 +128,12 @@ object SelectionMenu {
             }
         }
         val query = Intent(Intent.ACTION_PROCESS_TEXT).setType("text/plain")
+        // Stock Android already lists them in the menu (and foldMenu passed them on); only the Kompakt strips them.
+        val listed = (0 until menu.size()).mapNotNull { menu.getItem(it).intent?.component?.className }.toSet()
         @Suppress("DEPRECATION") // the flags-object overload is Android 13; the Kompakt is 12
         val apps = context.packageManager.queryIntentActivities(query, 0)
             .filter { it.activityInfo.exported && it.activityInfo.packageName !in NOT_SHOWN }
+            .filter { it.activityInfo.name !in listed }
         for (app in apps) {
             out += Entry(app.loadLabel(context.packageManager)) {
                 val text = view.text.subSequence(view.selectionStart, view.selectionEnd).toString()
