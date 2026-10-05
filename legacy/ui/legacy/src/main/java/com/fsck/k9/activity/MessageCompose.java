@@ -67,6 +67,7 @@ import com.fsck.k9.message.html.DisplayHtml;
 import net.thunderbird.feature.mail.message.composer.signature.HtmlSignatureSanitizer;
 import com.fsck.k9.ui.helper.DisplayHtmlUiFactory;
 import com.fsck.k9.view.MessageWebView;
+import com.fsck.k9.view.SelectionMenu;
 import com.fsck.k9.view.WebViewConfigProvider;
 import kotlin.Unit;
 import net.thunderbird.core.android.account.LegacyAccountDto;
@@ -403,6 +404,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         messageContentView = findViewById(R.id.message_content);
         messageContentView.getInputExtras(true).putBoolean("allowEmoji", true);
         applyIncognitoKeyboardSetting(messageContentView);
+        SelectionMenu.INSTANCE.fold(messageContentView, getString(R.string.send_alternate_action));
+        SelectionMenu.INSTANCE.fold(subjectView, getString(R.string.send_alternate_action));
 
         attachmentsView = findViewById(R.id.attachments);
 

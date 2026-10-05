@@ -3,6 +3,7 @@ package com.fsck.k9.view
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.AttributeSet
+import android.view.ActionMode
 import android.webkit.WebView
 import com.fsck.k9.core.BuildConfig
 import com.fsck.k9.mailstore.AttachmentResolver
@@ -20,6 +21,10 @@ class MessageWebView : WebView, KoinComponent, ThunderbirdWebViewSettings {
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(context, attrs, defStyle)
 
     private val webViewClientFactory: WebViewClientFactory by inject()
+
+    // The Kompakt's selection bar keeps two items and drops the rest; SelectionMenu gives them back behind a ⋮.
+    override fun startActionMode(callback: ActionMode.Callback, type: Int): ActionMode? =
+        super.startActionMode(SelectionMenu.fold(this, callback), type)
 
     override var loadWithOverviewMode: Boolean
         get() = settings.loadWithOverviewMode
