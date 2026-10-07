@@ -535,8 +535,15 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
                                                 attachment.toDomainItem() as AttachmentViewInfo
                                             }
                                         }
+                                        val wallet = remember(info) {
+                                            if (attachment.encrypted) null else WalletLink.offered(context, info)
+                                        }
                                         AttachmentCard(
                                             attachment = attachment,
+                                            extraActionLabel = wallet?.let { context.getString(R.string.add_to_wallet_action) },
+                                            saveActionLabel = context.getString(R.string.save_attachment_action),
+                                            extraActionShown = wallet?.action == Intent.ACTION_VIEW,
+                                            onExtraActionClick = { attachmentCallback?.onAddToWallet(info) },
                                             onClick = { attachmentCallback?.onViewAttachment(info) },
                                             onDownloadClick = {
                                                 if (attachment.encrypted) {

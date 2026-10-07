@@ -13,6 +13,9 @@
         <!-- Contacts (enishi), named outright when it is installed. See ContactIntentHelper. -->
         <package android:name="com.wanderwildwood.enishi" />
 
+        <!-- Wallet (satsuire): "Add to Wallet" on a pass, ticket picture or PDF. See WalletLink. -->
+        <package android:name="com.wanderwildwood.satsuire" />
+
         <intent>
             <!-- Used to check whether to display the "Add from Contacts" menu item in the compose screen -->
             <action android:name="android.intent.action.PICK" />

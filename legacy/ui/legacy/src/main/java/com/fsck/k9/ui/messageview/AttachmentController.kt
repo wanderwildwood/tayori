@@ -51,6 +51,35 @@ class AttachmentController internal constructor(
         }
     }
 
+    /** Hands the attachment to Wallet, fetching it from the server first if it is not here yet. */
+    fun addToWallet(scope: CoroutineScope, kind: WalletLink.Kind) {
+        scope.launch {
+            if (!attachment.isContentAvailable) {
+                val success = downloadAttachment()
+                if (!success) return@launch
+                attachmentDisplayController.refreshAttachmentThumbnail(attachment)
+            }
+            val uri = withContext(ioDispatcher) {
+                try {
+                    val temp = AttachmentTempFileProvider.createTempUriForContentUri(
+                        context,
+                        attachment.internalUri,
+                        attachment.displayName,
+                    )
+                    AttachmentTempFileProvider.getMimeTypeUri(temp, kind.type)
+                } catch (e: IOException) {
+                    logger.error(throwable = e) { "Error creating temp file for attachment!" }
+                    null
+                }
+            } ?: return@launch
+            try {
+                context.startActivity(WalletLink.intent(kind, uri))
+            } catch (_: ActivityNotFoundException) {
+                displayMessageToUser(context.getString(R.string.add_to_wallet_missing))
+            }
+        }
+    }
+
     fun saveAttachmentTo(scope: CoroutineScope, documentUri: Uri?) {
         if (documentUri == null) return
 

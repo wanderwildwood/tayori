@@ -1257,6 +1257,13 @@ class MessageViewFragment :
         createAttachmentController(attachment).viewAttachment(lifecycleScope)
     }
 
+    override fun onAddToWallet(attachment: AttachmentViewInfo) {
+        val kind = WalletLink.offered(requireContext(), attachment) ?: return
+        currentAttachmentViewInfo = attachment
+
+        createAttachmentController(attachment).addToWallet(lifecycleScope, kind)
+    }
+
     fun onSaveAllAttachments() {
         try {
             openDocumentTreeLauncher.launch(null)
