@@ -57,7 +57,7 @@ object SelectionMenu {
             var rest = emptyList<Entry>()
             override fun onCreateActionMode(mode: ActionMode, menu: Menu) = true
             override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-                rest = foldMenu(menu) { item -> menu.performIdentifierAction(item.itemId, 0) } + missing(view, menu, mode, share)
+                rest = foldMenu(menu) { item -> press(view, menu, mode, item) } + missing(view, menu, mode, share)
                 showMore(menu, rest.isNotEmpty())
                 return true
             }
@@ -93,6 +93,23 @@ object SelectionMenu {
         override fun onGetContentRect(mode: ActionMode, v: View, outRect: Rect) {
             if (callback is ActionMode.Callback2) callback.onGetContentRect(mode, v, outRect) else super.onGetContentRect(mode, v, outRect)
         }
+    }
+
+    /**
+     * Presses a folded item of a text view's menu. Android gives every text app in it one id, so
+     * pressing by id would always start the first of them (Define in place of Translate); a text
+     * app is started here from its own item instead.
+     */
+    private fun press(view: TextView, menu: Menu, mode: ActionMode, item: MenuItem) {
+        val app = item.intent
+        if (app?.action != Intent.ACTION_PROCESS_TEXT || app.component == null) {
+            menu.performIdentifierAction(item.itemId, 0)
+            return
+        }
+        val start = minOf(view.selectionStart, view.selectionEnd).coerceAtLeast(0)
+        val end = maxOf(view.selectionStart, view.selectionEnd).coerceAtLeast(0)
+        startTextApp(view, Intent(app), view.text.subSequence(start, end).toString())
+        mode.finish()
     }
 
     /** Hides what will not fit, and returns it in Android's order, each with how to press it. */
