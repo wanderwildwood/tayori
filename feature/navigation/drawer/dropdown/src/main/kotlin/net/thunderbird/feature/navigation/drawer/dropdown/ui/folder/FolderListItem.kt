@@ -1,6 +1,5 @@
 package net.thunderbird.feature.navigation.drawer.dropdown.ui.folder
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,8 +58,7 @@ internal fun FolderListItem(
 
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .animateContentSize(),
+            .fillMaxWidth(),
     ) {
         NavigationDrawerItem(
             label = {
@@ -143,6 +141,7 @@ private fun NavigationDrawerLabel(
             ) {
                 AnimatedExpandIcon(
                     isExpanded = expandableState.value,
+                    isShowAnimations = false,
                 )
             }
         }

@@ -125,11 +125,11 @@ class DropDownDrawer(
     }
 
     override fun open() {
-        drawer.openDrawer(GravityCompat.START)
+        drawer.openDrawer(GravityCompat.START, false)
     }
 
     override fun close() {
-        drawer.closeDrawer(GravityCompat.START)
+        drawer.closeDrawer(GravityCompat.START, false)
     }
 
     override fun lock() {
