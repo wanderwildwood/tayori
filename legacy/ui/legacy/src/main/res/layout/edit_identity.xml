@@ -27,7 +27,7 @@
         android:layout_height="match_parent"
         android:scrollbarStyle="outsideInset"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -172,7 +172,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/edit_identity_screen_signature_layout_spacing"
-                    />
+                    android:scrollbars="none"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

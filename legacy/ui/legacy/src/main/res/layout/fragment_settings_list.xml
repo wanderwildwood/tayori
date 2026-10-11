@@ -13,7 +13,7 @@
         android:orientation="vertical"
         tools:listitem="@layout/text_icon_list_item"
         tools:context=".settings.SettingsListFragment"
-        />
+        android:scrollbars="none"/>
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/about_host"

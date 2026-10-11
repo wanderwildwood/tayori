@@ -48,6 +48,6 @@
         android:background="?android:attr/colorBackground"
         android:divider="@color/message_list_widget_divider"
         android:dividerHeight="0.5dp"
-        />
+        android:scrollbars="none"/>
 
 </LinearLayout>

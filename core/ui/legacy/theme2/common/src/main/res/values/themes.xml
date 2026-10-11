@@ -8,6 +8,9 @@
 
     <!-- Common main themes -->
     <style name="Theme2.Main.Light.Common" parent="Theme2.Main.Light.Base">
+        <!-- No scrollbars: a list moves a page to a swipe, and nothing else needs one. -->
+        <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
+        <item name="android:scrollbarThumbHorizontal">@android:color/transparent</item>
         <!-- Draw action mode above content -->
         <item name="windowActionModeOverlay">true</item>
 
@@ -87,6 +90,8 @@
     </style>
 
     <style name="Theme2.Main.Dark.Common" parent="Theme2.Main.Dark.Base">
+        <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
+        <item name="android:scrollbarThumbHorizontal">@android:color/transparent</item>
         <!-- Draw action mode above content -->
         <item name="windowActionModeOverlay">true</item>
 
@@ -111,7 +116,10 @@
         <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Material3.LargeComponent</item>
     </style>
 
-    <style name="Theme2.Main.DayNight.Common" parent="Theme2.Main.Light.Base" />
+    <style name="Theme2.Main.DayNight.Common" parent="Theme2.Main.Light.Base">
+        <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
+        <item name="android:scrollbarThumbHorizontal">@android:color/transparent</item>
+    </style>
 
     <!-- Main themes -->
     <style name="Theme2.Main.Light" parent="Theme2.Main.Light.Common" />

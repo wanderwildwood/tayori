@@ -20,7 +20,7 @@
         tools:visibility="visible"
         tools:listitem="@layout/settings_import_account_list_item"
         tools:itemCount="3"
-        />
+        android:scrollbars="none"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pickDocumentButton"

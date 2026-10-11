@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/settings_export_account_list_item"
         tools:itemCount="3"
-        />
+        android:scrollbars="none"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomBar"

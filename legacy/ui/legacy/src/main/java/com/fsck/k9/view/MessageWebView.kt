@@ -42,7 +42,7 @@ class MessageWebView : WebView, KoinComponent, ThunderbirdWebViewSettings {
     }
 
     override fun configure(config: WebViewConfig) {
-        isVerticalScrollBarEnabled = true
+        isVerticalScrollBarEnabled = false
         scrollBarStyle = SCROLLBARS_INSIDE_OVERLAY
         isLongClickable = true
 

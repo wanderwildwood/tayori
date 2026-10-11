@@ -12,7 +12,7 @@ the 'composer theme' setting).
     android:background="?android:attr/windowBackground"
     android:scrollbarStyle="insideOverlay"
     android:fillViewport="true"
-    >
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -95,7 +95,7 @@ the 'composer theme' setting).
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            />
+            android:scrollbars="none"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/quoted_text_show"
@@ -128,7 +128,7 @@ the 'composer theme' setting).
                 android:id="@+id/quoted_html"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                />
+                android:scrollbars="none"/>
 
             <LinearLayout
                 android:id="@+id/quoted_text_buttons"
@@ -179,7 +179,7 @@ the 'composer theme' setting).
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            />
+            android:scrollbars="none"/>
 
         <!--
             Empty container for storing attachments. We'll stick

@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         tools:visibility="visible"
-        >
+        android:scrollbars="none">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/message_source"
