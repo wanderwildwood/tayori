@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.textview.MaterialTextView
+<!-- A section's name in the settings list: bold capitals over a heavier rule, as the settings
+     pages head their sections. -->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="?android:attr/windowBackground"
-    android:ellipsize="end"
-    android:gravity="center_vertical"
-    android:paddingBottom="4dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="4dp"
-    android:singleLine="true"
-    android:textAppearance="?attr/textAppearanceTitleSmall"
-    android:textColor="?attr/colorSecondary"
-    tools:text="Divider"
-    />
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="22dp"
+    >
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        tools:text="Divider"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="6dp"
+        android:background="#000000"
+        />
+</LinearLayout>

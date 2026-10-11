@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- On: a filled pill, the knob at the right in white, as SwitchMMD draws it. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="52dp" android:height="30dp" android:viewportWidth="52" android:viewportHeight="30">
+    <path android:fillColor="#000000"
+        android:pathData="M15,0 H37 A15,15 0 0 1 37,30 H15 A15,15 0 0 1 15,0 Z"/>
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M37,15 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0"/>
+</vector>

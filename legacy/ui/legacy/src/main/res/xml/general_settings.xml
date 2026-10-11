@@ -252,19 +252,7 @@
                 android:title="@string/global_settings_show_contact_name_label"
                 />
 
-            <CheckBoxPreference
-                android:dependency="messagelist_show_contact_name"
-                android:key="messagelist_change_contact_name_color"
-                android:summary="@string/global_settings_registered_name_color_changed"
-                android:title="@string/global_settings_registered_name_color_label"
-                />
-
-            <com.takisoft.preferencex.ColorPickerPreference
-                android:dependency="messagelist_change_contact_name_color"
-                android:key="messagelist_contact_name_color"
-                android:title="@string/general_settings_contact_name_color_label"
-                android:defaultValue="#FF1093F5"
-                />
+            <!-- No "Colorize contacts" or contact name colour: the panel draws one ink. -->
 
             <CheckBoxPreference
                 android:key="messagelist_background_as_unread_indicator"

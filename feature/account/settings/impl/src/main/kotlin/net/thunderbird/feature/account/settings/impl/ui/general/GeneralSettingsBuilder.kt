@@ -72,7 +72,7 @@ internal class GeneralSettingsBuilder(
         }
 
         settings += name(name = state.name.value)
-        settings += color(color = state.color.value ?: 0)
+        // No account colour: on the Kompakt's panel every colour is the same ink.
 
         return settings.toImmutableList()
     }

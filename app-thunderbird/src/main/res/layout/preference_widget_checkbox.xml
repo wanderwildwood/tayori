@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A setting that is on or off shows the Kompakt's switch, not a tick box. Replaces
+     androidx.preference's layout of the same name (Apache-2.0); same id. -->
+<CheckBox
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@android:id/checkbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    android:clickable="false"
+    android:background="@null"
+    android:button="@drawable/mmd_switch"
+    android:buttonTint="@null"
+    app:buttonTint="@null"/>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The same switch for the settings that are switches already. Replaces androidx.preference's
+     layout of the same name (Apache-2.0). A SwitchCompat with its thumb and track drawn as one
+     picture, so it looks like every other switch in these apps. -->
+<androidx.appcompat.widget.SwitchCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/switchWidget"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    android:clickable="false"
+    android:background="@null"
+    android:thumb="@null"
+    android:track="@drawable/mmd_switch"
+    app:trackTint="@null"
+    app:thumbTint="@null"/>

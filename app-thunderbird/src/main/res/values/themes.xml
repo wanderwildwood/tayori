@@ -6,37 +6,45 @@
         <item name="actionModeCloseDrawable">@drawable/ic_close</item>
         <item name="actionBarPopupTheme">@style/Widget.App.ActionMode.PopupMenu</item>
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+        <item name="searchViewStyle">@style/SearchView.MMD</item>
 
         <!-- Legacy styles -->
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.MMD</item>
 
-        <item name="iconStarColor">#fbbc04</item>
+        <!-- Rules between fields (Compose's To, Cc, Subject) in black, and hints in a grey the
+             panel shows clearly rather than one it washes out. -->
+        <item name="android:listDivider">@drawable/mmd_divider</item>
+        <item name="android:textColorHint">#666666</item>
+
+        <!-- One ink: on this panel a yellow star is a grey smudge. -->
+        <item name="iconStarColor">#000000</item>
 
         <item name="textColorPrimaryRecipientDropdown">@android:color/primary_text_light</item>
         <item name="textColorSecondaryRecipientDropdown">@android:color/secondary_text_light</item>
 
-        <item name="messageListSwipeSelectColor">@color/material_blue_600</item>
-        <item name="messageListSwipeToggleReadColor">@color/material_blue_600</item>
-        <item name="messageListSwipeToggleStarColor">@color/material_orange_600</item>
-        <item name="messageListSwipeArchiveColor">@color/material_green_600</item>
-        <item name="messageListSwipeDeleteColor">@color/material_red_600</item>
-        <item name="messageListSwipeSpamColor">@color/material_red_700</item>
-        <item name="messageListSwipeMoveColor">@color/material_purple_500</item>
+        <!-- Swipes in greys and black, which the panel can show, in place of colours it cannot. -->
+        <item name="messageListSwipeSelectColor">#555555</item>
+        <item name="messageListSwipeToggleReadColor">#555555</item>
+        <item name="messageListSwipeToggleStarColor">#555555</item>
+        <item name="messageListSwipeArchiveColor">#555555</item>
+        <item name="messageListSwipeDeleteColor">#000000</item>
+        <item name="messageListSwipeSpamColor">#000000</item>
+        <item name="messageListSwipeMoveColor">#555555</item>
 
         <item name="contactPictureFallbackDefaultBackgroundColor">#ffababab</item>
         <item name="contactPictureFallbackBackgroundColors">@array/contact_picture_fallback_background_colors_light</item>
         <item name="contactTokenBackgroundColor">@drawable/recipient_token_background</item>
-        <item name="tintColorBulletPointPositive">#77aa22</item>
-        <item name="tintColorBulletPointNegative">#dd2222</item>
-        <item name="tintColorBulletPointNeutral">#888</item>
+        <item name="tintColorBulletPointPositive">#000000</item>
+        <item name="tintColorBulletPointNegative">#000000</item>
+        <item name="tintColorBulletPointNeutral">#555555</item>
 
         <item name="openpgp_black">#000</item>
-        <item name="openpgp_orange">#FF8800</item>
-        <item name="openpgp_red">#CC0000</item>
-        <item name="openpgp_green">#669900</item>
-        <item name="openpgp_blue">#336699</item>
-        <item name="openpgp_grey">#bbb</item>
-        <item name="openpgp_dark_grey">#888</item>
+        <item name="openpgp_orange">#000000</item>
+        <item name="openpgp_red">#000000</item>
+        <item name="openpgp_green">#000000</item>
+        <item name="openpgp_blue">#000000</item>
+        <item name="openpgp_grey">#777777</item>
+        <item name="openpgp_dark_grey">#555555</item>
     </style>
 
     <style name="Theme.Thunderbird.Dark" parent="Theme2.Thunderbird.Dark">
@@ -45,7 +53,7 @@
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
 
         <!-- Legacy styles -->
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.MMD</item>
 
         <item name="iconStarColor">#fdd663</item>
 
@@ -74,6 +82,22 @@
         <item name="openpgp_blue">#6699cc</item>
         <item name="openpgp_grey">#888</item>
         <item name="openpgp_dark_grey">#bbb</item>
+    </style>
+
+    <!-- Settings: each row draws its own black rule (layout/preference_material.xml), so the
+         library's grey line between sections is left out. -->
+    <style name="PreferenceThemeOverlay.MMD" parent="PreferenceThemeOverlay">
+        <item name="preferenceFragmentCompatStyle">@style/PreferenceFragment.MMD</item>
+    </style>
+
+    <style name="PreferenceFragment.MMD" parent="PreferenceFragment.Material">
+        <item name="android:divider">@null</item>
+    </style>
+
+    <!-- Search in the top bar: the words alone, without the grey line under them. -->
+    <style name="SearchView.MMD" parent="Widget.AppCompat.SearchView">
+        <item name="queryBackground">@null</item>
+        <item name="submitBackground">@null</item>
     </style>
 
     <style name="Theme.Thunderbird.Light.Dialog" parent="Theme.Thunderbird.Light" />
