@@ -8,7 +8,7 @@ android {
 
 dependencies {
     implementation(projects.feature.migration.launcher.api)
-    implementation(projects.feature.migration.qrcode)
+    implementation(libs.androidx.activity)
 }
 
 codeCoverage {

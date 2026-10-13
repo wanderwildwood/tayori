@@ -1,6 +1,5 @@
 package app.k9mail.core.android.common.camera
 
-import android.Manifest.permission
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -8,9 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat
 import app.k9mail.core.android.common.camera.io.CaptureImageFileWriter
 
 class CameraCaptureHandler(
@@ -21,7 +18,6 @@ class CameraCaptureHandler(
 
     companion object {
         const val REQUEST_IMAGE_CAPTURE: Int = 6
-        const val CAMERA_PERMISSION_REQUEST_CODE: Int = 100
 
         // Kept public so callers can namespace the key inside their own
         // saved-state bundles if they prefer; the save/restore helpers
@@ -71,18 +67,5 @@ class CameraCaptureHandler(
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         startActivityForResult(activity, intent, REQUEST_IMAGE_CAPTURE, null)
-    }
-
-    fun requestCameraPermission(activity: Activity) {
-        ActivityCompat.requestPermissions(
-            activity,
-            arrayOf(permission.CAMERA),
-            CAMERA_PERMISSION_REQUEST_CODE,
-        )
-    }
-
-    fun hasCameraPermission(context: Context): Boolean {
-        val hasPermission = ContextCompat.checkSelfPermission(context, permission.CAMERA)
-        return hasPermission == PackageManager.PERMISSION_GRANTED
     }
 }

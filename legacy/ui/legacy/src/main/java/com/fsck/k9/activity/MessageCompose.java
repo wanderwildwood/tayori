@@ -23,7 +23,6 @@ import android.content.IntentSender;
 import android.content.IntentSender.SendIntentException;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -160,7 +159,6 @@ import org.openintents.openpgp.util.OpenPgpIntentStarter;
 import net.thunderbird.core.android.common.startup.DatabaseUpgradeInterceptor;
 import net.thunderbird.legacy.logging.Log;
 import static com.fsck.k9.activity.compose.AttachmentPresenter.REQUEST_CODE_ATTACHMENT_URI;
-import static app.k9mail.core.android.common.camera.CameraCaptureHandler.CAMERA_PERMISSION_REQUEST_CODE;
 import static app.k9mail.core.android.common.camera.CameraCaptureHandler.REQUEST_IMAGE_CAPTURE;
 import static net.thunderbird.feature.mail.message.composer.dialog.SentFolderNotFoundConfirmationDialogFragmentFactory.ACCOUNT_UUID_ARG;
 import static net.thunderbird.feature.mail.message.composer.dialog.SentFolderNotFoundConfirmationDialogFragmentFactory.RESULT_CODE_ASSIGN_SENT_FOLDER_REQUEST_KEY;
@@ -1068,19 +1066,6 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                cameraCaptureHandler.openCamera(this);
-            } else {
-                Toast.makeText(this,R.string.camera_permission_denied,Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-
     private void onAccountChosen(LegacyAccountDto account, Identity identity) {
         if (!this.account.equals(account)) {
             Log.v("Switching account from %s to %s", this.account, account);
@@ -1137,11 +1122,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.open_camera) {
-                if(!cameraCaptureHandler.hasCameraPermission(this)){
-                    cameraCaptureHandler.requestCameraPermission(this);
-                }else {
-                    cameraCaptureHandler.openCamera(this);
-                }
+                // The system camera app takes the picture, so this app needs no camera permission.
+                cameraCaptureHandler.openCamera(this);
                 return true;
             } else if (itemId == R.id.attach_file) {
                 attachmentPresenter.onClickAddAttachment(recipientPresenter);
