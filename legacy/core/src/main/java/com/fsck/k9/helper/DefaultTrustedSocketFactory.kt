@@ -1,8 +1,6 @@
 package com.fsck.k9.helper
 
 import android.content.Context
-import android.net.SSLCertificateSocketFactory
-import android.os.Build
 import android.text.TextUtils
 import com.fsck.k9.mail.ssl.TrustManagerFactory
 import com.fsck.k9.mail.ssl.TrustedSocketFactory
@@ -14,7 +12,6 @@ import javax.net.ssl.KeyManager
 import javax.net.ssl.SNIHostName
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocket
-import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
 import net.thunderbird.core.common.exception.MessagingException
 import net.thunderbird.core.common.net.HostNameUtils.isLegalIPAddress
@@ -54,7 +51,7 @@ class DefaultTrustedSocketFactory(
 
         // RFC 6066 does not permit the use of literal IPv4 or IPv6 addresses as SNI hostnames.
         if (isLegalIPAddress(host) == null) {
-            setSniHost(socketFactory, sslSocket, host)
+            setSniHost(sslSocket, host)
         }
 
         return trustedSocket
@@ -127,25 +124,10 @@ class DefaultTrustedSocketFactory(
             return enabled.filterNot { it in disallowed }.toTypedArray()
         }
 
-        private fun setSniHost(factory: SSLSocketFactory, socket: SSLSocket, hostname: String) {
-            when {
-                factory is SSLCertificateSocketFactory -> factory.setHostname(socket, hostname)
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                    val sslParameters = socket.sslParameters
-                    sslParameters.serverNames = listOf(SNIHostName(hostname))
-                    socket.sslParameters = sslParameters
-                }
-
-                else -> setHostnameViaReflection(socket, hostname)
-            }
-        }
-
-        private fun setHostnameViaReflection(socket: SSLSocket, hostname: String?) {
-            try {
-                socket.javaClass.getMethod("setHostname", String::class.java).invoke(socket, hostname)
-            } catch (e: Throwable) {
-                Log.e(e, "Could not call SSLSocket#setHostname(String) method ")
-            }
+        private fun setSniHost(socket: SSLSocket, hostname: String) {
+            val sslParameters = socket.sslParameters
+            sslParameters.serverNames = listOf(SNIHostName(hostname))
+            socket.sslParameters = sslParameters
         }
     }
 }
