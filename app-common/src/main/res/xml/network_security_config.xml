@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Plain-text HTTP is refused everywhere. Mail itself (IMAP, POP3, SMTP) runs over its own sockets
+    and is not affected by this file; it is the HTTP side (setup lookups, OAuth, remote images in
+    messages) that must use HTTPS.
+-->
 <network-security-config
     xmlns:tools="http://schemas.android.com/tools"
-    tools:ignore="InsecureBaseConfiguration,AcceptsUserCertificates"
+    tools:ignore="AcceptsUserCertificates"
     >
 
-    <base-config cleartextTrafficPermitted="true">
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
             <certificates src="user" />

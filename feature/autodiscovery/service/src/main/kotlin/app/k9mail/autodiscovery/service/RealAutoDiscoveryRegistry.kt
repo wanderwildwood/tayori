@@ -15,8 +15,10 @@ class RealAutoDiscoveryRegistry(
     override fun getAutoDiscoveries(): List<AutoDiscovery> = autoDiscoveries
 
     companion object {
+        // HTTPS only: plain-HTTP lookups are refused by the network security config anyway, and a
+        // setup answer anyone on the network could rewrite is not worth asking for.
         private val defaultAutoconfigUrlConfig = AutoconfigUrlConfig(
-            httpsOnly = false,
+            httpsOnly = true,
             includeEmailAddress = false,
         )
 
