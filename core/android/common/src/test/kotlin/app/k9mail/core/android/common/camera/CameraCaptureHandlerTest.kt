@@ -1,15 +1,21 @@
 package app.k9mail.core.android.common.camera
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import app.k9mail.core.android.common.camera.CameraCaptureHandler.Companion.STATE_KEY_CAPTURED_IMAGE_URI
 import app.k9mail.core.android.common.camera.io.CaptureImageFileWriter
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows.shadowOf
 
 // Coverage for the process-death regression tracked in issue #11296:
 // the captured-image URI was held in memory only, so an activity result
@@ -58,5 +64,25 @@ internal class CameraCaptureHandlerTest {
         handler.saveInstanceState(outState)
 
         assertNull(outState.getParcelable<Uri>(STATE_KEY_CAPTURED_IMAGE_URI))
+    }
+
+    @Test
+    fun `openCamera returns false and keeps no URI when the camera app cannot be started`() {
+        whenever(fileWriter.getFileUri()).thenReturn(Uri.parse("content://k9.provider/captured/IMG_7.jpg"))
+        shadowOf(RuntimeEnvironment.getApplication()).checkActivities(true)
+        val activity = Robolectric.buildActivity(Activity::class.java).setup().get()
+        val handler = CameraCaptureHandler(fileWriter)
+
+        val opened = handler.openCamera(activity, "com.example.nocamera")
+
+        assertFalse(opened)
+        assertNull(handler.getCapturedImageUri())
+    }
+
+    @Test
+    fun `cameraApps is empty when no app takes a photo`() {
+        val handler = CameraCaptureHandler(fileWriter)
+
+        assertEquals(emptyList(), handler.cameraApps(RuntimeEnvironment.getApplication()))
     }
 }

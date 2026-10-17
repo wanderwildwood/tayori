@@ -78,6 +78,7 @@ import com.fsck.k9.activity.MessageLoaderHelper.MessageLoaderCallbacks;
 import com.fsck.k9.activity.compose.AttachmentPresenter;
 import com.fsck.k9.activity.compose.AttachmentPresenter.AttachmentMvpView;
 import com.fsck.k9.activity.compose.AttachmentPresenter.WaitingAction;
+import app.k9mail.core.android.common.camera.CameraApp;
 import app.k9mail.core.android.common.camera.CameraCaptureHandler;
 import com.fsck.k9.activity.compose.ComposeCryptoStatus;
 import com.fsck.k9.activity.compose.ComposeCryptoStatus.SendErrorState;
@@ -1122,8 +1123,8 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         popup.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.open_camera) {
-                // The system camera app takes the picture, so this app needs no camera permission.
-                cameraCaptureHandler.openCamera(this);
+                // A camera app takes the picture, so this app needs no camera permission.
+                takePhoto();
                 return true;
             } else if (itemId == R.id.attach_file) {
                 attachmentPresenter.onClickAddAttachment(recipientPresenter);
@@ -1132,6 +1133,30 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
             return false;
         });
         popup.show();
+    }
+
+    private void takePhoto() {
+        List<CameraApp> cameras = cameraCaptureHandler.cameraApps(this);
+        if (cameras.isEmpty()) {
+            Toast.makeText(this, R.string.camera_none, Toast.LENGTH_LONG).show();
+        } else if (cameras.size() == 1) {
+            openCamera(cameras.get(0));
+        } else {
+            CharSequence[] labels = new CharSequence[cameras.size()];
+            for (int i = 0; i < cameras.size(); i++) {
+                labels[i] = cameras.get(i).getLabel();
+            }
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.camera_choose)
+                .setItems(labels, (dialog, which) -> openCamera(cameras.get(which)))
+                .show();
+        }
+    }
+
+    private void openCamera(CameraApp camera) {
+        if (!cameraCaptureHandler.openCamera(this, camera.getPackageName())) {
+            Toast.makeText(this, R.string.camera_none, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void switchToIdentity(Identity identity) {

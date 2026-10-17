@@ -2,6 +2,15 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <queries>
+        <!-- The camera apps that take a photo when asked. Android 11 sends an unaddressed
+             request only to the camera the phone came with, and some phones' own camera takes
+             none, so Compose finds the others and asks one by name. -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application android:supportsRtl="true">
         <provider
             android:name=".camera.provider.CaptureImageFileProvider"

@@ -7,6 +7,8 @@
     <string name="about_app_authors_thunderbird">Thunderbird Mobile Team</string>
     <string name="open_camera">Open camera</string>
     <string name="attach_file">Attach file</string>
+    <string name="camera_none">No camera app here takes photos for Email. Use Attach file instead.</string>
+    <string name="camera_choose">Take the photo with</string>
     <string name="camera_permission_denied">Camera Permission Denied! Unable to take photo</string>
     <string name="camera_capture_lost">Captured image was lost because the app was closed. Please try again.</string>
     <string name="source_code">Source code</string>

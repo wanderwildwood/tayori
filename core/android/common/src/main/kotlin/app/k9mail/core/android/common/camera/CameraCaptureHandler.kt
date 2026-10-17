@@ -1,6 +1,8 @@
 package app.k9mail.core.android.common.camera
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -60,12 +62,61 @@ class CameraCaptureHandler(
     fun canLaunchCamera(context: Context) =
         context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
-    fun openCamera(activity: Activity) {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    /**
+     * Every installed camera app that takes a photo when another app asks it to. Each package is
+     * asked by name, because Android 11 and later send an unaddressed request only to the camera
+     * the phone came with, and some phones' own camera (the Kompakt's among them) takes none.
+     */
+    fun cameraApps(context: Context): List<CameraApp> {
+        val pm = context.packageManager
+        val found = LinkedHashMap<String, CameraApp>()
+
+        @Suppress("DEPRECATION")
+        val answering = pm.queryIntentActivities(Intent(MediaStore.ACTION_IMAGE_CAPTURE), 0) +
+            pm.getInstalledPackages(0).flatMap { info ->
+                pm.queryIntentActivities(
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).setPackage(info.packageName),
+                    0,
+                )
+            }
+
+        for (resolved in answering) {
+            val packageName = resolved.activityInfo?.packageName ?: continue
+            if (packageName == context.packageName || packageName in found) continue
+            found[packageName] = CameraApp(packageName, resolved.loadLabel(pm).toString())
+        }
+        // Two cameras with one name (a phone's own "Camera" beside another "Camera") are told
+        // apart by their package names.
+        val labels = found.values.groupingBy { it.label }.eachCount()
+        return found.values
+            .map { if (labels.getValue(it.label) > 1) it.copy(label = "${it.label} (${it.packageName})") else it }
+            .sortedBy { it.label.lowercase() }
+    }
+
+    /**
+     * Asks the camera app [packageName] for a photo written into this app's own file.
+     * Returns false, and starts nothing, when that app cannot be started.
+     */
+    fun openCamera(activity: Activity, packageName: String): Boolean {
         val uri = captureImageFileWriter.getFileUri()
-        capturedImageUri = uri
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-        startActivityForResult(activity, intent, REQUEST_IMAGE_CAPTURE, null)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            .setPackage(packageName)
+            .putExtra(MediaStore.EXTRA_OUTPUT, uri)
+            .addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        // The grant travels with the clip as well as the flags, for camera apps that read it there.
+        intent.clipData = ClipData.newRawUri("", uri)
+
+        return try {
+            startActivityForResult(activity, intent, REQUEST_IMAGE_CAPTURE, null)
+            capturedImageUri = uri
+            true
+        } catch (e: ActivityNotFoundException) {
+            false
+        } catch (e: SecurityException) {
+            false
+        }
     }
 }
+
+/** A camera app that takes a photo when another app asks it to. */
+data class CameraApp(val packageName: String, val label: String)
