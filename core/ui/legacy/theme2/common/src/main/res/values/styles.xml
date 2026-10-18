@@ -4,8 +4,34 @@
         <item name="android:background">?attr/colorSurfaceContainer</item>
     </style>
 
+    <!-- The top bar of every other app here (Mudita's TopAppBarMMD): 64dp with a 1dp rule
+         beneath, the title in Lato at 24sp, 16dp in or straight after a 56dp back arrow, and the
+         last action's icon 28dp from the right edge. -->
     <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">?attr/colorSurfaceContainer</item>
+        <item name="android:background">@drawable/top_bar_background</item>
+        <item name="android:minHeight">65dp</item>
+        <item name="android:paddingBottom">1dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="contentInsetStart">16dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleMarginStart">0dp</item>
+        <item name="titleTextAppearance">@style/TextAppearance.Mmd.TopBarTitle</item>
+    </style>
+
+    <!-- MMD's titleLarge. MMD asks for Medium from a family with no Medium face, so what it
+         draws is Lato Regular, and so is this. -->
+    <style name="TextAppearance.Mmd.TopBarTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <!-- The overflow dots in a 48dp button like every other action, where TopAppBarMMD puts
+         its last icon; Material's is narrower and sat them further right. -->
+    <style name="Widget.App.ActionButton.Overflow" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
     </style>
 
     <style name="Widget.App.ActionMode.PopupMenu" parent="Widget.Material3.PopupMenu">

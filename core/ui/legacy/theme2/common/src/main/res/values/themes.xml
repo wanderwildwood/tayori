@@ -57,6 +57,9 @@
         <item name="popupMenuStyle">@style/Theme2.EInkPopupMenu</item>
         <item name="actionOverflowMenuStyle">@style/Theme2.EInkPopupMenu.Overflow</item>
         <item name="listPopupWindowStyle">@style/Theme2.EInkListPopupWindow</item>
+        <!-- Top bars at TopAppBarMMD's 64dp (Widget.App.Toolbar draws its rule below that). -->
+        <item name="actionBarSize">64dp</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.App.ActionButton.Overflow</item>
     </style>
 
     <style name="Theme2.EInkPopupMenu" parent="Widget.Material3.PopupMenu">

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TopAppBar as Material3TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import net.thunderbird.components.ui.bolt.PreviewWithThemes
 import net.thunderbird.components.ui.bolt.atom.button.ButtonIcon
 import net.thunderbird.components.ui.bolt.atom.icon.Icons
@@ -39,26 +41,32 @@ fun SubtitleTopAppBar(
     navigationIcon: @Composable (() -> Unit) = {},
     actions: @Composable RowScope.() -> Unit = {},
 ) {
-    Material3TopAppBar(
-        title = {
-            Column(
-                modifier = Modifier.padding(end = BoltTheme.spacings.double),
-            ) {
-                TextTitleMedium(text = title)
-                TextBodyMedium(
-                    text = subtitle,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
-                )
-            }
-        },
-        modifier = modifier,
-        navigationIcon = navigationIcon,
-        actions = actions,
-        colors = topAppBarColors(
-            containerColor = BoltTheme.colors.surfaceContainer,
-        ),
-    )
+    // Mudita's TopAppBarMMD, as in every other app here: 64dp, and its own 1dp rule of ink
+    // beneath.
+    Column {
+        Material3TopAppBar(
+            title = {
+                Column(
+                    modifier = Modifier.padding(end = BoltTheme.spacings.double),
+                ) {
+                    TextTitleMedium(text = title)
+                    TextBodyMedium(
+                        text = subtitle,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                    )
+                }
+            },
+            modifier = modifier,
+            navigationIcon = navigationIcon,
+            actions = actions,
+            expandedHeight = 64.dp,
+            colors = topAppBarColors(
+                containerColor = BoltTheme.colors.surfaceContainer,
+            ),
+        )
+        HorizontalDivider(thickness = 1.dp, color = BoltTheme.colors.onSurface)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

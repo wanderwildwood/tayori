@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A top bar as Mudita's TopAppBarMMD draws it: white, with its own 1dp rule of ink along the
+     bottom edge. The toolbar keeps that 1dp clear with its bottom padding. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="@android:color/white" />
+    </item>
+    <item android:gravity="bottom" android:height="1dp">
+        <color android:color="@android:color/black" />
+    </item>
+</layer-list>
