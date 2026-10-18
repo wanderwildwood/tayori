@@ -40,7 +40,15 @@ object DuraSpeed {
     /** Sent to DuraSpeed from here; the next return asks whether Email was switched on. */
     private var askOnReturn = false
 
-    private fun isKompakt() = Build.MANUFACTURER.equals("Mudita", ignoreCase = true)
+    /**
+     * Whether DuraSpeed is on this phone at all. Not the maker's name: KompaktOS also says
+     * "Mudita" and has no DuraSpeed, and there the prompt opened an App info page that closes at
+     * once. Listed in the manifest's <queries> so the lookup can see it.
+     */
+    private fun isKompakt(context: Context) = runCatching {
+        context.packageManager.getApplicationInfo("com.mediatek.duraspeed", 0)
+        true
+    }.getOrDefault(false)
 
     private fun prefs(context: Context) = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
@@ -52,7 +60,7 @@ object DuraSpeed {
     }.getOrNull()
 
     private fun atRisk(context: Context): Boolean {
-        if (!isKompakt()) return false
+        if (!isKompakt(context)) return false
         val on = isOn(context) != false
         val prefs = prefs(context)
         val stop = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -124,7 +132,10 @@ object DuraSpeed {
 
     /** From the main screen's onResume. */
     fun onResume(activity: Activity) {
-        if (!isKompakt()) return
+        if (!isKompakt(activity)) {
+            refreshNotification(activity, false)
+            return
+        }
         val risk = atRisk(activity)
         refreshNotification(activity, risk)
         if (!risk) return

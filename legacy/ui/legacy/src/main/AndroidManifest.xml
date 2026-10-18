@@ -10,6 +10,8 @@
     </application>
 
     <queries>
+        <!-- DuraSpeed, so its absence can be told from its presence (KompaktOS has none). -->
+        <package android:name="com.mediatek.duraspeed" />
         <!-- Contacts (enishi), named outright when it is installed. See ContactIntentHelper. -->
         <package android:name="com.wanderwildwood.enishi" />
 
