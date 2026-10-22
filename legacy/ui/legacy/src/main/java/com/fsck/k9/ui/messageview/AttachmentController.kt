@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.WorkerThread
 import app.k9mail.legacy.message.controller.SimpleMessagingListener
 import com.fsck.k9.mail.Message
+import com.fsck.k9.helper.MimeTypeUtil
 import com.fsck.k9.mail.Part
 import com.fsck.k9.mailstore.AttachmentViewInfo
 import com.fsck.k9.mailstore.LocalPart
@@ -180,7 +181,7 @@ class AttachmentController internal constructor(
     }
 
     private suspend fun viewLocalAttachment() {
-        val intent = withContext(ioDispatcher) { getBestViewIntent() }
+        val intent = withContext(ioDispatcher) { getImageViewerIntent() ?: getBestViewIntent() }
         if (intent != null) {
             try {
                 context.startActivity(intent)
@@ -201,6 +202,25 @@ class AttachmentController internal constructor(
                     outputStream.flush()
                 }
             }
+        }
+    }
+
+    /** A picture opens in our own viewer, which zooms; anything else goes to whatever app views it. */
+    @WorkerThread
+    private fun getImageViewerIntent(): Intent? {
+        val type = attachment.mimeType?.takeUnless { MimeTypeUtil.isDefaultMimeType(it) }
+            ?: MimeTypeUtil.getMimeTypeByExtension(attachment.displayName)
+        if (!ImageViewerActivity.canShow(type)) return null
+        return try {
+            val uri = AttachmentTempFileProvider.createTempUriForContentUri(
+                context,
+                attachment.internalUri,
+                attachment.displayName,
+            )
+            ImageViewerActivity.intent(context, uri)
+        } catch (e: IOException) {
+            logger.error(throwable = e) { "Error creating temp file for attachment!" }
+            null
         }
     }
 

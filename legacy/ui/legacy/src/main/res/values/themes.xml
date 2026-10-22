@@ -13,4 +13,14 @@
         <item name="openpgp_dark_grey">#888</item>
     </style>
 
+
+    <!-- The picture viewer: plain white like the rest, nothing animates. -->
+    <style name="Theme.Tayori.ImageViewer" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
 </resources>

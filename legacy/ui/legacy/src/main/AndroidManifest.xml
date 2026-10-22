@@ -7,6 +7,14 @@
         android:supportsRtl="true"
         >
 
+        <!-- Opens an image attachment full screen with pinch and double-tap zoom; hands nothing off. -->
+        <activity
+            android:name="com.fsck.k9.ui.messageview.ImageViewerActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|locale"
+            android:theme="@style/Theme.Tayori.ImageViewer"
+            />
+
     </application>
 
     <queries>
