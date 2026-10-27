@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -65,7 +66,23 @@ internal fun AboutDialog(version: String, onDismiss: () -> Unit) {
         TextLabelSmall(text = stringResource(R.string.tayori_about_after))
 
         Spacer(Modifier.height(14.dp))
-        TextLabelSmall(text = stringResource(R.string.app_source_url))
+        val context = LocalContext.current
+        val sourceUrl = stringResource(R.string.app_source_url)
+        TextLabelSmall(
+            text = sourceUrl,
+            modifier = Modifier
+                .clickable {
+                    runCatching {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl)))
+                    }.onFailure {
+                        Toast.makeText(context, R.string.tayori_about_no_browser, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .heightIn(min = 48.dp),
+        )
+
+        Spacer(Modifier.height(14.dp))
+        TextLabelSmall(text = stringResource(R.string.tayori_about_terms))
 
         Spacer(Modifier.height(14.dp))
         Llama()

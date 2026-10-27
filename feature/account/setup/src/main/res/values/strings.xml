@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="account_setup_about_action">About</string>
+    <string name="account_setup_about_title">Email %s</string>
+    <string name="account_setup_about_licence_heading">Licence</string>
+    <string name="account_setup_about_licence">GNU General Public License v3. After Thunderbird for Android, by MZLA Technologies and the K-9 Mail contributors, Apache 2.0. Lato by Łukasz Dziedzic, SIL Open Font License 1.1.</string>
+    <string name="account_setup_about_source_heading">Source code</string>
+    <string name="account_setup_about_source_url" translatable="false">https://github.com/wanderwildwood/tayori</string>
+    <string name="account_setup_about_privacy_heading">Privacy</string>
+    <string name="account_setup_about_privacy">It connects only to the mail servers you enter. Nothing is sent to us. Your address and password stay on this phone. To find your provider\'s settings, setting up an account asks the address\'s own domain, and Mozilla\'s list of mail providers, which is told the domain and not the address.</string>
+    <string name="account_setup_about_terms_heading">Terms</string>
+    <string name="account_setup_about_terms">This app is provided as it is, without any warranty.</string>
+    <string name="account_setup_about_no_browser">There is no browser on this phone to open that with.</string>
+    <string name="account_setup_about_close">Close</string>
+    <string name="account_setup_auto_discovery_gmail_app_password">Gmail needs an app password.</string>
     <string name="account_setup_error_network">Network error. Please check your connection status and try again.</string>
+    <string name="account_setup_error_timed_out">The server did not answer in 30 seconds. Try again, or press Next to enter the servers by hand.</string>
+    <string name="account_setup_auto_discovery_cancel">Cancel</string>
     <string name="account_setup_error_unknown">Unknown error</string>
 
     <string name="account_setup_auto_discovery_validation_error_email_address_required">Email address is required.</string>
@@ -12,7 +27,7 @@
 
     <string name="account_setup_auto_discovery_connection_security_start_tls">StartTLS</string>
     <string name="account_setup_auto_discovery_connection_security_ssl">SSL/TLS</string>
-    <string name="account_setup_auto_discovery_loading_message">Looking up configuration…</string>
+    <string name="account_setup_auto_discovery_loading_message">Checking the server...</string>
     <string name="account_setup_auto_discovery_loading_error">Failed to load email configuration</string>
     <string name="account_setup_auto_discovery_status_header_title_configuration_found">Configuration found</string>
     <string name="account_setup_auto_discovery_result_header_title_configuration_not_found">Configuration not found</string>

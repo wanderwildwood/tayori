@@ -1,21 +1,29 @@
 package app.k9mail.feature.account.setup.ui.autodiscovery
 
 import android.content.res.Resources
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import app.k9mail.feature.account.common.ui.AppTitleTopHeader
 import app.k9mail.feature.account.common.ui.WizardNavigationBar
 import app.k9mail.feature.account.common.ui.WizardNavigationBarState
@@ -26,6 +34,9 @@ import app.k9mail.feature.account.setup.ui.autodiscovery.AccountAutoDiscoveryCon
 import app.k9mail.feature.account.setup.ui.autodiscovery.AccountAutoDiscoveryContract.State
 import app.k9mail.feature.account.setup.ui.autodiscovery.view.AutoDiscoveryResultApprovalView
 import app.k9mail.feature.account.setup.ui.autodiscovery.view.AutoDiscoveryResultView
+import net.thunderbird.components.ui.bolt.atom.button.ButtonOutlined
+import net.thunderbird.components.ui.bolt.atom.button.ButtonText
+import net.thunderbird.components.ui.bolt.atom.text.TextBodyMedium
 import net.thunderbird.components.ui.bolt.molecule.ContentLoadingErrorView
 import net.thunderbird.components.ui.bolt.molecule.ErrorView
 import net.thunderbird.components.ui.bolt.molecule.LoadingView
@@ -79,6 +90,8 @@ internal fun AccountAutoDiscoveryContent(
                 Spacer(modifier = Modifier.weight(1f))
             }
 
+            AboutLink()
+
             WizardNavigationBar(
                 onNextClick = { onEvent(Event.OnNextClicked) },
                 onBackClick = { onEvent(Event.OnBackClicked) },
@@ -102,10 +115,20 @@ internal fun AutoDiscoveryContent(
     ContentLoadingErrorView(
         state = state,
         loading = {
-            LoadingView(
-                message = stringResource(id = R.string.account_setup_auto_discovery_loading_message),
-                modifier = Modifier.fillMaxSize(),
-            )
+            Column(modifier = Modifier.fillMaxSize()) {
+                LoadingView(
+                    message = stringResource(id = R.string.account_setup_auto_discovery_loading_message),
+                )
+                ButtonOutlined(
+                    text = stringResource(id = R.string.account_setup_auto_discovery_cancel),
+                    onClick = { onEvent(Event.OnCancelClicked) },
+                    modifier = Modifier
+                        .padding(horizontal = BoltTheme.spacings.quadruple)
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .testTag("account_setup_cancel_button"),
+                )
+            }
         },
         error = { error ->
             ErrorView(
@@ -179,6 +202,11 @@ internal fun ContentView(
                 contentPadding = PaddingValues(),
                 modifier = Modifier.testTag("account_setup_password_input"),
             )
+            val domain = state.emailAddress.value.substringAfterLast("@", "").trim().lowercase()
+            if (domain == "gmail.com" || domain == "googlemail.com") {
+                Spacer(modifier = Modifier.height(BoltTheme.spacings.default))
+                TextBodyMedium(text = stringResource(R.string.account_setup_auto_discovery_gmail_app_password))
+            }
         } else if (state.configStep == AccountAutoDiscoveryContract.ConfigStep.OAUTH) {
             val isAutoDiscoverySettingsTrusted = state.autoDiscoverySettings?.isTrusted ?: false
             val isConfigurationApproved = state.configurationApproved.value ?: false
@@ -189,5 +217,26 @@ internal fun ContentView(
                 isEnabled = isAutoDiscoverySettingsTrusted || isConfigurationApproved,
             )
         }
+    }
+}
+
+/** A plain text link, so About, the licence and the privacy statement are there before any account is. */
+@Composable
+private fun AboutLink() {
+    var showAbout by remember { mutableStateOf(false) }
+
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        ButtonText(
+            text = stringResource(R.string.account_setup_about_action),
+            onClick = { showAbout = true },
+            modifier = Modifier.testTag("account_setup_about_link"),
+        )
+    }
+
+    if (showAbout) {
+        AboutDialog(onDismiss = { showAbout = false })
     }
 }

@@ -50,6 +50,7 @@ interface AccountAutoDiscoveryContract {
         data object OnNextClicked : Event
         data object OnBackClicked : Event
         data object OnRetryClicked : Event
+        data object OnCancelClicked : Event
         data object OnEditConfigurationClicked : Event
     }
 
@@ -70,6 +71,7 @@ interface AccountAutoDiscoveryContract {
     sealed interface Error {
         data object NetworkError : Error
         data object UnknownError : Error
+        data object TimedOut : Error
     }
 
     data class AutoDiscoveryUiResult(

@@ -18,7 +18,10 @@ import app.k9mail.feature.account.setup.ui.autodiscovery.AccountAutoDiscoveryCon
 import app.k9mail.feature.account.setup.ui.autodiscovery.AccountAutoDiscoveryContract.Event
 import app.k9mail.feature.account.setup.ui.autodiscovery.AccountAutoDiscoveryContract.State
 import app.k9mail.feature.account.setup.ui.autodiscovery.AccountAutoDiscoveryContract.Validator
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import net.thunderbird.components.core.outcome.Outcome
 import net.thunderbird.core.ui.contract.mvi.BaseViewModel
 import net.thunderbird.core.validation.input.StringInputField
@@ -31,6 +34,8 @@ internal class AccountAutoDiscoveryViewModel(
     private val accountStateRepository: AccountDomainContract.AccountStateRepository,
     override val oAuthViewModel: AccountOAuthContract.ViewModel,
 ) : BaseViewModel<State, Event, Effect>(initialState), AccountAutoDiscoveryContract.ViewModel {
+
+    private var discoveryJob: Job? = null
 
     override fun initState(state: State) {
         updateState {
@@ -53,6 +58,8 @@ internal class AccountAutoDiscoveryViewModel(
             Event.OnBackClicked -> onBack()
 
             Event.OnRetryClicked -> onRetry()
+
+            Event.OnCancelClicked -> onCancel()
 
             Event.OnEditConfigurationClicked -> {
                 navigateNext(isAutomaticConfig = false)
@@ -132,15 +139,31 @@ internal class AccountAutoDiscoveryViewModel(
         }
     }
 
+    private fun onCancel() {
+        discoveryJob?.cancel()
+        discoveryJob = null
+        updateState {
+            it.copy(isLoading = false)
+        }
+    }
+
     private fun loadAutoDiscovery() {
-        viewModelScope.launch {
+        discoveryJob?.cancel()
+        discoveryJob = viewModelScope.launch {
             updateState {
                 it.copy(
                     isLoading = true,
                 )
             }
 
-            val result = getAutoDiscovery.execute(state.value.emailAddress.value)
+            val result = try {
+                withTimeout(DISCOVERY_TIMEOUT_MS) {
+                    getAutoDiscovery.execute(state.value.emailAddress.value)
+                }
+            } catch (@Suppress("SwallowedException") e: TimeoutCancellationException) {
+                updateError(Error.TimedOut)
+                return@launch
+            }
             when (result) {
                 AutoDiscoveryResult.NoUsableSettingsFound -> updateNoSettingsFound()
                 is AutoDiscoveryResult.Settings -> updateAutoDiscoverySettings(result)
@@ -274,6 +297,10 @@ internal class AccountAutoDiscoveryViewModel(
     }
 
     private fun navigateBack() = emitEffect(Effect.NavigateBack)
+
+    private companion object {
+        const val DISCOVERY_TIMEOUT_MS = 30_000L
+    }
 
     private fun navigateNext(isAutomaticConfig: Boolean) {
         accountStateRepository.setState(state.value.toAccountState())

@@ -42,6 +42,8 @@ internal fun Error.toResourceString(resources: Resources): String {
             )
         }
 
+        Error.TimedOut -> resources.getString(R.string.account_server_validation_error_timed_out)
+
         Error.ClientCertificateExpired -> {
             resources.getString(R.string.account_server_validation_error_client_certificate_expired)
         }

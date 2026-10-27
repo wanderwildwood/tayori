@@ -23,6 +23,7 @@ internal fun AutoDiscoveryConnectionSecurity.toAutoDiscoveryConnectionSecuritySt
 internal fun AccountAutoDiscoveryContract.Error.toAutoDiscoveryErrorString(resources: Resources): String {
     return when (this) {
         AccountAutoDiscoveryContract.Error.NetworkError -> resources.getString(R.string.account_setup_error_network)
+        AccountAutoDiscoveryContract.Error.TimedOut -> resources.getString(R.string.account_setup_error_timed_out)
         AccountAutoDiscoveryContract.Error.UnknownError -> resources.getString(R.string.account_setup_error_unknown)
     }
 }

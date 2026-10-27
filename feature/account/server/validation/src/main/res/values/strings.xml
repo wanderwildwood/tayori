@@ -3,6 +3,7 @@
     <string name="account_server_validation_error_authentication">Authentication error</string>
     <string name="account_server_validation_error_network">Network error</string>
     <string name="account_server_validation_error_server">Server error</string>
+    <string name="account_server_validation_error_timed_out">The server did not answer in 30 seconds. Try again, or go back and check the server name and port.</string>
     <string name="account_server_validation_error_unknown">Unknown error</string>
     <string name="account_server_validation_error_client_certificate_expired">The client certificate is no longer valid</string>
     <string name="account_server_validation_error_client_certificate_retrieval_failure">"The client certificate couldn't be accessed"</string>

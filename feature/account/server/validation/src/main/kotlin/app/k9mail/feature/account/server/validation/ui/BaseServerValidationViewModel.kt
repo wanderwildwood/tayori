@@ -17,7 +17,9 @@ import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.
 import com.fsck.k9.mail.server.ServerSettingsValidationResult
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import net.thunderbird.core.ui.contract.mvi.BaseViewModel
 
 @Suppress("TooManyFunctions")
@@ -124,7 +126,14 @@ abstract class BaseServerValidationViewModel(
                 it.copy(isLoading = true)
             }
 
-            when (val result = validateServerSettings.execute(serverSettings)) {
+            val validationResult = try {
+                withTimeout(VALIDATION_TIMEOUT_MS) { validateServerSettings.execute(serverSettings) }
+            } catch (@Suppress("SwallowedException") e: TimeoutCancellationException) {
+                updateError(Error.TimedOut)
+                return@launch
+            }
+
+            when (val result = validationResult) {
                 ServerSettingsValidationResult.Success -> updateSuccess()
 
                 is ServerSettingsValidationResult.AuthenticationError -> updateError(
@@ -214,6 +223,10 @@ abstract class BaseServerValidationViewModel(
     private fun navigateBack() {
         viewModelScope.coroutineContext.cancelChildren()
         emitEffect(Effect.NavigateBack)
+    }
+
+    private companion object {
+        const val VALIDATION_TIMEOUT_MS = 30_000L
     }
 
     private fun navigateNext() {

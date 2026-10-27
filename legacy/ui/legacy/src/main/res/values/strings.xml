@@ -1186,7 +1186,8 @@ You can keep this message and use it as a backup for your secret key. If you wan
 
     <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
     <string name="tayori_about_title">Email <xliff:g id="version">%s</xliff:g></string>
-    <string name="tayori_about_privacy">It talks to the mail servers you give it. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers at autoconfig.thunderbird.net, how to reach them; Mozilla sees the domain, not the address.</string>
+    <string name="tayori_about_terms">This app is provided as it is, without any warranty.</string>
+    <string name="tayori_about_privacy">It connects only to the mail servers you enter. Nothing is sent to us, and your address and password stay on this phone. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers at autoconfig.thunderbird.net, how to reach them; Mozilla sees the domain, not the address.</string>
     <!-- The name of the app's licence -->
     <string name="tayori_about_licence">GNU General Public License v3</string>
     <string name="tayori_about_after">After Thunderbird for Android, by MZLA Technologies and the K-9 Mail contributors, Apache 2.0. Lato by Łukasz Dziedzic, SIL Open Font License 1.1. The libraries it bundles are each under their own licence.</string>

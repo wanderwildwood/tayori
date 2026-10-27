@@ -48,6 +48,7 @@ interface ServerValidationContract {
         data class CertificateError(val certificateChain: List<X509Certificate>) : Error
         data object ClientCertificateRetrievalFailure : Error
         data object ClientCertificateExpired : Error
+        data object TimedOut : Error
         data class AuthenticationError(val serverMessage: String?) : Error
         data class ServerError(val serverMessage: String?) : Error
         data class MissingServerCapabilityError(val capabilityName: String) : Error
