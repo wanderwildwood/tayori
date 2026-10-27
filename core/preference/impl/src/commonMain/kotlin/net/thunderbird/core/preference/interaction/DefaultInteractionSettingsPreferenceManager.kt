@@ -17,7 +17,7 @@ import net.thunderbird.core.preference.PreferenceChangeSubscriber
 import net.thunderbird.core.preference.PreferenceScope
 import net.thunderbird.core.preference.storage.Storage
 import net.thunderbird.core.preference.storage.StorageEditor
-import net.thunderbird.core.preference.storage.StoragePersister
+import net.thunderbird.core.preference.storage.StorageProvider
 import net.thunderbird.core.preference.storage.getEnumOrDefault
 import net.thunderbird.core.preference.storage.putEnum
 
@@ -25,7 +25,7 @@ private const val TAG = "DefaultInteractionSettingsPreferenceManager"
 
 class DefaultInteractionSettingsPreferenceManager(
     private val logger: Logger,
-    private val storagePersister: StoragePersister,
+    private val storageProvider: StorageProvider,
     private val storageEditor: StorageEditor,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var scope: CoroutineScope = CoroutineScope(SupervisorJob()),
@@ -39,7 +39,7 @@ class DefaultInteractionSettingsPreferenceManager(
     private val mutex = Mutex()
 
     private val storage: Storage
-        get() = storagePersister.loadValues()
+        get() = storageProvider.storage
 
     override fun getConfig(): InteractionSettings = configState.value
     override fun getConfigFlow(): Flow<InteractionSettings> = configState

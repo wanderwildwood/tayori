@@ -14,7 +14,7 @@ import kotlinx.coroutines.test.runTest
 import net.thunderbird.core.logging.Logger
 import net.thunderbird.core.preference.storage.Storage
 import net.thunderbird.core.preference.storage.StorageEditor
-import net.thunderbird.core.preference.storage.StoragePersister
+import net.thunderbird.core.preference.storage.StorageProvider
 import org.junit.Before
 import org.junit.Test
 import org.mockito.kotlin.any
@@ -31,7 +31,7 @@ class ChangelogVersionHistoryTest {
     private val packageInfo = mock<PackageInfo>()
     private val changeLogProvider = mock<ChangelogProvider>()
     private val logger = mock<Logger>()
-    private val storagePersister = mock<StoragePersister>()
+    private val storageProvider = mock<StorageProvider>()
     private val storageEditor = mock<StorageEditor>()
     private val storage = mock<Storage>()
 
@@ -42,7 +42,7 @@ class ChangelogVersionHistoryTest {
     fun setUp() {
         whenever(context.packageManager).thenReturn(packageManager)
         whenever(context.packageName).thenReturn("net.thunderbird.android")
-        whenever(storagePersister.loadValues()).thenReturn(storage)
+        whenever(storageProvider.storage).thenReturn(storage)
 
         whenever(
             packageManager.getPackageInfo(
@@ -222,7 +222,7 @@ class ChangelogVersionHistoryTest {
             context = context,
             changeLogProvider = changeLogProvider,
             logger = logger,
-            storagePersister = storagePersister,
+            storageProvider = storageProvider,
             storageEditor = storageEditor,
             ioDispatcher = testCoroutineDispatcher,
             scope = testScope,

@@ -29,10 +29,10 @@
         >
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/message_headers_fragment"
+            android:id="@+id/message_source_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout="@layout/message_view_headers"
+            tools:layout="@layout/message_source"
             />
     </FrameLayout>
 

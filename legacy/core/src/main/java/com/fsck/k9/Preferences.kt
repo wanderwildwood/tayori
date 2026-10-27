@@ -29,6 +29,7 @@ import net.thunderbird.core.preference.GeneralSettingsManager
 import net.thunderbird.core.preference.storage.Storage
 import net.thunderbird.core.preference.storage.StorageEditor
 import net.thunderbird.core.preference.storage.StoragePersister
+import net.thunderbird.core.preference.storage.StorageProvider
 import net.thunderbird.feature.account.storage.legacy.AccountDtoStorageHandler
 import org.koin.java.KoinJavaComponent.inject
 
@@ -39,7 +40,7 @@ class Preferences internal constructor(
     private val legacyAccountStorageHandler: AccountDtoStorageHandler,
     private val backgroundDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val accountDefaultsProvider: AccountDefaultsProvider,
-) : LegacyAccountDtoManager {
+) : LegacyAccountDtoManager, StorageProvider {
 
     private val generalSettingsManager: GeneralSettingsManager by inject(GeneralSettingsManager::class.java)
     private val accountLock = Any()
@@ -59,14 +60,14 @@ class Preferences internal constructor(
     @GuardedBy("storageLock")
     private var currentStorage: Storage? = null
 
-    val storage: Storage
+    override val storage: Storage
         get() = synchronized(storageLock) {
             currentStorage ?: storagePersister.loadValues().also { newStorage ->
                 currentStorage = newStorage
             }
         }
 
-    fun createStorageEditor(): StorageEditor {
+    override fun createStorageEditor(): StorageEditor {
         return storagePersister.createStorageEditor { updater ->
             synchronized(storageLock) {
                 currentStorage = updater(storage)

@@ -15,23 +15,23 @@ import com.fsck.k9.ui.base.BaseActivity
 class MessageSourceActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLayout(R.layout.message_view_headers_activity)
+        setLayout(R.layout.message_source_activity)
         setTitle(R.string.show_headers_action)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
-            addMessageHeadersFragment()
+            addMessageSourceFragment()
         }
     }
 
-    private fun addMessageHeadersFragment() {
+    private fun addMessageSourceFragment() {
         val messageReferenceString = intent.getStringExtra(ARG_REFERENCE) ?: error("Missing argument $ARG_REFERENCE")
         val messageReference = MessageReference.parse(messageReferenceString)
             ?: error("Invalid message reference: $messageReferenceString")
 
-        val fragment = MessageHeadersFragment.newInstance(messageReference)
+        val fragment = MessageSourceFragment.newInstance(messageReference)
         supportFragmentManager.commit {
-            add(R.id.message_headers_fragment, fragment)
+            add(R.id.message_source_fragment, fragment)
         }
     }
 

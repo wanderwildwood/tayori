@@ -52,7 +52,7 @@ val preferencesModule = module {
     single<PrivacySettingsPreferenceManager> {
         DefaultPrivacySettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -60,7 +60,7 @@ val preferencesModule = module {
     single<NotificationPreferenceManager> {
         DefaultNotificationPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -68,7 +68,7 @@ val preferencesModule = module {
     single<DisplayCoreSettingsPreferenceManager> {
         DefaultDisplayCoreSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -76,7 +76,7 @@ val preferencesModule = module {
     single<DisplayInboxSettingsPreferenceManager> {
         DefaultDisplayInboxSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -84,7 +84,7 @@ val preferencesModule = module {
     single<DisplayVisualSettingsPreferenceManager> {
         DefaultDisplayVisualSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             messageListPreferences = get(),
             preferenceChangeBroker = get(),
@@ -93,7 +93,7 @@ val preferencesModule = module {
     single<DisplayMiscSettingsPreferenceManager> {
         DefaultDisplayMiscSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -101,7 +101,7 @@ val preferencesModule = module {
     single<InteractionSettingsPreferenceManager> {
         DefaultInteractionSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -126,7 +126,7 @@ val preferencesModule = module {
     single<NetworkSettingsPreferenceManager> {
         DefaultNetworkSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
         )
@@ -134,7 +134,7 @@ val preferencesModule = module {
     single<DebuggingSettingsPreferenceManager> {
         DefaultDebuggingSettingsPreferenceManager(
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             logLevelManager = get(),
             platformConfigProvider = get(),

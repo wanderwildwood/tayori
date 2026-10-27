@@ -92,7 +92,11 @@
     <string name="unflag_action">Remove star</string>
     <string name="copy_action">Copy</string>
     <string name="unsubscribe_action">Unsubscribe</string>
-    <string name="show_headers_action">Show headers</string>
+    <string name="show_headers_action">View original</string>
+    <string name="message_source_copy">Copy</string>
+    <string name="message_source_loading">Loading…</string>
+    <string name="message_source_copied">Copied</string>
+    <string name="message_source_shortened">Shortened: showing the first %1$d KB of %2$d KB.</string>
     <string name="message_view_menu_action_export_eml">Export as EML</string>
     <string name="print_message_action">Print</string>
 

@@ -13,7 +13,7 @@ val changelogUiModule = module {
             context = get(),
             changeLogProvider = get(),
             logger = get(),
-            storagePersister = get(),
+            storageProvider = get(),
             storageEditor = get(),
         )
     }

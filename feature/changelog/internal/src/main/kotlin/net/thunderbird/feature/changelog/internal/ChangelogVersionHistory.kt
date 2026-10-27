@@ -12,7 +12,7 @@ import kotlinx.coroutines.sync.withLock
 import net.thunderbird.core.logging.Logger
 import net.thunderbird.core.preference.storage.Storage
 import net.thunderbird.core.preference.storage.StorageEditor
-import net.thunderbird.core.preference.storage.StoragePersister
+import net.thunderbird.core.preference.storage.StorageProvider
 
 private const val TAG = "ChangelogTracker"
 private const val FIRST_VERSION_KEY: String = "ckChangeLog_first_version_code"
@@ -23,7 +23,7 @@ class ChangelogVersionHistory(
     private val context: Context,
     private val changeLogProvider: ChangelogProvider,
     private val logger: Logger,
-    private val storagePersister: StoragePersister,
+    private val storageProvider: StorageProvider,
     private val storageEditor: StorageEditor,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var scope: CoroutineScope = CoroutineScope(SupervisorJob()),
@@ -32,7 +32,7 @@ class ChangelogVersionHistory(
     val recentChanges by lazy { changeLogProvider.getChangeLogSince(lastVersionCode) }
     private val mutex = Mutex()
     private val storage: Storage
-        get() = storagePersister.loadValues()
+        get() = storageProvider.storage
 
     private var firstVersionCode = 0
     private var lastVersionCode = 0

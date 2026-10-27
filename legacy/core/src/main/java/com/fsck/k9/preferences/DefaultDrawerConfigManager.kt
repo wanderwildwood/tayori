@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import net.thunderbird.core.preference.display.inboxSettings.DisplayInboxSettingsPreferenceManager
 import net.thunderbird.core.preference.display.visualSettings.DisplayVisualSettingsPreferenceManager
@@ -16,22 +16,25 @@ internal class DefaultDrawerConfigManager(
     private val displayInboxSettingsPreferenceManager: DisplayInboxSettingsPreferenceManager,
     private val displayVisualSettingsPreferenceManager: DisplayVisualSettingsPreferenceManager,
 ) : DrawerConfigManager {
-    private val drawerConfig: StateFlow<DrawerConfig> = flow {
-        emit(
-            DrawerConfig(
-                showStarredCount = displayInboxSettingsPreferenceManager.getConfig().isShowStarredCount,
-                showUnifiedFolders = displayInboxSettingsPreferenceManager.getConfig().isShowUnifiedInbox,
-                expandAllFolder = displayVisualSettingsPreferenceManager.getConfig().drawerExpandAllFolder,
-            ),
+    // Follows the settings, so turning the unified inbox on or off (adding or removing the second account does)
+    // reaches a drawer that is already open instead of waiting for the next start.
+    private val drawerConfig: StateFlow<DrawerConfig> = combine(
+        displayInboxSettingsPreferenceManager.getConfigFlow(),
+        displayVisualSettingsPreferenceManager.getConfigFlow(),
+    ) { inboxSettings, visualSettings ->
+        DrawerConfig(
+            showStarredCount = inboxSettings.isShowStarredCount,
+            showUnifiedFolders = inboxSettings.isShowUnifiedInbox,
+            expandAllFolder = visualSettings.drawerExpandAllFolder,
         )
     }
         .stateIn(
             scope = coroutineScope,
             started = SharingStarted.WhileSubscribed(),
             initialValue = DrawerConfig(
-                showStarredCount = false,
-                showUnifiedFolders = false,
-                expandAllFolder = false,
+                showStarredCount = displayInboxSettingsPreferenceManager.getConfig().isShowStarredCount,
+                showUnifiedFolders = displayInboxSettingsPreferenceManager.getConfig().isShowUnifiedInbox,
+                expandAllFolder = displayVisualSettingsPreferenceManager.getConfig().drawerExpandAllFolder,
             ),
         )
 

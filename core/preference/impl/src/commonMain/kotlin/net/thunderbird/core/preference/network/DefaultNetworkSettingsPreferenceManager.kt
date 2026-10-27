@@ -16,7 +16,7 @@ import net.thunderbird.core.preference.PreferenceChangeSubscriber
 import net.thunderbird.core.preference.PreferenceScope
 import net.thunderbird.core.preference.storage.Storage
 import net.thunderbird.core.preference.storage.StorageEditor
-import net.thunderbird.core.preference.storage.StoragePersister
+import net.thunderbird.core.preference.storage.StorageProvider
 import net.thunderbird.core.preference.storage.getEnumOrDefault
 import net.thunderbird.core.preference.storage.putEnum
 
@@ -24,7 +24,7 @@ private const val TAG = "DefaultNetworkSettingsPreferenceManager"
 
 class DefaultNetworkSettingsPreferenceManager(
     private val logger: Logger,
-    private val storagePersister: StoragePersister,
+    private val storageProvider: StorageProvider,
     private val storageEditor: StorageEditor,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     private var scope: CoroutineScope = CoroutineScope(SupervisorJob()),
@@ -37,7 +37,7 @@ class DefaultNetworkSettingsPreferenceManager(
     private val configState: MutableStateFlow<NetworkSettings> = MutableStateFlow(value = loadConfig())
     private val mutex = Mutex()
     private val storage: Storage
-        get() = storagePersister.loadValues()
+        get() = storageProvider.storage
 
     override fun getConfig(): NetworkSettings = configState.value
     override fun getConfigFlow(): Flow<NetworkSettings> = configState
