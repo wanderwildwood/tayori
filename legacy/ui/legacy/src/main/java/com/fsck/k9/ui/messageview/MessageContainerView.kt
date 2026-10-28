@@ -1,12 +1,9 @@
 package com.fsck.k9.ui.messageview
 
-import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
@@ -234,7 +231,7 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
                     if (inlineImage) {
                         attachmentCallback.onSaveAttachment(attachmentViewInfo)
                     } else {
-                        downloadImage(imageUri)
+                        attachmentCallback.onSaveRemoteImage(imageUri)
                     }
                 }
 
@@ -385,20 +382,6 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
             2,
             context.getString(R.string.webview_contextmenu_email_copy_action),
         ).setOnMenuItemClickListener(listener)
-    }
-
-    private fun downloadImage(uri: Uri) {
-        val request = DownloadManager.Request(uri).apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val filename = uri.lastPathSegment
-                setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
-            }
-
-            setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-        }
-
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadManager.enqueue(request)
     }
 
     private fun getAttachmentViewInfoIfCidUri(uri: Uri): AttachmentViewInfo? {

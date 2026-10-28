@@ -77,9 +77,11 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import net.thunderbird.core.android.account.LegacyAccountDto
@@ -133,6 +135,7 @@ class MessageViewFragment :
     private val logger: Logger by inject()
     private val replayAllStrategy: ReplyActionStrategy<LegacyAccountDto, Message> by inject()
 
+    private var pendingRemoteImage: Uri? = null
     private val createDocumentLauncher: ActivityResultLauncher<CreateDocumentResultContract.Input> =
         registerForActivityResult(CreateDocumentResultContract()) { documentUri ->
             onCreateDocumentResult(documentUri)
@@ -872,8 +875,25 @@ class MessageViewFragment :
     }
 
     private fun onCreateDocumentResult(uri: Uri?) {
+        val remoteImage = pendingRemoteImage
+        pendingRemoteImage = null
         if (uri == null) return
         require(uri.scheme == ContentResolver.SCHEME_CONTENT) { "content: URI required" }
+
+        if (remoteImage != null) {
+            val ctx = requireContext().applicationContext
+            viewLifecycleOwner.lifecycleScope.launch {
+                val saved = withContext(Dispatchers.IO) {
+                    runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri) }.isSuccess
+                }
+                Toast.makeText(
+                    ctx,
+                    if (saved) R.string.message_view_status_image_saved else R.string.message_view_status_attachment_not_saved,
+                    Toast.LENGTH_LONG,
+                ).show()
+            }
+            return
+        }
 
         if (pendingEmlExport) {
             // Handle EML export via exporter and reset flag regardless of outcome
@@ -1283,6 +1303,20 @@ class MessageViewFragment :
         try {
             openDocumentTreeLauncher.launch(null)
         } catch (_: ActivityNotFoundException) {
+            Toast.makeText(requireContext(), R.string.error_activity_not_found, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onSaveRemoteImage(imageUri: Uri) {
+        pendingRemoteImage = imageUri
+        val name = RemoteImage.fileName(imageUri.lastPathSegment)
+
+        try {
+            createDocumentLauncher.launch(
+                input = CreateDocumentResultContract.Input(title = name, mimeType = RemoteImage.mimeType(name)),
+            )
+        } catch (_: ActivityNotFoundException) {
+            pendingRemoteImage = null
             Toast.makeText(requireContext(), R.string.error_activity_not_found, Toast.LENGTH_LONG).show()
         }
     }

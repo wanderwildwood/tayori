@@ -258,6 +258,7 @@
     <string name="message_view_cc_label">Cc:</string>
     <string name="message_view_bcc_label">Bcc:</string>
     <string name="message_view_status_attachment_not_saved">Unable to save attachment.</string>
+    <string name="message_view_status_image_saved">Picture saved.</string>
 
     <!-- Used to display the recipient list in the message view screen. -->
     <string name="message_view_recipients_format">to <xliff:g id="recipients">%s</xliff:g></string>
@@ -853,7 +854,7 @@
     <string name="webview_contextmenu_image_title">Image</string>
     <string name="webview_contextmenu_image_view_action">View image</string>
     <string name="webview_contextmenu_image_save_action">Save image</string>
-    <string name="webview_contextmenu_image_download_action">Download image</string>
+    <string name="webview_contextmenu_image_download_action">Save image</string>
     <string name="webview_contextmenu_image_copy_action">Copy image URL to clipboard</string>
     <string name="webview_contextmenu_image_clipboard_label">Image URL</string>
 
