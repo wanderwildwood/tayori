@@ -22,6 +22,8 @@ import androidx.core.view.updatePadding
 import androidx.lifecycle.asLiveData
 import com.fsck.k9.K9
 import com.fsck.k9.controller.push.PushController
+import com.wanderwildwood.tayori.TurnSideways
+import com.wanderwildwood.tayori.TurnWithPhone
 import java.util.Locale
 import kotlin.math.max
 import net.thunderbird.core.ui.theme.api.Theme
@@ -39,6 +41,13 @@ abstract class BaseActivity(
 
     private var overrideLocaleOnLaunch: Locale? = null
     private var textScalePercentOnLaunch = K9.DEFAULT_TEXT_SCALE_PERCENT
+
+    // The Kompakt never turns the screen by itself, so every full screen watches the phone and asks
+    // (TurnWithPhone). Dialog-styled screens are left alone: a see-through window may not ask.
+    private val turner by lazy { TurnWithPhone(this) }
+    private val turnsWithPhone: Boolean
+        get() = themeType == ThemeType.DEFAULT
+    private val turnSwitchListener = TurnSideways.Listener { on -> turner.set(on) }
 
     override fun attachBaseContext(baseContext: Context) {
         overrideLocaleOnLaunch = appLanguageManager.getOverrideLocale()
@@ -63,6 +72,19 @@ abstract class BaseActivity(
         if (K9.textScalePercent != textScalePercentOnLaunch) {
             recreateCompat()
         }
+        if (turnsWithPhone) {
+            turner.set(TurnSideways.on(this))
+            turner.resume()
+            TurnSideways.listen(this, turnSwitchListener)
+        }
+    }
+
+    override fun onPause() {
+        if (turnsWithPhone) {
+            TurnSideways.unlisten(this, turnSwitchListener)
+            turner.pause()
+        }
+        super.onPause()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +98,9 @@ abstract class BaseActivity(
         }
 
         super.onCreate(savedInstanceState)
+
+        // Before anything is drawn, so a window built again after a turn comes up the way it was.
+        if (turnsWithPhone) turner.set(TurnSideways.on(this))
 
         setLayoutDirection()
         listenForAppLanguageChanges()

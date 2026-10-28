@@ -37,6 +37,15 @@
                 app:useSimpleSummaryProvider="true"
                 />
 
+            <!-- Turned sideways, the list and the open message share the screen (split view follows
+                 the screen's turn; there is no separate split-screen setting). -->
+            <CheckBoxPreference
+                android:defaultValue="true"
+                android:key="turn_with_phone"
+                android:summary="@string/general_settings_turn_with_phone_summary"
+                android:title="@string/general_settings_turn_with_phone_title"
+                />
+
             <PreferenceScreen
                 android:key="font_size"
                 android:summary="@string/font_size_settings_description"
@@ -269,15 +278,6 @@
             <CheckBoxPreference
                 android:key="show_compose_button"
                 android:title="@string/general_settings_show_compose_button_title"
-                />
-
-            <ListPreference
-                android:dialogTitle="@string/global_settings_splitview_mode_label"
-                android:entries="@array/splitview_mode_entries"
-                android:entryValues="@array/splitview_mode_values"
-                android:key="splitview_mode"
-                app:useSimpleSummaryProvider="true"
-                android:title="@string/global_settings_splitview_mode_label"
                 />
 
         </PreferenceCategory>

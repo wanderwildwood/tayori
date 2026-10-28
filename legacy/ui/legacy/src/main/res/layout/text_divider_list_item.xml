@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A section's name in the settings list: bold capitals over a heavier rule, as the settings
-     pages head their sections. -->
+<!-- A section's name in the settings list: bold capitals with space above and no rule, as the
+     settings pages head their sections. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,6 +11,7 @@
     android:paddingStart="20dp"
     android:paddingEnd="20dp"
     android:paddingTop="22dp"
+    android:paddingBottom="4dp"
     >
 
     <com.google.android.material.textview.MaterialTextView
@@ -24,12 +25,5 @@
         android:textSize="14sp"
         android:textColor="#000000"
         tools:text="Divider"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="6dp"
-        android:background="#000000"
         />
 </LinearLayout>

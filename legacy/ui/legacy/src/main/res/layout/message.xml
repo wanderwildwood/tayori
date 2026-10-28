@@ -115,6 +115,50 @@ the 'message view theme' setting).
 
     </com.fsck.k9.view.NonLockingScrollView>
 
+    <!-- Turned sideways, beside the list: Reply and Delete under the message, where the hand already
+         is, as in the approved sideways layout. Shown only then (MessageViewFragment). -->
+    <LinearLayout
+        android:id="@+id/sideways_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="8dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sideways_reply"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/reply_action"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            app:strokeColor="#000000"
+            app:strokeWidth="1dp"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sideways_delete"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:minHeight="48dp"
+            android:text="@string/delete_action"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            app:strokeColor="#000000"
+            app:strokeWidth="1dp"
+            />
+
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/download_remainder"
         style="?attr/materialButtonOutlinedStyle"

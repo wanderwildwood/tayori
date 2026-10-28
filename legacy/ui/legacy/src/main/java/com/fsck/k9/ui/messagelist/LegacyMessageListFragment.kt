@@ -3,6 +3,7 @@ package com.fsck.k9.ui.messagelist
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.LayoutInflater
@@ -507,14 +508,18 @@ class LegacyMessageListFragment :
     }
 
     private fun initializeFloatingActionButton(view: View) {
+        // Sideways the list is a narrow column beside the open message, with only a few rows: the
+        // compose button would sit on one of them, so Compose moves to the top bar instead.
+        val sideways = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         isShowFloatingActionButton = generalSettingsManager.getConfig()
             .display
             .inboxSettings
-            .isShowComposeButtonOnMessageList
+            .isShowComposeButtonOnMessageList && !sideways
         if (isShowFloatingActionButton) {
             enableFloatingActionButton(view)
         } else {
             disableFloatingActionButton(view)
+            activity?.invalidateOptionsMenu()
         }
 
         initializeFloatingActionButtonInsets(view)
@@ -571,6 +576,11 @@ class LegacyMessageListFragment :
 
         if (!isShowFloatingActionButton) {
             recyclerView.setPadding(0)
+        } else {
+            // No row is ever drawn under the compose button: the list stops above the strip it sits
+            // in, so the star (and the rest) of the row beneath can always be reached. The page turn
+            // measures its page inside this padding, so pages still land on whole rows.
+            recyclerView.clipToPadding = true
         }
 
         recyclerView.layoutManager = LinearLayoutManager()

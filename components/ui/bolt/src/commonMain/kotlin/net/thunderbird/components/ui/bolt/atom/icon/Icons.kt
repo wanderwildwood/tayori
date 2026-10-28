@@ -31,7 +31,6 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material.icons.outlined.Security
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -66,6 +65,7 @@ import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedReply
 import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedReplyAll
 import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedRocketIcon
 import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedSchoolIcon
+import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedSettingsIcon
 import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedSmileIcon
 import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedSpaIcon
 import net.thunderbird.components.ui.bolt.atom.icon.outlined.OutlinedStarIcon
@@ -178,7 +178,7 @@ object Icons {
         val School: ImageVector = OutlinedSchoolIcon
         val Security: ImageVector = Icons.Outlined.Security
         val Send: ImageVector = Icons.AutoMirrored.Outlined.Send
-        val Settings: ImageVector = Icons.Outlined.Settings
+        val Settings: ImageVector = OutlinedSettingsIcon
         val Smile: ImageVector = OutlinedSmileIcon
         val Spa: ImageVector = OutlinedSpaIcon
         val Star: ImageVector = OutlinedStarIcon

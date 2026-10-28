@@ -22,12 +22,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.fragment.app.commitNow
-import androidx.lifecycle.lifecycleScope
 import app.k9mail.core.android.common.compat.BundleCompat
 import app.k9mail.core.android.common.contact.CachingRepository
 import app.k9mail.core.android.common.contact.ContactRepository
-import app.k9mail.core.ui.compose.common.window.FoldableState
-import app.k9mail.core.ui.compose.common.window.FoldableStateObserver
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
 import app.k9mail.feature.launcher.FeatureLauncherActivity
 import app.k9mail.feature.launcher.FeatureLauncherTarget
@@ -53,7 +50,6 @@ import com.fsck.k9.ui.settings.SettingsActivity
 import com.fsck.k9.view.ViewSwitcher
 import com.fsck.k9.view.ViewSwitcher.OnSwitchCompleteListener
 import com.google.android.material.textview.MaterialTextView
-import kotlinx.coroutines.launch
 import net.thunderbird.core.android.account.LegacyAccount
 import net.thunderbird.core.android.account.LegacyAccountDto
 import net.thunderbird.core.android.account.LegacyAccountDtoManager
@@ -62,7 +58,6 @@ import net.thunderbird.core.featureflag.keys.GeneratedFeatureFlagKey
 import net.thunderbird.core.featureflag.provider.evaluator.MultiFeatureFlagProviderEvaluator
 import net.thunderbird.core.logging.Logger
 import net.thunderbird.core.preference.GeneralSettingsManager
-import net.thunderbird.core.preference.SplitViewMode
 import net.thunderbird.core.preference.interaction.PostMarkAsUnreadNavigation
 import net.thunderbird.core.preference.interaction.PostRemoveNavigation
 import net.thunderbird.core.preference.storage.Storage
@@ -81,7 +76,6 @@ import net.thunderbird.legacy.logging.Log
 import org.koin.android.ext.android.inject
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.parameter.parametersOf
 
 private const val TAG = "MainActivity"
 
@@ -119,7 +113,6 @@ open class MessageHomeActivity :
     private val legacyAccountDataMapper: LegacyAccountDataMapper by inject()
     private val databaseUpgradeInterceptor: DatabaseUpgradeInterceptor by inject()
 
-    private val foldableStateObserver: FoldableStateObserver by inject { parametersOf(this) }
     private val featureFlagProvider: MultiFeatureFlagProviderEvaluator by inject()
     private val storage: Storage by inject()
 
@@ -198,7 +191,6 @@ open class MessageHomeActivity :
         initializeLayout()
         initializeFragments()
         displayViews()
-        initializeFoldableObserver()
 
         val backPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -206,50 +198,6 @@ open class MessageHomeActivity :
             }
         }
         onBackPressedDispatcher.addCallback(this, backPressedCallback)
-    }
-
-    private fun initializeFoldableObserver() {
-        // Register lifecycle observer
-        lifecycle.addObserver(foldableStateObserver)
-
-        // Observe foldable state changes only when using WHEN_UNFOLDED mode
-        lifecycleScope.launch {
-            foldableStateObserver.foldableState
-                .collect { foldableState ->
-                    if (generalSettingsManager.getConfig().display.coreSettings.splitViewMode ==
-                        SplitViewMode.WHEN_UNFOLDED
-                    ) {
-                        handleFoldableStateChange(foldableState)
-                    }
-                }
-        }
-    }
-
-    private fun handleFoldableStateChange(foldableState: FoldableState) {
-        logger.debug(TAG) { "Handling foldable state change: $foldableState" }
-
-        val shouldUseSplitView = foldableState == FoldableState.UNFOLDED
-        val isCurrentlySplitView = displayMode == DisplayMode.SPLIT_VIEW
-
-        if (shouldUseSplitView && !isCurrentlySplitView) {
-            // Switch to split view
-            logger.debug(TAG) { "Switching to split view due to unfold" }
-            recreateWithSplitView()
-        } else if (!shouldUseSplitView && isCurrentlySplitView) {
-            // Switch to single pane view
-            logger.debug(TAG) { "Switching to single pane view due to fold" }
-            recreateWithSinglePane()
-        }
-    }
-
-    private fun recreateWithSplitView() {
-        // Recreate activity to properly initialize split view layout
-        recreate()
-    }
-
-    private fun recreateWithSinglePane() {
-        // Recreate activity to properly initialize single pane layout
-        recreate()
     }
 
     private fun initializeFunding() {
@@ -377,15 +325,11 @@ open class MessageHomeActivity :
         }
     }
 
+    // The list and the open message side by side whenever the screen is turned sideways, and one at a
+    // time upright, whatever the stored split-screen mode says: that setting is not offered here (a
+    // Kompakt is never wide enough upright, and sideways is what the turn is for).
     private fun useSplitView(): Boolean {
-        val splitViewMode = generalSettingsManager.getConfig().display.coreSettings.splitViewMode
-        val orientation = resources.configuration.orientation
-        return when (splitViewMode) {
-            SplitViewMode.ALWAYS -> true
-            SplitViewMode.NEVER -> false
-            SplitViewMode.WHEN_IN_LANDSCAPE -> orientation == Configuration.ORIENTATION_LANDSCAPE
-            SplitViewMode.WHEN_UNFOLDED -> foldableStateObserver.currentState == FoldableState.UNFOLDED
-        }
+        return resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     }
 
     private fun initializeLayout() {

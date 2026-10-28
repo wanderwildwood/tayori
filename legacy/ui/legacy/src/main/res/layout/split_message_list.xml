@@ -76,26 +76,27 @@
                 android:orientation="horizontal"
                 >
 
+                <!-- Turned sideways: the list on the left (two fifths), a black rule, and the open
+                     message on the right. -->
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/message_list_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
                     tools:layout="@layout/message_list_fragment"
                     />
 
                 <View
                     android:id="@+id/message_list_divider"
-                    android:layout_width="1px"
-                    android:layout_height="fill_parent"
-                    android:background="?attr/colorOutlineVariant"
-                    tools:ignore="PxUsage"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#000000"
                     />
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/message_view_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="3"
                     tools:layout="@layout/message"
                     />

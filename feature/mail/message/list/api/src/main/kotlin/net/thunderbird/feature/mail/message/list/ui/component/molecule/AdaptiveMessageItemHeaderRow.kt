@@ -1,12 +1,15 @@
 package net.thunderbird.feature.mail.message.list.ui.component.molecule
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.movableContentOf
@@ -14,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import net.thunderbird.components.ui.bolt.atom.text.TextTitleSmall
 import net.thunderbird.components.ui.bolt.common.window.WindowWidthSizeClass
 import net.thunderbird.components.ui.bolt.common.window.calculateWindowSizeInfo
@@ -105,9 +109,8 @@ private fun rememberAdaptiveHeaderRowContent(
                     .then(if (isSmallScreen) Modifier.fillMaxWidth() else Modifier.weight(1f))
                     .defaultMinSize(minHeight = AccountIndicatorIcon.ACCOUNT_INDICATOR_DEFAULT_HEIGHT),
             ) {
-                val indicatorColor = accountIndicator?.color
-                if (indicatorColor != null) {
-                    AccountIndicatorIcon(indicatorColor)
+                if (accountIndicator != null) {
+                    AccountIndicatorInk(accountIndicator)
                 }
                 firstLine()
             }
@@ -118,5 +121,31 @@ private fun rememberAdaptiveHeaderRowContent(
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }
+    }
+}
+
+/**
+ * Which account a row belongs to, in ink: the panel shows every account colour as the same grey,
+ * so the account's initial is printed in a black box instead, or a plain black bar without one.
+ */
+@Composable
+private fun AccountIndicatorInk(accountIndicator: MessageItemAccountIndicator) {
+    val label = accountIndicator.label
+    if (label.isNullOrEmpty()) {
+        AccountIndicatorIcon(BoltTheme.colors.onSurface)
+        return
+    }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .padding(end = 6.dp)
+            .border(width = 1.dp, color = BoltTheme.colors.onSurface)
+            .padding(horizontal = 4.dp),
+    ) {
+        TextTitleSmall(
+            text = label,
+            maxLines = 1,
+            color = BoltTheme.colors.onSurface,
+        )
     }
 }

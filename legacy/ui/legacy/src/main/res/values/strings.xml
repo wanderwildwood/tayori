@@ -1182,6 +1182,10 @@ You can keep this message and use it as a backup for your secret key. If you wan
 
     <!-- Settings: whether the unread count shows on the lock screen, through the Glance app -->
     <string name="lock_screen_unread_title">Unread mail on the lock screen</string>
+
+    <!-- Settings > Display: the screen turns when the phone is held sideways (the system never does it) -->
+    <string name="general_settings_turn_with_phone_title">Turn sideways with the phone</string>
+    <string name="general_settings_turn_with_phone_summary">Held sideways, the list and the open message sit side by side</string>
     <!-- On the lock screen, through Glance -->
     <plurals name="lock_screen_unread_email">
         <item quantity="one">%d email</item>

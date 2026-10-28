@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.IntentSender.SendIntentException
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
@@ -32,6 +33,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -301,6 +303,19 @@ class MessageViewFragment :
 
         messageTopView.setOnDownloadButtonClickListener {
             onDownloadButtonClicked()
+        }
+
+        initializeSidewaysActions(messageTopView)
+    }
+
+    // Sideways the message sits beside the list, and Reply and Delete sit under it.
+    private fun initializeSidewaysActions(view: View) {
+        val sideways = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+        view.findViewById<View>(R.id.sideways_actions).isVisible = sideways
+        if (!sideways) return
+        view.findViewById<View>(R.id.sideways_reply).setOnClickListener { onReply() }
+        view.findViewById<View>(R.id.sideways_delete).setOnClickListener {
+            if (message != null) onDelete()
         }
     }
 

@@ -73,7 +73,10 @@ internal fun MessageItemContent(
     }
     val accountIndicator = remember(appearance) {
         if (appearance.showAccountIndicator) {
-            MessageItemAccountIndicator(color = Color(item.account.profile.color))
+            MessageItemAccountIndicator(
+                color = Color(item.account.profile.color),
+                label = accountInitial(item.account.profile.name.ifBlank { item.account.email }),
+            )
         } else {
             null
         }
@@ -161,3 +164,7 @@ internal fun MessageListItem.buildSenderStyles(): ImmutableList<ComposedAddressS
         else -> add(ComposedAddressStyle.Regular(start = 0))
     }
 }.toPersistentList()
+
+/** The account's initial for the unified inbox: its first letter or digit, as a capital. */
+internal fun accountInitial(name: String): String? =
+    name.firstOrNull { it.isLetterOrDigit() }?.uppercaseChar()?.toString()

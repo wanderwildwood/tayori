@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
  * ```
  *
  * @property color The color used to render the account indicator,
- *  unique to each account.
+ *  unique to each account. Not drawn on the e-ink panel, where it is only grey.
+ * @property label A short label for the account (its initial), printed in ink in place of the colour.
  */
-data class MessageItemAccountIndicator(val color: Color)
+data class MessageItemAccountIndicator(val color: Color, val label: String? = null)

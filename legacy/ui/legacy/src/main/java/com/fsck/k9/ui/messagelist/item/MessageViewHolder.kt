@@ -90,7 +90,8 @@ class MessageViewHolder(
 
             if (appearance.showAccountIndicator) {
                 val accountIndicatorDrawable = chipView.drawable.mutate()
-                DrawableCompat.setTint(accountIndicatorDrawable, account.profile.color)
+                // Ink, not the account colour: the panel shows every colour as the same grey.
+                DrawableCompat.setTint(accountIndicatorDrawable, android.graphics.Color.BLACK)
                 chipView.setImageDrawable(accountIndicatorDrawable)
             }
 
