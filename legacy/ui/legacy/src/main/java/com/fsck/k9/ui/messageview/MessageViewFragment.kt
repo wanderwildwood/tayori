@@ -882,7 +882,8 @@ class MessageViewFragment :
 
         if (remoteImage != null) {
             val ctx = requireContext().applicationContext
-            viewLifecycleOwner.lifecycleScope.launch {
+            // Not tied to this screen: leaving the message must not cut a save half way.
+            RemoteImage.scope.launch {
                 val saved = withContext(Dispatchers.IO) {
                     runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri) }.isSuccess
                 }

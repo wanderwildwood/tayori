@@ -6,12 +6,17 @@ import android.webkit.MimeTypeMap
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 
 /**
  * A picture that lives on a web server rather than inside the message. Saving one goes through
  * the system "save as" screen like any attachment, so nothing lands in a shared folder unasked.
  */
 internal object RemoteImage {
+    val scope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate) }
+
     private const val MAX_BYTES = 50L * 1024 * 1024
 
     /** The last part of the address, with anything a file name cannot hold taken out. */
