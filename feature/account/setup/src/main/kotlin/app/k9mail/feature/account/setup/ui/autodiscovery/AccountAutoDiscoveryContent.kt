@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -57,6 +59,16 @@ internal fun AccountAutoDiscoveryContent(
     modifier: Modifier = Modifier,
 ) {
     val scrollState = rememberScrollState()
+
+    // A message under a field is brought into view: with the keyboard up little of the form shows.
+    val problem = state.emailAddress.error != null || state.password.error != null
+    LaunchedEffect(problem, state.emailAddress.error, state.password.error) {
+        if (problem) {
+            // Once the message has been laid out, so the end of the form includes it.
+            withFrameNanos { }
+            scrollState.scrollTo(scrollState.maxValue)
+        }
+    }
 
     ResponsiveWidthContainer(
         modifier = modifier

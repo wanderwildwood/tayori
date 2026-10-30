@@ -3,6 +3,8 @@ package app.k9mail.feature.account.server.settings.ui.outgoing
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,12 +25,25 @@ internal fun OutgoingServerSettingsContent(
     modifier: Modifier = Modifier,
 ) {
     val resources = LocalResources.current
+    val listState = rememberLazyListState()
+    val errorIndex = when {
+        state.server.error != null -> 1
+        state.port.error != null -> 3
+        state.isUsernameFieldVisible && state.username.error != null -> 5
+        state.isPasswordFieldVisible && state.password.error != null -> if (state.isUsernameFieldVisible) 6 else 5
+        else -> null
+    }
+    // A failed Next leaves the first field with a problem in view, whatever the keyboard leaves of the screen.
+    LaunchedEffect(state.server.error, state.port.error, state.username.error, state.password.error) {
+        errorIndex?.let { listState.scrollToItem(it) }
+    }
 
     ResponsiveWidthContainer(
         modifier = Modifier.testTag("OutgoingServerSettingsContent")
             .then(modifier),
     ) { contentPadding ->
         LazyColumn(
+            state = listState,
             modifier = Modifier.fillMaxSize(),
             contentPadding = contentPadding,
             horizontalAlignment = Alignment.Start,
