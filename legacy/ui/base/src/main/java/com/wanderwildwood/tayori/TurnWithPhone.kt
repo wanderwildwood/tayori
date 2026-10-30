@@ -136,7 +136,7 @@ class TurnWithPhone(private val activity: Activity) {
         else -> NONE
     }
 
-    private companion object {
+    companion object {
         const val PORTRAIT = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         const val LANDSCAPE = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         const val REVERSE_LANDSCAPE = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
@@ -151,10 +151,10 @@ class TurnWithPhone(private val activity: Activity) {
          */
         private val MOUNTED_TURNED = Build.MANUFACTURER.equals("Mudita", ignoreCase = true)
 
-        fun degrees(sx: Float, sy: Float, sz: Float): Int {
-            val x = -(if (MOUNTED_TURNED) -sy else sx)
-            val y = -(if (MOUNTED_TURNED) -sz else sy)
-            val z = -(if (MOUNTED_TURNED) sx else sz)
+        fun degrees(sx: Float, sy: Float, sz: Float, turned: Boolean = MOUNTED_TURNED): Int {
+            val x = -(if (turned) -sy else sx)
+            val y = -(if (turned) -sz else sy)
+            val z = -(if (turned) sx else sz)
             if ((x * x + y * y) * 4 < z * z) return UNKNOWN
             val angle = 90 - Math.round(Math.atan2(-y.toDouble(), x.toDouble()) * 180 / Math.PI).toInt()
             return ((angle % 360) + 360) % 360
