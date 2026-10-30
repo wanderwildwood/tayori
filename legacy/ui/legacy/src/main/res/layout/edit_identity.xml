@@ -54,6 +54,13 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/edit_identity_description_note"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/edit_identity_name_label"
                 android:textAppearance="?attr/textAppearanceBodyMedium"
                 />

@@ -71,6 +71,7 @@ import com.fsck.k9.ui.helper.RelativeDateTimeFormatter
 import com.fsck.k9.ui.messagelist.MessageListFragmentBridgeContract.MessageListFragmentListener
 import com.fsck.k9.ui.messagelist.MessageListFragmentBridgeContract.MessageListFragmentListener.Companion.MAX_PROGRESS
 import com.fsck.k9.ui.messagelist.debug.AuthDebugActions
+import com.fsck.k9.ui.messagelist.item.AccountLabels
 import com.fsck.k9.ui.messagelist.item.MessageViewHolder
 import com.fsck.k9.view.turnsAPageOnSwipe
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -293,8 +294,10 @@ class LegacyMessageListFragment :
         searchView?.isIconified = false
     }
 
+    // More than one account, or an account with more than one address (identity): one account with
+    // one address has nothing to tell apart.
     override val isShowAccountIndicator: Boolean
-        get() = isUnifiedFolders || !isSingleAccountMode
+        get() = isUnifiedFolders || !isSingleAccountMode || accounts.any { it.identities.size > 1 }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -897,6 +900,15 @@ class LegacyMessageListFragment :
             showAccountIndicator = isShowAccountIndicator,
             density = messageListSettings.uiDensity,
             dateTimeFormat = messageListSettings.dateTimeFormat,
+            accountLabels = AccountLabels.forAccounts(
+                accountManager.getAccounts().map { Triple(it.uuid, it.profile.name, it.email) },
+            ),
+            identityLabels = accountManager.getAccounts().associate { account ->
+                account.uuid to AccountLabels.forIdentities(
+                    account.identities.map { it.description.orEmpty() to it.email.orEmpty() },
+                    ignoredDescriptions = setOf(getString(R.string.default_identity_description)),
+                )
+            },
         )
 
     private fun getFolderInfoHolder(account: LegacyAccount, folderId: Long): FolderInfoHolder {

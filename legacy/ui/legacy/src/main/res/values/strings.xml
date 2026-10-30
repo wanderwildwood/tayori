@@ -626,6 +626,7 @@
 
     <string name="edit_identity_description_label">Identity description</string>
     <string name="edit_identity_description_hint">(Optional)</string>
+    <string name="edit_identity_description_note">This name shows on messages sent to this address.</string>
     <string name="edit_identity_name_label">Your name</string>
     <string name="edit_identity_name_hint">(Optional)</string>
     <string name="edit_identity_email_label">Email address</string>

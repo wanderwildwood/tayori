@@ -23,4 +23,8 @@ data class MessageListAppearance(
     val showAccountIndicator: Boolean,
     val density: UiDensity,
     val dateTimeFormat: MessageListDateTimeFormat,
+    /** What the Unified Inbox prints for each account, by account id: see AccountLabels. */
+    val accountLabels: Map<String, String> = emptyMap(),
+    /** Per account id, the label of each of its identities by normalized address: see AccountLabels. */
+    val identityLabels: Map<String, Map<String, String>> = emptyMap(),
 ) : Parcelable
