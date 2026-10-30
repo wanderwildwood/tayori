@@ -2,6 +2,7 @@ package app.k9mail.feature.account.server.settings.ui.outgoing.content
 
 import android.content.res.Resources
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,6 +24,7 @@ import app.k9mail.feature.account.server.settings.ui.outgoing.isUsernameFieldVis
 import net.thunderbird.components.ui.bolt.molecule.input.NumberInput
 import net.thunderbird.components.ui.bolt.molecule.input.SelectInput
 import net.thunderbird.components.ui.bolt.molecule.input.TextInput
+import net.thunderbird.components.ui.bolt.atom.text.TextBodyMedium
 import net.thunderbird.components.ui.bolt.theme.BoltTheme
 
 @Suppress("LongMethod")
@@ -50,13 +52,22 @@ internal fun LazyListScope.outgoingFormItems(
 
     item {
         SelectInput(
-            options = ConnectionSecurity.all(),
+            options = ConnectionSecurity.offered(state.security),
             optionToStringTransformation = { it.toResourceString(resources) },
             selectedOption = state.security,
             onOptionChange = { onEvent(Event.SecurityChanged(it)) },
             label = stringResource(id = R.string.account_server_settings_security_label),
             contentPadding = defaultItemPadding(),
         )
+    }
+
+    if (state.security == ConnectionSecurity.None) {
+        item {
+            TextBodyMedium(
+                text = stringResource(id = R.string.account_server_settings_connection_security_none_warning),
+                modifier = Modifier.padding(defaultItemPadding()),
+            )
+        }
     }
 
     item {

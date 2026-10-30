@@ -1,8 +1,5 @@
 package app.k9mail.feature.account.setup.ui.autodiscovery
 
-import android.content.Intent
-import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -17,7 +14,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -25,11 +25,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import app.k9mail.feature.account.common.ui.licences.LicencesDialog
+import app.k9mail.feature.account.common.ui.link.openLink
 import app.k9mail.feature.account.setup.R
 import net.thunderbird.components.ui.bolt.atom.Surface
 import net.thunderbird.components.ui.bolt.atom.button.ButtonOutlined
@@ -50,6 +53,11 @@ internal fun AboutDialog(onDismiss: () -> Unit) {
         }.getOrDefault("")
     }
     val sourceUrl = stringResource(R.string.account_setup_about_source_url)
+    var showLicences by remember { mutableStateOf(false) }
+    if (showLicences) {
+        LicencesDialog(onDismiss = { showLicences = false })
+        return
+    }
 
     EInkDialog(onDismiss = onDismiss) {
         Column(
@@ -71,13 +79,20 @@ internal fun AboutDialog(onDismiss: () -> Unit) {
                 text = sourceUrl,
                 modifier = Modifier
                     .clickable {
-                        runCatching {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl)))
-                        }.onFailure {
-                            Toast.makeText(context, R.string.account_setup_about_no_browser, Toast.LENGTH_SHORT)
-                                .show()
-                        }
+                        openLink(context, sourceUrl, context.getString(R.string.account_setup_about_no_browser_address, sourceUrl))
                     }
+                    .heightIn(min = 48.dp),
+            )
+
+            TextLabelSmall(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
+                        append(stringResource(R.string.account_setup_about_licences))
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showLicences = true }
                     .heightIn(min = 48.dp),
             )
 

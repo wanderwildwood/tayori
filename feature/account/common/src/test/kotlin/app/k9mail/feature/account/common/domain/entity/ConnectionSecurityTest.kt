@@ -7,6 +7,19 @@ import org.junit.Test
 class ConnectionSecurityTest {
 
     @Test
+    fun `none is not offered when something safe is chosen`() {
+        assertThat(ConnectionSecurity.offered(ConnectionSecurity.TLS))
+            .isEqualTo(listOf(ConnectionSecurity.StartTLS, ConnectionSecurity.TLS))
+        assertThat(ConnectionSecurity.offered(ConnectionSecurity.StartTLS))
+            .isEqualTo(listOf(ConnectionSecurity.StartTLS, ConnectionSecurity.TLS))
+    }
+
+    @Test
+    fun `none stays on the list of an account that already has it`() {
+        assertThat(ConnectionSecurity.offered(ConnectionSecurity.None)).isEqualTo(ConnectionSecurity.all())
+    }
+
+    @Test
     fun `should provide right default smtp port`() {
         val connectionSecurities = ConnectionSecurity.all()
 

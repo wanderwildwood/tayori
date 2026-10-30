@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.fsck.k9.helper.ClipboardManager
 import com.fsck.k9.mailstore.AttachmentResolver
+import app.k9mail.feature.account.common.ui.link.openLink
 import com.fsck.k9.ui.R
 import com.fsck.k9.view.MessageWebView.OnPageFinishedListener
 import net.thunderbird.legacy.logging.Log
@@ -61,6 +62,12 @@ class K9WebViewClient(
     }
 
     private fun openUrl(context: Context, uri: Uri) {
+        if (uri.scheme == "https" || uri.scheme == "http") {
+            // A link in a mail goes to a real browser, never the system's WebView shell.
+            openLink(context, uri.toString(), context.getString(R.string.tayori_about_no_browser_address, uri.toString()))
+            return
+        }
+
         val intent = Intent(Intent.ACTION_VIEW, uri).apply {
             putExtra(Browser.EXTRA_APPLICATION_ID, context.packageName)
             putExtra(Browser.EXTRA_CREATE_NEW_TAB, true)

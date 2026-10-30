@@ -234,6 +234,23 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient> implem
         }
     }
 
+    private SteadyCaret steadyCaret;
+
+    @Override
+    protected void onDraw(android.graphics.Canvas canvas) {
+        super.onDraw(canvas);
+        if (steadyCaret == null) {
+            steadyCaret = new SteadyCaret(this);
+        }
+        steadyCaret.draw(canvas);
+    }
+
+    @Override
+    protected void onSelectionChanged(int selStart, int selEnd) {
+        super.onSelectionChanged(selStart, selEnd);
+        invalidate();
+    }
+
     @Override
     public void onFocusChanged(boolean hasFocus, int direction, Rect previous) {
         if (!hasFocus) {
@@ -241,6 +258,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient> implem
         }
 
         super.onFocusChanged(hasFocus, direction, previous);
+        invalidate();
         if (hasFocus && shouldShowImeOnFocus()) {
             displayKeyboard();
         }

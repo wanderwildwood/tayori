@@ -8,6 +8,8 @@
 
     <!-- Common main themes -->
     <style name="Theme2.Main.Light.Common" parent="Theme2.Main.Light.Base">
+        <!-- A text field draws its own steady cursor: the platform one blinks, and each blink is a repaint. -->
+        <item name="viewInflaterClass">com.fsck.k9.view.SteadyViewInflater</item>
         <!-- No scrollbars: a list moves a page to a swipe, and nothing else needs one. -->
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
         <item name="android:scrollbarThumbHorizontal">@android:color/transparent</item>
@@ -93,6 +95,8 @@
     </style>
 
     <style name="Theme2.Main.Dark.Common" parent="Theme2.Main.Dark.Base">
+        <!-- A text field draws its own steady cursor: the platform one blinks, and each blink is a repaint. -->
+        <item name="viewInflaterClass">com.fsck.k9.view.SteadyViewInflater</item>
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
         <item name="android:scrollbarThumbHorizontal">@android:color/transparent</item>
         <!-- Draw action mode above content -->
@@ -120,6 +124,8 @@
     </style>
 
     <style name="Theme2.Main.DayNight.Common" parent="Theme2.Main.Light.Base">
+        <!-- A text field draws its own steady cursor: the platform one blinks, and each blink is a repaint. -->
+        <item name="viewInflaterClass">com.fsck.k9.view.SteadyViewInflater</item>
         <item name="android:scrollbarThumbVertical">@android:color/transparent</item>
         <item name="android:scrollbarThumbHorizontal">@android:color/transparent</item>
     </style>

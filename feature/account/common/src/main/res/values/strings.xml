@@ -4,4 +4,15 @@
     <string name="account_common_button_back">Back</string>
 
     <string name="account_common_error_server_message">The server returned the following message:\n%s</string>
+    <string name="account_common_licences_title">Licences</string>
+    <string name="account_common_licences_source_head">Source code</string>
+    <string name="account_common_licences_licence_head">Licence</string>
+    <string name="account_common_licences_licence">Email is free software under the GNU General Public License, version 3 only (GPL-3.0-only), copyright wander wildwood, for what is written here. It is built on Thunderbird for Android and K-9 Mail, which keep their own licence (Apache-2.0) and their authors keep their copyright, as do the authors of everything listed under Built with. The full text of each licence is at the end of this page.</string>
+    <string name="account_common_licences_built_head">Built with</string>
+    <string name="account_common_licences_back">Back</string>
+    <string name="account_common_licences_gpl">GNU General Public License, version 3</string>
+    <string name="account_common_licences_apache">Apache License, version 2.0</string>
+    <string name="account_common_licences_mit">MIT License</string>
+    <string name="account_common_licences_ofl">SIL Open Font License, version 1.1 (Lato)</string>
+    <string name="account_common_no_browser_address">No browser is installed. The address is %1$s.</string>
 </resources>

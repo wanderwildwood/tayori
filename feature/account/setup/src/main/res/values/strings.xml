@@ -10,7 +10,9 @@
     <string name="account_setup_about_privacy_heading">Privacy</string>
     <string name="account_setup_about_privacy">It connects only to the mail servers you enter. Nothing is sent to us. Your address and password stay on this phone. To find your provider\'s settings, setting up an account asks the address\'s own domain, and Mozilla\'s list of mail providers, which is told the domain and not the address.</string>
     <string name="account_setup_about_terms_heading">Terms</string>
-    <string name="account_setup_about_terms">This app is provided as it is, without any warranty.</string>
+    <string name="account_setup_about_terms">This app is provided as it is, without any warranty of any kind, as the GNU General Public License says, and you use it at your own risk. It is not made or endorsed by Mozilla, MZLA Technologies or the Thunderbird project.</string>
+    <string name="account_setup_about_licences">Licences</string>
+    <string name="account_setup_about_no_browser_address">No browser is installed. The address is %1$s.</string>
     <string name="account_setup_about_no_browser">There is no browser on this phone to open that with.</string>
     <string name="account_setup_about_close">Close</string>
     <string name="account_setup_auto_discovery_gmail_app_password">Gmail needs an app password.</string>

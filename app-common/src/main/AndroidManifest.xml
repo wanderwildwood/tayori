@@ -47,6 +47,12 @@
     </application>
 
     <queries>
+        <!-- Lets the app see which browsers are installed, so a web address opens in a real one -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
         <!-- Allow access to external text processing actions so they can be displayed in the text selection toolbar -->
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />

@@ -1,18 +1,16 @@
 package com.fsck.k9.ui.push
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import app.k9mail.feature.account.common.ui.link.openLink
 import com.fsck.k9.controller.push.PushController
 import com.fsck.k9.notification.NotificationChannelManager
 import com.fsck.k9.ui.R
@@ -81,12 +79,8 @@ class PushInfoFragment : Fragment() {
     }
 
     private fun launchLearnMoreAction() {
-        try {
-            val viewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(LEARN_MORE_URL))
-            startActivity(viewIntent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(requireContext(), R.string.error_activity_not_found, Toast.LENGTH_SHORT).show()
-        }
+        val context = requireContext()
+        openLink(context, LEARN_MORE_URL, context.getString(R.string.tayori_about_no_browser_address, LEARN_MORE_URL))
     }
 
     private fun disablePush(disablePushButton: View) {

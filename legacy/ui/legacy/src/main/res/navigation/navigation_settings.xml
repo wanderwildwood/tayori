@@ -15,11 +15,6 @@
         >
 
         <action
-            android:id="@+id/action_settingsListScreen_to_aboutScreen"
-            app:destination="@id/aboutScreen"
-            />
-
-        <action
             android:id="@+id/action_settingsListScreen_to_generalSettingsScreen"
             app:destination="@id/generalSettingsScreen"
             />
@@ -38,13 +33,6 @@
             android:id="@+id/action_settingsListScreen_to_settingsImportScreen"
             app:destination="@id/settingsImportScreen"
             />
-    </fragment>
-
-    <fragment
-        android:id="@+id/aboutScreen"
-        android:name="com.fsck.k9.ui.settings.AboutFragment"
-        android:label="@string/about_action"
-        >
     </fragment>
 
     <activity

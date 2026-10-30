@@ -1,8 +1,5 @@
 package com.fsck.k9.ui.settings
 
-import android.content.Intent
-import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,9 +13,15 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,11 +31,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import app.k9mail.feature.account.common.ui.licences.LicencesDialog
+import app.k9mail.feature.account.common.ui.link.openLink
 import com.fsck.k9.ui.R
 import net.thunderbird.components.ui.bolt.atom.Surface
 import net.thunderbird.components.ui.bolt.atom.button.ButtonOutlined
@@ -49,43 +55,61 @@ import net.thunderbird.components.ui.bolt.theme.BoltTheme
  */
 @Composable
 internal fun AboutDialog(version: String, onDismiss: () -> Unit) {
+    var showLicences by remember { mutableStateOf(false) }
+    if (showLicences) {
+        LicencesDialog(onDismiss = { showLicences = false })
+        return
+    }
     EInkDialog(onDismiss = onDismiss) {
-        TextBodyLarge(
-            text = buildAnnotatedString {
-                withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
-                    append(stringResource(R.string.tayori_about_title, version))
-                }
-            },
-        )
-
-        Spacer(Modifier.height(14.dp))
-        TextLabelSmall(text = stringResource(R.string.tayori_about_privacy))
-
-        Spacer(Modifier.height(14.dp))
-        TextLabelSmall(text = stringResource(R.string.tayori_about_licence))
-        TextLabelSmall(text = stringResource(R.string.tayori_about_after))
-
-        Spacer(Modifier.height(14.dp))
-        val context = LocalContext.current
-        val sourceUrl = stringResource(R.string.app_source_url)
-        TextLabelSmall(
-            text = sourceUrl,
+        // The middle scrolls; Close stays under it, so a large font or a short window cannot push it off.
+        Column(
             modifier = Modifier
-                .clickable {
-                    runCatching {
-                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl)))
-                    }.onFailure {
-                        Toast.makeText(context, R.string.tayori_about_no_browser, Toast.LENGTH_SHORT).show()
+                .weight(1f, fill = false)
+                .verticalScroll(rememberScrollState()),
+        ) {
+            TextBodyLarge(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Medium)) {
+                        append(stringResource(R.string.tayori_about_title, version))
                     }
-                }
-                .heightIn(min = 48.dp),
-        )
+                },
+            )
 
-        Spacer(Modifier.height(14.dp))
-        TextLabelSmall(text = stringResource(R.string.tayori_about_terms))
+            Spacer(Modifier.height(14.dp))
+            TextLabelSmall(text = stringResource(R.string.tayori_about_privacy))
 
-        Spacer(Modifier.height(14.dp))
-        Llama()
+            Spacer(Modifier.height(14.dp))
+            TextLabelSmall(text = stringResource(R.string.tayori_about_licence))
+            TextLabelSmall(text = stringResource(R.string.tayori_about_after))
+            val context = LocalContext.current
+            TextLabelSmall(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
+                        append(stringResource(R.string.tayori_about_licences))
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showLicences = true }
+                    .heightIn(min = 48.dp),
+            )
+
+            val sourceUrl = stringResource(R.string.app_source_url)
+            TextLabelSmall(
+                text = sourceUrl,
+                modifier = Modifier
+                    .clickable {
+                        openLink(context, sourceUrl, context.getString(R.string.tayori_about_no_browser_address, sourceUrl))
+                    }
+                    .heightIn(min = 48.dp),
+            )
+
+            Spacer(Modifier.height(14.dp))
+            TextLabelSmall(text = stringResource(R.string.tayori_about_terms))
+
+            Spacer(Modifier.height(14.dp))
+            Llama()
+        }
 
         Spacer(Modifier.height(18.dp))
         ButtonOutlined(
@@ -110,15 +134,7 @@ private fun Llama() {
         Row(
             // The site's address opens the site, the way the llama beside it opens its page.
             modifier = Modifier
-                .clickable {
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://wanderthe.dev")),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, R.string.tayori_about_no_browser, Toast.LENGTH_SHORT).show()
-                    }
-                }
+                .clickable { openLink(context, "https://wanderthe.dev", context.getString(R.string.tayori_about_no_browser_address, "wanderthe.dev")) }
                 .padding(vertical = 4.dp),
         ) {
             TextLabelSmall(text = "wanderthe.dev")
@@ -128,13 +144,8 @@ private fun Llama() {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .clickable {
-                    runCatching {
-                        context.startActivity(
-                            Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.funding_url))),
-                        )
-                    }.onFailure {
-                        Toast.makeText(context, R.string.tayori_about_no_browser, Toast.LENGTH_SHORT).show()
-                    }
+                    val url = context.getString(R.string.funding_url)
+                    openLink(context, url, context.getString(R.string.tayori_about_no_browser_address, url.removePrefix("https://")))
                 }
                 .padding(vertical = 4.dp),
         ) {

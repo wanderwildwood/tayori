@@ -1,10 +1,7 @@
 package app.k9mail.feature.onboarding.migration.thunderbird
 
-import android.content.ActivityNotFoundException
+import app.k9mail.feature.account.common.ui.link.openLink
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,7 +44,6 @@ import net.thunderbird.components.ui.bolt.template.Scaffold
 import net.thunderbird.components.ui.bolt.theme.BoltTheme
 import net.thunderbird.core.common.provider.BrandNameProvider
 import net.thunderbird.feature.thundermail.ui.component.ThundermailButtonPanel
-import net.thunderbird.legacy.logging.Log
 import org.koin.compose.koinInject
 
 @Composable
@@ -275,18 +271,6 @@ private fun BulletList(
 }
 
 private fun Context.launchLearnHowToUpdateThunderbird() {
-    try {
-        val url = getString(R.string.onboarding_migration_thunderbird_update_thunderbird_url)
-        val viewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-
-        startActivity(viewIntent)
-    } catch (e: ActivityNotFoundException) {
-        Log.d(e, "Failed to open URL")
-
-        Toast.makeText(
-            this,
-            getString(R.string.onboarding_migration_thunderbird_link_open_error),
-            Toast.LENGTH_SHORT,
-        ).show()
-    }
+    val url = getString(R.string.onboarding_migration_thunderbird_update_thunderbird_url)
+    openLink(this, url, getString(R.string.onboarding_migration_thunderbird_link_open_error))
 }

@@ -72,3 +72,6 @@
 # Moshi uses reflection to read field types. R8 can rewrite List/Map to ArrayList/HashMap,
 # which breaks Moshi's collection interface requirement.
 -keep class com.fsck.k9.controller.MessagingControllerCommands$* { *; }
+
+# Named in the theme (viewInflaterClass), so nothing in the code refers to it.
+-keep class com.fsck.k9.view.SteadyViewInflater { *; }

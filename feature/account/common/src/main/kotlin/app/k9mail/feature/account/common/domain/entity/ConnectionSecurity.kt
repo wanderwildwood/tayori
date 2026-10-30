@@ -14,6 +14,13 @@ enum class ConnectionSecurity {
     companion object {
         val DEFAULT = TLS
         fun all() = entries.toImmutableList()
+
+        /**
+         * What a person may pick. "None" sends the password and the mail in the open, so it is not
+         * offered for a new choice; an account that already has it keeps it on the list so the form
+         * can show it and warn.
+         */
+        fun offered(current: ConnectionSecurity) = entries.filter { it != None || current == None }.toImmutableList()
     }
 }
 

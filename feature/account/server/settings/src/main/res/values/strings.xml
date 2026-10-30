@@ -8,6 +8,7 @@
     <string name="account_server_settings_username_label">Username</string>
 
     <string name="account_server_settings_connection_security_none">None</string>
+    <string name="account_server_settings_connection_security_none_warning">With no security, your password and your mail cross the network in the open, where anyone on the way can read them. Choose StartTLS or SSL/TLS unless this server is on your own network.</string>
     <string name="account_server_settings_connection_security_start_tls">StartTLS</string>
     <string name="account_server_settings_connection_security_ssl">SSL/TLS</string>
 

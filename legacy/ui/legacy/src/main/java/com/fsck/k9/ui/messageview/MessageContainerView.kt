@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.app.ShareCompat.IntentBuilder
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import app.k9mail.feature.account.common.ui.link.openLink
 import com.fsck.k9.helper.ClipboardManager
 import com.fsck.k9.helper.Utility
 import com.fsck.k9.mail.Address
@@ -148,8 +149,11 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
         val listener = MenuItem.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 MENU_ITEM_LINK_VIEW -> {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl))
-                    startActivityIfAvailable(context, intent)
+                    if (linkUrl.startsWith("http://", true) || linkUrl.startsWith("https://", true)) {
+                        openLink(context, linkUrl, context.getString(R.string.tayori_about_no_browser_address, linkUrl))
+                    } else {
+                        startActivityIfAvailable(context, Intent(Intent.ACTION_VIEW, Uri.parse(linkUrl)))
+                    }
                 }
 
                 MENU_ITEM_LINK_SHARE -> {

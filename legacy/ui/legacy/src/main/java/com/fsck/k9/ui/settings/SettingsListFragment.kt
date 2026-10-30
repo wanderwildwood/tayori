@@ -1,8 +1,6 @@
 package com.fsck.k9.ui.settings
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.compose.runtime.getValue
@@ -27,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
 import app.k9mail.feature.launcher.FeatureLauncherActivity
 import app.k9mail.feature.launcher.FeatureLauncherTarget
+import app.k9mail.feature.account.common.ui.link.openLink
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.livedata.observeNotNull
 import com.fsck.k9.ui.settings.account.AccountSettingsActivity
@@ -188,12 +186,8 @@ class SettingsListFragment : Fragment(), ItemTouchCallback {
     }
 
     private fun openUrl(url: String) {
-        try {
-            val viewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            startActivity(viewIntent)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(requireContext(), R.string.error_activity_not_found, Toast.LENGTH_SHORT).show()
-        }
+        val context = requireContext()
+        openLink(context, url, context.getString(R.string.tayori_about_no_browser_address, url))
     }
 
     private fun launchAccountSettings(account: LegacyAccountDto) {
