@@ -6,7 +6,6 @@ import app.k9mail.feature.account.common.domain.entity.toAuthType
 import app.k9mail.feature.account.common.domain.entity.toAuthenticationType
 import app.k9mail.feature.account.common.domain.entity.toConnectionSecurity
 import app.k9mail.feature.account.common.domain.entity.toMailConnectionSecurity
-import app.k9mail.feature.account.server.settings.ui.common.toInvalidEmailDomain
 import app.k9mail.feature.account.server.settings.ui.incoming.IncomingServerSettingsContract.State
 import com.fsck.k9.mail.ServerSettings
 import com.fsck.k9.mail.store.imap.ImapStoreSettings
@@ -20,7 +19,7 @@ import net.thunderbird.core.validation.input.StringInputField
 fun AccountState.toIncomingServerSettingsState() = incomingServerSettings?.toIncomingServerSettingsState()
     ?: State(
         username = StringInputField(value = emailAddress ?: ""),
-        server = StringInputField(value = emailAddress?.toInvalidEmailDomain() ?: ""),
+        server = StringInputField(value = ""),
     )
 
 private fun ServerSettings.toIncomingServerSettingsState(): State {

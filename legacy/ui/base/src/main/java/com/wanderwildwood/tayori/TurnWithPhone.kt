@@ -48,10 +48,10 @@ class TurnWithPhone(private val activity: Activity) {
         when {
             !on -> {
                 shown = PORTRAIT
-                activity.requestedOrientation = PORTRAIT
+                ask(PORTRAIT)
             }
-            held -> activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
-            else -> activity.requestedOrientation = shown
+            held -> ask(ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+            else -> ask(shown)
         }
         pending = NONE
         update()
@@ -106,10 +106,18 @@ class TurnWithPhone(private val activity: Activity) {
 
     private val settle = Runnable { decide(hold = false) }
 
+    /**
+     * Some Android versions refuse an orientation request from a window that is see-through
+     * (IllegalStateException); the screen then simply stays as it is instead of the app closing.
+     */
+    private fun ask(orientation: Int) {
+        runCatching { activity.requestedOrientation = orientation }
+    }
+
     private fun apply(want: Int) {
         shown = want
         pending = NONE
-        activity.requestedOrientation = want
+        ask(want)
     }
 
     private fun wanted(degrees: Int): Int = when {
