@@ -28,6 +28,8 @@ data class MessageListItem(
     val threadRoot: Long,
     @get:ColorInt
     val contactColor: Int,
+    /** Addresses the message was sent to (To, then Cc), as written. */
+    val recipients: List<String> = emptyList(),
 ) {
     val messageReference: MessageReference
         get() = MessageReference(account.uuid, folderId, messageUid)
