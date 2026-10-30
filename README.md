@@ -14,8 +14,8 @@ redrawn for this one.
 
 | | |
 |---|---|
-| ![The inbox](screenshots/1-inbox.png) | ![A message](screenshots/2-message.png) |
-| ![Writing one](screenshots/3-compose.png) | ![About](screenshots/4-about.png) |
+| ![Setting up: type the address](screenshots/1-address.png) | ![The server settings, when none is found for the address](screenshots/2-server.png) |
+| ![About, with the licence, privacy and terms](screenshots/3-about.png) | ![Licences](screenshots/4-licences.png) |
 
 ## What changed from Thunderbird
 
