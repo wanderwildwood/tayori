@@ -4,7 +4,6 @@ package com.fsck.k9.view;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -214,7 +213,7 @@ public class MessageHeader extends LinearLayout implements OnClickListener, OnLo
         if (showAccountIndicator) {
             accountNameView.setVisibility(View.VISIBLE);
             accountNameView.setText(account.getDisplayName());
-            accountNameView.setChipBackgroundColor(ColorStateList.valueOf(account.getChipColor()));
+            // Plain ink: the panel shows every account colour as the same grey.
         } else {
             accountNameView.setVisibility(View.GONE);
         }

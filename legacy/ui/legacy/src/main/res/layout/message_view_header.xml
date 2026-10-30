@@ -22,14 +22,16 @@
             android:layout_marginTop="16dp"
             android:clickable="false"
             android:paddingVertical="4sp"
-            android:textColor="@android:color/white"
+            android:textColor="#000000"
+            app:chipBackgroundColor="#FFFFFF"
+            app:chipStrokeColor="#000000"
+            app:chipStrokeWidth="1dp"
             app:chipMinHeight="0dp"
             app:ensureMinTouchTargetSize="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:textEndPadding="6sp"
             app:textStartPadding="8sp"
-            tools:chipBackgroundColor="#1976D2"
             tools:text="Account name"
             />
 

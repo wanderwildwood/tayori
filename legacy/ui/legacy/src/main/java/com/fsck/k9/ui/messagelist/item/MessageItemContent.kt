@@ -75,7 +75,7 @@ internal fun MessageItemContent(
         if (appearance.showAccountIndicator) {
             MessageItemAccountIndicator(
                 color = Color(item.account.profile.color),
-                label = accountInitial(item.account.profile.name.ifBlank { item.account.email }),
+                label = accountLabel(item.account.profile.name, item.account.email),
             )
         } else {
             null
@@ -165,6 +165,13 @@ internal fun MessageListItem.buildSenderStyles(): ImmutableList<ComposedAddressS
     }
 }.toPersistentList()
 
-/** The account's initial for the unified inbox: its first letter or digit, as a capital. */
-internal fun accountInitial(name: String): String? =
-    name.firstOrNull { it.isLetterOrDigit() }?.uppercaseChar()?.toString()
+/**
+ * The account's name for the Unified Inbox, short: the name set in Email's settings, or the
+ * domain of its address when the name is the address itself or empty; about 12 characters.
+ */
+internal fun accountLabel(name: String, email: String): String {
+    val base = name.trim().takeIf { it.isNotEmpty() && '@' !in it } ?: email.substringAfter('@', email)
+    return if (base.length > MAX_ACCOUNT_LABEL) base.take(MAX_ACCOUNT_LABEL - 1) + "\u2026" else base
+}
+
+private const val MAX_ACCOUNT_LABEL = 12

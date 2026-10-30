@@ -109,10 +109,11 @@ private fun rememberAdaptiveHeaderRowContent(
                     .then(if (isSmallScreen) Modifier.fillMaxWidth() else Modifier.weight(1f))
                     .defaultMinSize(minHeight = AccountIndicatorIcon.ACCOUNT_INDICATOR_DEFAULT_HEIGHT),
             ) {
-                if (accountIndicator != null) {
-                    AccountIndicatorInk(accountIndicator)
-                }
                 firstLine()
+            }
+            // The account's name in words, in ink, beside the date: only shown when there is more than one.
+            if (accountIndicator != null) {
+                AccountIndicatorInk(accountIndicator, Modifier.align(Alignment.CenterVertically))
             }
             TextTitleSmall(
                 text = receivedAt,
@@ -126,10 +127,10 @@ private fun rememberAdaptiveHeaderRowContent(
 
 /**
  * Which account a row belongs to, in ink: the panel shows every account colour as the same grey,
- * so the account's initial is printed in a black box instead, or a plain black bar without one.
+ * so the account's name is printed in a thin black box instead, or a plain black bar without one.
  */
 @Composable
-private fun AccountIndicatorInk(accountIndicator: MessageItemAccountIndicator) {
+private fun AccountIndicatorInk(accountIndicator: MessageItemAccountIndicator, modifier: Modifier = Modifier) {
     val label = accountIndicator.label
     if (label.isNullOrEmpty()) {
         AccountIndicatorIcon(BoltTheme.colors.onSurface)
@@ -137,8 +138,8 @@ private fun AccountIndicatorInk(accountIndicator: MessageItemAccountIndicator) {
     }
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .padding(end = 6.dp)
+        modifier = modifier
+            .padding(end = 0.dp)
             .border(width = 1.dp, color = BoltTheme.colors.onSurface)
             .padding(horizontal = 4.dp),
     ) {
