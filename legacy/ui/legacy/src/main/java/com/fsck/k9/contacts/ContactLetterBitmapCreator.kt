@@ -2,6 +2,7 @@ package com.fsck.k9.contacts
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import com.fsck.k9.mail.Address
@@ -16,16 +17,24 @@ class ContactLetterBitmapCreator(
     fun drawBitmap(bitmap: Bitmap, pictureSizeInPx: Int, address: Address): Bitmap {
         val canvas = Canvas(bitmap)
 
-        val backgroundColor = calcUnknownContactColor(address)
-        bitmap.eraseColor(backgroundColor)
+        // A black ring and a black letter on white, the same as the circle avatars in the new lists.
+        bitmap.eraseColor(Color.WHITE)
+        val ringWidth = pictureSizeInPx * 0.05f
+        val ring = Paint().apply {
+            isAntiAlias = true
+            style = Paint.Style.STROKE
+            strokeWidth = ringWidth
+            color = Color.BLACK
+        }
+        canvas.drawCircle(pictureSizeInPx / 2f, pictureSizeInPx / 2f, pictureSizeInPx / 2f - ringWidth, ring)
 
         val letter = letterExtractor.extractContactLetter(address)
 
         val paint = Paint().apply {
             isAntiAlias = true
             style = Paint.Style.FILL
-            setARGB(255, 255, 255, 255)
-            textSize = pictureSizeInPx.toFloat() * 0.65f
+            color = Color.BLACK
+            textSize = pictureSizeInPx.toFloat() * 0.5f
         }
 
         val rect = Rect()
@@ -48,6 +57,6 @@ class ContactLetterBitmapCreator(
     fun calcUnknownContactColor(address: Address): Int = 0xFF000000.toInt()
 
     fun signatureOf(address: Address): String {
-        return calcUnknownContactColor(address).toString()
+        return "ring-" + calcUnknownContactColor(address).toString()
     }
 }
