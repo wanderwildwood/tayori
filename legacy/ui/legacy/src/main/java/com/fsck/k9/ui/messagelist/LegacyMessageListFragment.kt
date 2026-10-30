@@ -576,12 +576,9 @@ class LegacyMessageListFragment :
 
         if (!isShowFloatingActionButton) {
             recyclerView.setPadding(0)
-        } else {
-            // No row is ever drawn under the compose button: the list stops above the strip it sits
-            // in, so the star (and the rest) of the row beneath can always be reached. The page turn
-            // measures its page inside this padding, so pages still land on whole rows.
-            recyclerView.clipToPadding = true
         }
+        // The list runs to the bottom of the screen: a reserved strip under it was blank space. The
+        // padding only lets the last row scroll up past the compose button.
 
         recyclerView.layoutManager = LinearLayoutManager()
         recyclerView.itemAnimator = null
