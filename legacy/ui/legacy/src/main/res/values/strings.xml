@@ -588,6 +588,9 @@
     <string name="account_settings_vibrate_pattern_5">Pattern 5</string>
     <string name="account_settings_vibrate_times">Repeat vibration</string>
     <string name="account_settings_vibrate_summary_disabled">Disabled</string>
+    <string name="sound_chooser_silent">Silent</string>
+    <string name="sound_chooser_default">Default</string>
+    <string name="sound_chooser_done">Done</string>
     <string name="account_settings_ringtone">New mail ringtone</string>
     <string name="account_settings_notification_light_label">Notification light</string>
     <string name="account_settings_notification_light_disabled">Disabled</string>
