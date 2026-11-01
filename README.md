@@ -1,6 +1,6 @@
-# 便り tayori — Email
+# 便り tayori — Mailbox
 
-Email for an E Ink phone: IMAP or POP3 in, SMTP out, in black and white, and a swipe turns
+Mailbox for an E Ink phone: IMAP or POP3 in, SMTP out, in black and white, and a swipe turns
 a page.
 
 *Tayori* is 便り — word from someone: a letter, news, the thing you hope is in the box.
@@ -53,19 +53,19 @@ address. Pictures in a message are not fetched unless you ask. See [PRIVACY.md](
 ## On a Mudita Kompakt
 
 DuraSpeed, a MediaTek service on the Kompakt, closes installed apps a few minutes after the
-screen goes dark and keeps them closed until they are opened again. For Email that means new
+screen goes dark and keeps them closed until they are opened again. For Mailbox that means new
 mail is not looked for until you open the app. Mudita's own apps are on its allow list; this one
 has to be added, once.
 
 Kompakt's Settings has no way in to DuraSpeed: no menu entry, and no search box to look for it
-in. Its own screen will not open for another app either, but its App info page will. While Email
+in. Its own screen will not open for another app either, but its App info page will. While Mailbox
 is at risk it keeps a notification up saying so; tapping it gives **Open DuraSpeed**. Then, on
 the phone:
 
 1. Tap **Open** on DuraSpeed's App info page.
-2. Switch **Email** on in the list. **On means allowed** to run in the background, which is
+2. Switch **Mailbox** on in the list. **On means allowed** to run in the background, which is
    easy to read the wrong way round. Switching DuraSpeed off at the top works too, for every app.
-3. Back in Email, answer **It's switched on**. Email cannot read DuraSpeed's list, so this is how
+3. Back in Mailbox, answer **It's switched on**. Mailbox cannot read DuraSpeed's list, so this is how
    it knows; if DuraSpeed shuts it down anyway, the notification comes back.
 
 ## Getting it, and keeping it
