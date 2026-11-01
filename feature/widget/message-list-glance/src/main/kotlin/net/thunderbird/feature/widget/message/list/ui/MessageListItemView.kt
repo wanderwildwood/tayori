@@ -68,7 +68,7 @@ internal fun MessageListItemView(item: MessageListItem) {
                     ) {
                         Text(
                             item.threadCount.toString(),
-                            style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 13.sp),
+                            style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 14.sp),
                         )
                     }
                     Spacer(GlanceModifier.Companion.width(4.dp))
@@ -87,7 +87,7 @@ internal fun MessageListItemView(item: MessageListItem) {
             Row {
                 Text(
                     item.preview,
-                    style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 13.sp),
+                    style = TextStyle(color = GlanceTheme.colors.primary, fontSize = 14.sp),
                     maxLines = 1,
                 )
             }
