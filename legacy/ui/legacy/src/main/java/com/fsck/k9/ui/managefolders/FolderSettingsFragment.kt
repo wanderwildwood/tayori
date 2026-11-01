@@ -15,7 +15,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceScreen
 import androidx.recyclerview.widget.RecyclerView
 import app.k9mail.legacy.ui.folder.FolderNameFormatter
-import com.fsck.k9.fragment.ConfirmationDialogFragment
+import com.fsck.k9.ui.settings.ArmedPreference
 import com.fsck.k9.fragment.ConfirmationDialogFragment.ConfirmationDialogFragmentListener
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.livedata.observeNotNull
@@ -52,30 +52,6 @@ class FolderSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.folder_settings_option, menu)
-
-                    val clearFolderItem = menu.findItem(R.id.clear_local_folder)
-                    clearFolderItem.isVisible = viewModel.showClearFolderInMenu
-                }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return when (menuItem.itemId) {
-                        R.id.clear_local_folder -> {
-                            viewModel.showClearFolderConfirmationDialog()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED,
-        )
-
         val arguments = arguments ?: error("Arguments missing")
         val accountUuid = arguments.getString(EXTRA_ACCOUNT) ?: error("Missing argument '$EXTRA_ACCOUNT'")
         val folderId = arguments.getLong(EXTRA_FOLDER_ID)
@@ -100,12 +76,17 @@ class FolderSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFra
         setPreferencesFromResource(R.xml.folder_settings_preferences, null)
 
         setCategoryTitle(folderSettings)
-        updateMenu()
+        if (viewModel.showClearFolderInMenu) {
+            preferenceScreen.addPreference(
+                ArmedPreference(
+                    context = requireContext(),
+                    restingTitle = getString(R.string.folder_settings_clear_local_folder_action),
+                    armedTitle = getString(R.string.folder_settings_clear_local_folder_armed_action),
+                    onConfirmed = { viewModel.onClearFolderConfirmation() },
+                ).apply { order = Int.MAX_VALUE },
+            )
+        }
         setPreferenceVisibility(folderSettings)
-    }
-
-    private fun updateMenu() {
-        requireActivity().invalidateOptionsMenu()
     }
 
     private fun setCategoryTitle(folderSettings: FolderSettingsData) {
@@ -115,20 +96,8 @@ class FolderSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFra
 
     private fun handleActionEvents(action: Action) {
         when (action) {
-            is Action.ShowClearFolderConfirmationDialog -> showClearFolderConfirmationDialog()
+            is Action.ShowClearFolderConfirmationDialog -> viewModel.onClearFolderConfirmation()
         }
-    }
-
-    private fun showClearFolderConfirmationDialog() {
-        val dialogFragment = ConfirmationDialogFragment.newInstance(
-            DIALOG_CLEAR_FOLDER,
-            getString(R.string.dialog_confirm_clear_local_folder_title),
-            getString(R.string.dialog_confirm_clear_local_folder_message),
-            getString(R.string.dialog_confirm_clear_local_folder_action),
-            getString(BaseR.string.cancel_action),
-        )
-        dialogFragment.setTargetFragment(this, REQUEST_CLEAR_FOLDER)
-        dialogFragment.show(requireFragmentManager(), TAG_CLEAR_FOLDER_CONFIRMATION)
     }
 
     private fun setPreferenceVisibility(folderSettings: FolderSettingsData) {
