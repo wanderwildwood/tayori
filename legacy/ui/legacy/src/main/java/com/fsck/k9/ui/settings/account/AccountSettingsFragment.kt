@@ -30,7 +30,7 @@ import com.fsck.k9.activity.ManageIdentities
 import com.fsck.k9.activity.setup.AccountSetupComposition
 import com.fsck.k9.controller.MessagingController
 import com.fsck.k9.crypto.OpenPgpApiHelper
-import com.fsck.k9.fragment.ConfirmationDialogFragment
+import com.fsck.k9.ui.settings.ArmedPreference
 import com.fsck.k9.fragment.ConfirmationDialogFragment.ConfirmationDialogFragmentListener
 import com.fsck.k9.notification.NotificationChannelManager
 import com.fsck.k9.notification.NotificationChannelManager.ChannelType
@@ -113,6 +113,17 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
         setPreferencesFromResource(R.xml.account_settings, rootKey)
         title = preferenceScreen.title
 
+        if (rootKey == null) {
+            preferenceScreen.addPreference(
+                ArmedPreference(
+                    context = requireContext(),
+                    restingTitle = getString(R.string.remove_account_action),
+                    armedTitle = getString(R.string.remove_account_armed_action, account.displayName),
+                    onConfirmed = { doPositiveClick(DIALOG_DELETE_ACCOUNT) },
+                ).apply { order = Int.MAX_VALUE },
+            )
+        }
+
         initializeGeneralSettings()
         initializeReadingMail()
         initializeFetchingMail()
@@ -140,27 +151,6 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.account_settings_option, menu)
-                }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return when (menuItem.itemId) {
-                        R.id.delete_account -> {
-                            onDeleteAccount()
-                            true
-                        }
-                        else -> false
-                    }
-                }
-            },
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED,
-        )
     }
 
     override fun onResume() {
@@ -498,18 +488,6 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
 
     private fun getAccount(): LegacyAccountDto {
         return viewModel.getAccountBlocking(accountUuid)
-    }
-
-    private fun onDeleteAccount() {
-        val dialogFragment = ConfirmationDialogFragment.newInstance(
-            DIALOG_DELETE_ACCOUNT,
-            getString(R.string.account_delete_dlg_title),
-            getString(R.string.account_delete_dlg_instructions_fmt, getAccount().displayName, appNameProvider.appName),
-            getString(BaseR.string.okay_action),
-            getString(BaseR.string.cancel_action),
-        )
-        dialogFragment.setTargetFragment(this, REQUEST_DELETE_ACCOUNT)
-        dialogFragment.show(requireFragmentManager(), TAG_DELETE_ACCOUNT_CONFIRMATION)
     }
 
     override fun doPositiveClick(dialogId: Int) {

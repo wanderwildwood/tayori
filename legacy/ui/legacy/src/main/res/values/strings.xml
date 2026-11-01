@@ -83,6 +83,7 @@
     <string name="folders_action">Manage folders</string>
     <string name="account_settings_action">Account settings</string>
     <string name="remove_account_action">Remove account</string>
+    <string name="remove_account_armed_action">Remove \"%1$s\" from this phone — tap again</string>
 
     <string name="mark_as_read_action">Mark as read</string>
     <string name="send_alternate_action">Share</string>
@@ -570,6 +571,7 @@
     <string name="folder_settings_push_label">Enable push</string>
     <string name="folder_settings_notifications_label">Notifications</string>
     <string name="folder_settings_clear_local_folder_action">Clear local messages</string>
+    <string name="folder_settings_clear_local_folder_armed_action">Clear this folder\'s local messages (the server keeps them) — tap again</string>
 
     <string name="account_settings_incoming_label">Incoming server</string>
     <string name="account_settings_incoming_summary">Configure the incoming mail server</string>
