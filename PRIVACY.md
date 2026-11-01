@@ -1,6 +1,6 @@
 # Privacy
 
-Email reads and sends your mail through the servers you set it up with. Nothing else of
+Mailbox reads and sends your mail through the servers you set it up with. Nothing else of
 yours leaves the phone, and nothing is sent to this project.
 
 The rest of this page is the evidence, because a privacy policy that cannot be checked is
@@ -23,7 +23,7 @@ check and no server of this project's.
 
 ## The lock screen
 
-With [Glance](https://github.com/wanderwildwood/hitome) installed and its panel on, Email hands
+With [Glance](https://github.com/wanderwildwood/hitome) installed and its panel on, Mailbox hands
 it one number - how much mail in the unified inbox is unread - to show on the lock screen. It
 answers Glance alone and hands over nothing while **Settings → General settings → Notifications →
 Unread mail on the lock screen** is off. No subject, sender or text is shared.

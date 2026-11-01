@@ -2,7 +2,7 @@
 <resources>
 
     <string name="account_setup_about_action">About</string>
-    <string name="account_setup_about_title">Email %s</string>
+    <string name="account_setup_about_title">Mailbox %s</string>
     <string name="account_setup_about_licence_heading">Licence</string>
     <string name="account_setup_about_licence">GNU General Public License v3. After Thunderbird for Android, by MZLA Technologies and the K-9 Mail contributors, Apache 2.0. Lato by Łukasz Dziedzic, SIL Open Font License 1.1.</string>
     <string name="account_setup_about_source_heading">Source code</string>
