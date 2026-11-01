@@ -16,6 +16,11 @@
     <string name="account_setup_about_no_browser">There is no browser on this phone to open that with.</string>
     <string name="account_setup_about_close">Close</string>
     <string name="account_setup_auto_discovery_gmail_app_password">Gmail needs an app password.</string>
+    <string name="account_setup_auto_discovery_icloud_app_password">iCloud Mail needs an app-specific password, not your Apple Account password.</string>
+    <string name="account_setup_auto_discovery_zoho_app_password">Zoho Mail needs an app password when two-factor sign-in is on.</string>
+    <string name="account_setup_auto_discovery_yahoo_app_password">Yahoo Mail needs an app password.</string>
+    <string name="account_setup_auto_discovery_aol_app_password">AOL Mail needs an app password.</string>
+    <string name="account_setup_auto_discovery_app_password_link">How to make one</string>
     <string name="account_setup_error_network">Network error. Please check your connection status and try again.</string>
     <string name="account_setup_error_timed_out">The server did not answer in 30 seconds. Try again, or press Next to enter the servers by hand.</string>
     <string name="account_setup_auto_discovery_cancel">Cancel</string>

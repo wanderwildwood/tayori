@@ -1,0 +1,17 @@
+package net.thunderbird.components.ui.bolt.organism
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.window.DialogWindowProvider
+
+@Composable
+actual fun DialogWindowNoDim() {
+    val view = LocalView.current
+    SideEffect {
+        (view.parent as? DialogWindowProvider)?.window?.apply {
+            setDimAmount(0f)
+            setWindowAnimations(0)
+        }
+    }
+}

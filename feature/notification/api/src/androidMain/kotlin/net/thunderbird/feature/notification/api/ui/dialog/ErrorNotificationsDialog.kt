@@ -8,7 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.window.Dialog
+import net.thunderbird.components.ui.bolt.organism.EInkDialogWindow
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import kotlinx.collections.immutable.ImmutableSet
 import net.thunderbird.components.ui.bolt.atom.Surface
@@ -32,7 +35,7 @@ fun ErrorNotificationsDialog(
 ) {
     val showDialog = remember(visuals) { visuals.isNotEmpty() }
     if (showDialog) {
-        Dialog(
+        EInkDialogWindow(
             onDismissRequest = onDismiss,
             properties = properties,
         ) {
@@ -53,7 +56,7 @@ private fun ErrorNotificationsDialogContent(
     onNotificationActionClick: (NotificationAction) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(modifier = modifier) {
+    Surface(modifier = modifier.border(2.dp, BoltTheme.colors.onSurface, RoundedCornerShape(12.dp))) {
         Column {
             TopAppBar(
                 title = "Error Notifications",

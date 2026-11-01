@@ -26,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog as MaterialDialog
 import androidx.compose.ui.window.DialogProperties
 import net.thunderbird.components.ui.bolt.PreviewLightDarkLandscape
 import net.thunderbird.components.ui.bolt.PreviewWithThemesLightDark
@@ -49,7 +48,7 @@ fun BasicDialog(
     dividerColor: Color = BasicDialogDefaults.dividerColor,
     properties: DialogProperties = DialogProperties(),
 ) {
-    MaterialDialog(
+    EInkDialogWindow(
         onDismissRequest = onDismissRequest,
         properties = properties,
     ) {

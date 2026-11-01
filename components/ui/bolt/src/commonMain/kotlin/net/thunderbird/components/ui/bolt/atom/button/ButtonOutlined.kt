@@ -1,6 +1,7 @@
 package net.thunderbird.components.ui.bolt.atom.button
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedButton as Material3OutlinedButton
 import androidx.compose.material3.Text as Material3Text
@@ -37,7 +38,7 @@ fun ButtonOutlined(
 ) {
     Material3OutlinedButton(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.heightIn(min = ButtonDefaults.MinHeight),
         enabled = enabled,
         shape = shape.shape,
         colors = colors.toMaterial3Colors(),

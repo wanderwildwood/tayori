@@ -2,6 +2,7 @@ package net.thunderbird.components.ui.bolt.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -35,7 +36,10 @@ fun BoltTheme(
             colorScheme = themeColorScheme.toMaterial3ColorScheme(),
             shapes = themeConfig.shapes.toMaterial3Shapes(),
             typography = themeConfig.typography.toMaterial3Typography(),
-            content = content,
+            content = {
+                // No ripple: it is an animation, repainted frame by frame on E Ink.
+                CompositionLocalProvider(LocalRippleConfiguration provides null, content = content)
+            },
         )
     }
 }

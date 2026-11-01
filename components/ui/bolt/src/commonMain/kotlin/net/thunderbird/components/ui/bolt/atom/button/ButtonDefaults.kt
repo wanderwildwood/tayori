@@ -1,12 +1,15 @@
 package net.thunderbird.components.ui.bolt.atom.button
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import net.thunderbird.components.ui.bolt.theme.BoltTheme
 import androidx.compose.material3.ButtonColors as Material3ButtonColors
 import androidx.compose.material3.ButtonDefaults as Material3ButtonDefaults
 
@@ -15,6 +18,12 @@ import androidx.compose.material3.ButtonDefaults as Material3ButtonDefaults
  */
 data object ButtonDefaults {
     val ContentPadding = Material3ButtonDefaults.ContentPadding
+
+    /** House buttons: black on white, a 2 dp line, 8 dp corners, at least 48 dp tall. */
+    val HouseButtonShape: Shape = RoundedCornerShape(8.dp)
+    val HouseButtonBorder: Dp = 2.dp
+    val MinHeight: Dp = 48.dp
+    private const val DisabledAlpha = 0.38f
 
     /**
      * Creates a [ButtonColors] that represents the default container and content
@@ -32,9 +41,9 @@ data object ButtonDefaults {
     @Composable
     fun textButtonColors(
         containerColor: Color = Color.Unspecified,
-        contentColor: Color = Color.Unspecified,
+        contentColor: Color = BoltTheme.colors.onSurface,
         disabledContainerColor: Color = Color.Unspecified,
-        disabledContentColor: Color = Color.Unspecified,
+        disabledContentColor: Color = BoltTheme.colors.onSurface.copy(alpha = DisabledAlpha),
         iconColor: Color = contentColor,
         iconDisabledColor: Color = disabledContentColor,
     ): ButtonColors = Material3ButtonDefaults.textButtonColors(
@@ -59,10 +68,10 @@ data object ButtonDefaults {
      */
     @Composable
     fun filledButtonColors(
-        containerColor: Color = Color.Unspecified,
-        contentColor: Color = Color.Unspecified,
-        disabledContainerColor: Color = Color.Unspecified,
-        disabledContentColor: Color = Color.Unspecified,
+        containerColor: Color = BoltTheme.colors.onSurface,
+        contentColor: Color = BoltTheme.colors.surface,
+        disabledContainerColor: Color = BoltTheme.colors.onSurface.copy(alpha = DisabledAlpha),
+        disabledContentColor: Color = BoltTheme.colors.surface,
         iconColor: Color = contentColor,
         iconDisabledColor: Color = disabledContentColor,
     ): ButtonColors = Material3ButtonDefaults.buttonColors(
@@ -87,10 +96,10 @@ data object ButtonDefaults {
      */
     @Composable
     fun outlinedButtonColors(
-        containerColor: Color = Color.Unspecified,
-        contentColor: Color = Color.Unspecified,
-        disabledContainerColor: Color = Color.Unspecified,
-        disabledContentColor: Color = Color.Unspecified,
+        containerColor: Color = BoltTheme.colors.surface,
+        contentColor: Color = BoltTheme.colors.onSurface,
+        disabledContainerColor: Color = BoltTheme.colors.surface,
+        disabledContentColor: Color = BoltTheme.colors.onSurface.copy(alpha = DisabledAlpha),
         iconColor: Color = contentColor,
         iconDisabledColor: Color = disabledContentColor,
     ): ButtonColors = Material3ButtonDefaults.outlinedButtonColors(
@@ -108,7 +117,7 @@ data object ButtonDefaults {
      */
     @Composable
     fun filledShape(
-        shape: Shape = Material3ButtonDefaults.shape,
+        shape: Shape = HouseButtonShape,
     ): ButtonShape = ButtonShape(shape = shape)
 
     /**
@@ -121,7 +130,7 @@ data object ButtonDefaults {
     @Composable
     fun outlinedShape(
         enabled: Boolean = true,
-        shape: Shape = Material3ButtonDefaults.outlinedShape,
+        shape: Shape = HouseButtonShape,
         border: ButtonBorderStroke = outlinedButtonBorder(enabled),
     ): ButtonShape = ButtonShape(shape = shape, borderStroke = border)
 
@@ -139,11 +148,9 @@ data object ButtonDefaults {
         color: Color = Color.Unspecified,
         disabledColor: Color = color.copy(alpha = 0.1f),
     ): ButtonBorderStroke {
-        var m3Colors = Material3ButtonDefaults.outlinedButtonBorder(enabled)
-        if (color != Color.Unspecified) {
-            m3Colors = m3Colors.copy(brush = SolidColor(if (enabled) color else disabledColor))
-        }
-        return m3Colors.toButtonBorderStroke()
+        val line = if (color != Color.Unspecified) color else BoltTheme.colors.onSurface
+        val off = if (color != Color.Unspecified) disabledColor else line.copy(alpha = DisabledAlpha)
+        return ButtonBorderStroke(width = HouseButtonBorder, brush = SolidColor(if (enabled) line else off))
     }
 }
 
