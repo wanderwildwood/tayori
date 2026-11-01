@@ -2,6 +2,7 @@ package net.thunderbird.components.ui.bolt.atom.button
 
 import androidx.compose.material3.Text as Material3Text
 import androidx.compose.material3.TextButton as Material3TextButton
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,10 +22,10 @@ fun ButtonText(
 ) {
     Material3TextButton(
         onClick = onClick,
-        modifier = modifier,
+        modifier = modifier.heightIn(min = ButtonDefaults.MinHeight),
         enabled = enabled,
         colors = ButtonDefaults.textButtonColors(
-            contentColor = color ?: BoltTheme.colors.primary,
+            contentColor = color ?: BoltTheme.colors.onSurface,
         ).toMaterial3Colors(),
     ) {
         leadingIcon?.invoke()

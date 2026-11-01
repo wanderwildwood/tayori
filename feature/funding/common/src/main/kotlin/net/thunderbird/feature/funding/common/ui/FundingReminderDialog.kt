@@ -18,6 +18,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.foundation.border
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import net.thunderbird.components.ui.bolt.PreviewWithTheme
@@ -28,7 +30,7 @@ import net.thunderbird.components.ui.bolt.atom.text.TextHeadlineSmall
 import net.thunderbird.components.ui.bolt.common.annotation.PreviewDevicesWithBackground
 import net.thunderbird.components.ui.bolt.theme.BoltTheme
 import net.thunderbird.feature.funding.common.R
-import androidx.compose.ui.window.Dialog as MaterialDialog
+import net.thunderbird.components.ui.bolt.organism.EInkDialogWindow
 
 @Composable
 fun FundingReminderDialog(
@@ -38,7 +40,7 @@ fun FundingReminderDialog(
     onOkClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    MaterialDialog(
+    EInkDialogWindow(
         onDismissRequest = onDismissClick,
         properties = DialogProperties(),
     ) {
@@ -61,8 +63,8 @@ private fun FundingReminderContent(
     modifier: Modifier = Modifier,
 ) {
     CardFilled(
-        shape = BoltTheme.shapes.large,
-        modifier = modifier.verticalScroll(rememberScrollState()),
+        shape = RoundedCornerShape(12.dp),
+        modifier = modifier.border(2.dp, BoltTheme.colors.onSurface, RoundedCornerShape(12.dp)).verticalScroll(rememberScrollState()),
     ) {
         Column(
             modifier = Modifier.padding(BoltTheme.spacings.triple),

@@ -1,18 +1,19 @@
 package net.thunderbird.components.ui.bolt.organism
 
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.AlertDialog as MaterialAlertDialog
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.width
+import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import net.thunderbird.components.ui.bolt.PreviewWithTheme
-import net.thunderbird.components.ui.bolt.atom.button.ButtonText
+import net.thunderbird.components.ui.bolt.atom.button.ButtonOutlined
 import net.thunderbird.components.ui.bolt.atom.icon.Icon
 import net.thunderbird.components.ui.bolt.atom.icon.Icons
 import net.thunderbird.components.ui.bolt.atom.text.TextBodyMedium
@@ -60,39 +61,35 @@ fun AlertDialog(
     confirmButtonEnabled: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    MaterialAlertDialog(
-        title = {
+    BasicDialog(
+        onDismissRequest = onDismissRequest,
+        modifier = modifier,
+        headline = {
+            if (icon != null) {
+                Icon(imageVector = icon, modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
             TextHeadlineSmall(
                 text = title,
                 textAlign = if (icon == null) TextAlign.Start else TextAlign.Center,
             )
         },
-        icon = icon?.let {
-            {
-                Icon(imageVector = it)
+        content = content,
+        buttons = {
+            if (dismissText != null) {
+                ButtonOutlined(
+                    text = dismissText,
+                    onClick = onDismissClick,
+                    modifier = Modifier.heightIn(min = 48.dp),
+                )
+                Spacer(modifier = Modifier.width(BoltTheme.spacings.double))
             }
-        },
-        text = { content() },
-        confirmButton = {
-            ButtonText(
+            ButtonOutlined(
                 text = confirmText,
                 onClick = onConfirmClick,
                 enabled = confirmButtonEnabled,
+                modifier = Modifier.heightIn(min = 48.dp),
             )
         },
-        dismissButton = dismissText?.let {
-            {
-                ButtonText(
-                    text = it,
-                    onClick = onDismissClick,
-                )
-            }
-        },
-        onDismissRequest = onDismissRequest,
-        // The house dialog: a 2dp rim and a 12dp corner rather than a tonal shadow.
-        modifier = modifier.border(2.dp, BoltTheme.colors.onSurface, RoundedCornerShape(12.dp)),
-        shape = RoundedCornerShape(12.dp),
-        tonalElevation = 0.dp,
     )
 }
 

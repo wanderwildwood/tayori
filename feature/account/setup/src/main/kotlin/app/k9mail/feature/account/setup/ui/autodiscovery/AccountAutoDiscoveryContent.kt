@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import app.k9mail.feature.account.common.ui.AppTitleTopHeader
 import app.k9mail.feature.account.common.ui.WizardNavigationBar
 import app.k9mail.feature.account.common.ui.WizardNavigationBarState
+import app.k9mail.feature.account.common.ui.link.openLink
 import app.k9mail.feature.account.oauth.ui.AccountOAuthContract
 import app.k9mail.feature.account.oauth.ui.AccountOAuthView
 import app.k9mail.feature.account.setup.R
@@ -214,10 +216,10 @@ internal fun ContentView(
                 contentPadding = PaddingValues(),
                 modifier = Modifier.testTag("account_setup_password_input"),
             )
-            val domain = state.emailAddress.value.substringAfterLast("@", "").trim().lowercase()
-            if (domain == "gmail.com" || domain == "googlemail.com") {
+            val provider = appPasswordProviderFor(state.emailAddress.value)
+            if (provider != null) {
                 Spacer(modifier = Modifier.height(BoltTheme.spacings.default))
-                TextBodyMedium(text = stringResource(R.string.account_setup_auto_discovery_gmail_app_password))
+                AppPasswordHelp(provider)
             }
         } else if (state.configStep == AccountAutoDiscoveryContract.ConfigStep.OAUTH) {
             val isAutoDiscoverySettingsTrusted = state.autoDiscoverySettings?.isTrusted ?: false
@@ -230,6 +232,28 @@ internal fun ContentView(
             )
         }
     }
+}
+
+/** One plain line about the provider's app password, and its page as a link. */
+@Composable
+private fun AppPasswordHelp(provider: AppPasswordProvider) {
+    val context = LocalContext.current
+    val line = stringResource(
+        when (provider) {
+            AppPasswordProvider.GMAIL -> R.string.account_setup_auto_discovery_gmail_app_password
+            AppPasswordProvider.ICLOUD -> R.string.account_setup_auto_discovery_icloud_app_password
+            AppPasswordProvider.ZOHO -> R.string.account_setup_auto_discovery_zoho_app_password
+            AppPasswordProvider.YAHOO -> R.string.account_setup_auto_discovery_yahoo_app_password
+            AppPasswordProvider.AOL -> R.string.account_setup_auto_discovery_aol_app_password
+        },
+    )
+    TextBodyMedium(text = line)
+    val noBrowser = stringResource(R.string.account_setup_about_no_browser_address, provider.helpUrl)
+    ButtonText(
+        text = stringResource(R.string.account_setup_auto_discovery_app_password_link),
+        onClick = { openLink(context, provider.helpUrl, noBrowser) },
+        modifier = Modifier.testTag("account_setup_app_password_link"),
+    )
 }
 
 /** A plain text link, so About, the licence and the privacy statement are there before any account is. */
