@@ -1199,19 +1199,7 @@ You can keep this message and use it as a backup for your secret key. If you wan
         <item quantity="other">%d emails</item>
     </plurals>
 
-    <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
-    <string name="tayori_about_title">Mailbox <xliff:g id="version">%s</xliff:g></string>
-    <string name="tayori_about_terms">This app is provided as it is, without any warranty of any kind, as the GNU General Public License says, and you use it at your own risk. It is not made or endorsed by Mozilla, MZLA Technologies or the Thunderbird project.</string>
-    <string name="tayori_about_licences">Licences</string>
     <string name="tayori_about_no_browser_address">No browser is installed. The address is %1$s.</string>
-    <string name="tayori_about_privacy">It connects only to the mail servers you enter. Nothing is sent to us, and your address and password stay on this phone. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers at autoconfig.thunderbird.net, how to reach them; Mozilla sees the domain, not the address.</string>
-    <!-- The name of the app's licence -->
-    <string name="tayori_about_licence">GNU General Public License v3</string>
-    <string name="tayori_about_after">After Thunderbird for Android, by MZLA Technologies and the K-9 Mail contributors, Apache 2.0. Lato by Łukasz Dziedzic, SIL Open Font License 1.1. The libraries it bundles are each under their own licence.</string>
-    <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object, so the reader knows what pressing it does -->
-    <string name="tayori_about_feed_the_llamas">feed the llamas</string>
-    <string name="tayori_about_no_browser">There is no browser on this phone to open that with.</string>
-    <string name="tayori_about_close">Close</string>
     <!-- On a Mudita Kompakt: the phone's DuraSpeed setting shuts the app down. Notification and dialog -->
     <string name="duraspeed_channel">DuraSpeed</string>
     <string name="duraspeed_title">Mailbox can miss new mail</string>
