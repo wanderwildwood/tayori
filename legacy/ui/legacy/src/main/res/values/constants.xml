@@ -2,7 +2,6 @@
 <resources>
     <string name="app_webpage_url" translatable="false">https://github.com/wanderwildwood/tayori</string>
     <string name="user_forum_url" translatable="false">https://github.com/wanderwildwood/tayori/issues</string>
-    <string name="funding_url" translatable="false">https://square.link/u/AGu8oT10</string>
     <string name="message_header_mua" translatable="false">tayori</string>
     <string name="app_authors_url" translatable="false">https://github.com/wanderwildwood/tayori</string>
     <string name="app_source_url" translatable="false">https://github.com/wanderwildwood/tayori</string>

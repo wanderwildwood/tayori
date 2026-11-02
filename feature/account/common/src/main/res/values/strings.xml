@@ -6,13 +6,25 @@
     <string name="account_common_error_server_message">The server returned the following message:\n%s</string>
     <string name="account_common_licences_title">Licences</string>
     <string name="account_common_licences_source_head">Source code</string>
-    <string name="account_common_licences_licence_head">Licence</string>
-    <string name="account_common_licences_licence">Mailbox is free software under the GNU General Public License, version 3 only (GPL-3.0-only), copyright wander wildwood, for what is written here. It is built on Thunderbird for Android and K-9 Mail, which keep their own licence (Apache-2.0) and their authors keep their copyright, as do the authors of everything listed under Built with. The full text of each licence is at the end of this page.</string>
-    <string name="account_common_licences_built_head">Built with</string>
+    <string name="account_common_licences_licence">Mailbox is free software: GPL-3.0-only, copyright wander wildwood for what is written here. It is built on Thunderbird for Android; that and everything else it bundles keeps its own licence, each on its own page.</string>
     <string name="account_common_licences_back">Back</string>
     <string name="account_common_licences_gpl">GNU General Public License, version 3</string>
     <string name="account_common_licences_apache">Apache License, version 2.0</string>
     <string name="account_common_licences_mit">MIT License</string>
+    <string name="account_common_licences_bsd">BSD licence (full text)</string>
     <string name="account_common_licences_ofl">SIL Open Font License, version 1.1 (Lato)</string>
+    <string name="account_common_licences_no_text">%s needs no licence text here.</string>
+    <string name="account_common_licences_full_head">Full texts</string>
+    <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
+    <string name="account_common_about_title">Mailbox %1$s</string>
+    <string name="account_common_about_privacy_heading">Privacy</string>
+    <string name="account_common_about_privacy">It connects only to the mail servers you enter. Nothing is sent to us, and your address and password stay on this phone. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers, which is told the domain and not the address.</string>
+    <string name="account_common_about_licence">GNU General Public License v3</string>
+    <string name="account_common_about_after">After Thunderbird for Android, by MZLA Technologies and the K-9 Mail contributors, Apache 2.0. Lato by Łukasz Dziedzic, SIL Open Font License 1.1. The libraries it bundles are each under their own licence.</string>
+    <string name="account_common_about_terms_heading">Terms</string>
+    <string name="account_common_about_terms">This app is provided as it is, without any warranty of any kind, as the GNU General Public License says, and you use it at your own risk. It is not made or endorsed by Mozilla, MZLA Technologies or the Thunderbird project.</string>
+    <!-- The donation link label, beside a drawing of a llama. A fixed phrase: a verb and an object -->
+    <string name="account_common_about_feed_the_llamas">Feed the llamas</string>
+    <string name="account_common_about_close">Close</string>
     <string name="account_common_no_browser_address">No browser is installed. The address is %1$s.</string>
 </resources>
