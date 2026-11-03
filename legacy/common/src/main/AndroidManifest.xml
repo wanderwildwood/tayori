@@ -103,16 +103,7 @@
             android:name="com.fsck.k9.activity.MessageHomeActivity"
             android:launchMode="singleTop"
             android:exported="false"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <data
-                    android:host="messages"
-                    android:scheme="k9mail"
-                    />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            />
 
         <!--
         This component is disabled by default. It will be enabled programmatically after an account has been set up.
