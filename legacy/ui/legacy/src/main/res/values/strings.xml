@@ -898,7 +898,7 @@
     <string name="action_remote_search">Search messages on server</string>
     <string name="remote_search_unavailable_no_network">A network connection is required for server search.</string>
 
-    <string name="global_settings_background_as_unread_indicator_label">Change colour when read</string>
+    <string name="global_settings_background_as_unread_indicator_label">Change color when read</string>
     <string name="global_settings_background_as_unread_indicator_summary">A different background will show that the message has been read</string>
 
     <string name="global_settings_threaded_view_label">Threaded view</string>
@@ -981,7 +981,7 @@
     <string name="crypto_msg_incomplete_signed">must fully download message to process signature</string>
     <string name="crypto_msg_unsupported_signed">contains unsupported end-to-end signature</string>
     <string name="crypto_msg_unsupported_encrypted">Message is encrypted, but in an unsupported format.</string>
-    <string name="crypto_msg_cancelled">Message is encrypted, but decryption was cancelled.</string>
+    <string name="crypto_msg_cancelled">Message is encrypted, but decryption was canceled.</string>
 
     <string name="crypto_msg_title_unencrypted_signed_e2e">End-to-End signed plaintext</string>
     <string name="crypto_msg_unencrypted_sign_verified">from verified signer</string>
@@ -1016,7 +1016,7 @@
     <string name="locked_attach_unlock">Unlock</string>
     <string name="locked_attach_unencrypted">This part was not encrypted, and may be insecure.</string>
     <string name="message_progress_text">Loading…</string>
-    <string name="messageview_decrypt_cancelled">Decryption was cancelled.</string>
+    <string name="messageview_decrypt_cancelled">Decryption was canceled.</string>
     <string name="messageview_decrypt_retry">Retry</string>
     <string name="messageview_decrypt_incomplete">Encrypted message must be downloaded for decryption.</string>
     <string name="messageview_crypto_error_title">Error decrypting email</string>
