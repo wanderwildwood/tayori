@@ -207,10 +207,12 @@
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
+        android:layerType="software"
+        android:layout_marginEnd="@dimen/messageListHorizontalPadding"
+        android:background="@drawable/dotted_rule"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/contact_picture_click_area"
+        app:layout_constraintStart_toEndOf="@+id/barrier_start"
         />
 
     <View
