@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import app.k9mail.feature.account.common.R
 import com.mudita.mmd.ThemeMMD
@@ -94,7 +94,7 @@ fun rememberLicencesLabels(): LicencesLabels {
  */
 @Composable
 fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
-    val context = LocalContext.current
+    val resources = LocalResources.current
     val data = AboutData(
         title = stringResource(R.string.account_common_about_title, version),
         sections = listOf(
@@ -109,7 +109,7 @@ fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
         close = stringResource(R.string.account_common_about_close),
         licences = stringResource(R.string.account_common_licences_title),
         feedTheLlamas = stringResource(R.string.account_common_about_feed_the_llamas),
-        noBrowser = { address -> context.getString(R.string.account_common_no_browser_address, address) },
+        noBrowser = { address -> resources.getString(R.string.account_common_no_browser_address, address) },
     )
     ThemeMMD(colorScheme = monochrome) {
         HouseAboutDialog(data, labels, R.drawable.account_common_llama, onDismiss) { modifier, back ->
