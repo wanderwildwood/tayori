@@ -15,6 +15,8 @@
     <!-- TODO(#6476): Remove android:enableOnBackInvokedCallback once predictive back is supported -->
     <application
         android:allowBackup="false"
+        android:dataExtractionRules="@xml/no_backup"
+        android:fullBackupContent="false"
         android:hasFragileUserData="false"
         android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="false"
