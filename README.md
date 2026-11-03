@@ -6,7 +6,7 @@ a page.
 *Tayori* is 便り — word from someone: a letter, news, the thing you hope is in the box.
 
 Built for the [Mudita Kompakt](https://mudita.com/products/kompakt/), whose 4.3" panel has
-sixteen greys, a slow redraw, and is read outdoors as often as indoors.
+sixteen grays, a slow redraw, and is read outdoors as often as indoors.
 
 Fork of [Thunderbird for Android](https://github.com/thunderbird/thunderbird-android),
 which was K-9 Mail before it, with the mail itself left as they built it and the screen
@@ -24,7 +24,7 @@ redrawn for this one.
   row, or the line, the old page cut through opens the new one. Nothing scrolls on its own
   and nothing animates.
 - **No avatars and no icons on settings rows.** The name is the thing.
-- **Dialogs and menus are white inside a black rim**, and never grey out the screen behind
+- **Dialogs and menus are white inside a black rim**, and never gray out the screen behind
   them.
 - **It opens on your address.** No welcome page and no Thundermail.
 
@@ -97,12 +97,12 @@ fallback key by design.
 
 Thunderbird for Android by MZLA Technologies and the Thunderbird and K-9 Mail contributors,
 Apache License 2.0 — nearly all of this is theirs, and its history is kept here whole. The
-libraries it bundles are each under their own licence.
+libraries it bundles are each under their own license.
 
 The face is [Lato](https://www.latofonts.com/) by Łukasz Dziedzic, SIL Open Font License 1.1
 ([LICENSE-Lato-OFL.txt](LICENSE-Lato-OFL.txt)).
 
-## Licence
+## License
 
 **GNU General Public License, version 3.** See [LICENSE](LICENSE). Thunderbird's own code
 remains under the Apache License 2.0 ([LICENSE-APACHE-2.0](LICENSE-APACHE-2.0), [NOTICE](NOTICE)),
