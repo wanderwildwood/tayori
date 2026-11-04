@@ -10,8 +10,6 @@
     <string name="account_common_licences_back">Back</string>
     <string name="account_common_licences_gpl">GNU General Public License, version 3</string>
     <string name="account_common_licences_apache">Apache License, version 2.0</string>
-    <string name="account_common_licences_mit">MIT License</string>
-    <string name="account_common_licences_bsd">BSD license (full text)</string>
     <string name="account_common_licences_ofl">SIL Open Font License, version 1.1 (Lato)</string>
     <string name="account_common_licences_no_text">%s needs no license text here.</string>
     <string name="account_common_licences_full_head">Full texts</string>

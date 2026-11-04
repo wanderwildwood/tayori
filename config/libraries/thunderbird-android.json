@@ -1,0 +1,8 @@
+{
+  "uniqueId": "thunderbird-android",
+  "name": "Thunderbird for Android and K-9 Mail",
+  "description": "The mail app this one is built from: its source, changed and restyled.",
+  "developers": [{ "name": "MZLA Technologies and the K-9 Mail contributors" }],
+  "website": "https://github.com/thunderbird/thunderbird-android",
+  "licenses": ["Apache-2.0"]
+}
