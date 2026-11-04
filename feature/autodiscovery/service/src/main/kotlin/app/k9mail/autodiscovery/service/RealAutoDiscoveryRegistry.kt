@@ -3,6 +3,7 @@ package app.k9mail.autodiscovery.service
 import app.k9mail.autodiscovery.api.AutoDiscovery
 import app.k9mail.autodiscovery.api.AutoDiscoveryRegistry
 import app.k9mail.autodiscovery.autoconfig.AutoconfigUrlConfig
+import app.k9mail.autodiscovery.autoconfig.createBundledAutoconfigDiscovery
 import app.k9mail.autodiscovery.autoconfig.createIspDbAutoconfigDiscovery
 import app.k9mail.autodiscovery.autoconfig.createMxLookupAutoconfigDiscovery
 import app.k9mail.autodiscovery.autoconfig.createProviderAutoconfigDiscovery
@@ -27,6 +28,8 @@ class RealAutoDiscoveryRegistry(
             autoconfigUrlConfig: AutoconfigUrlConfig = defaultAutoconfigUrlConfig,
         ): List<AutoDiscovery> {
             return listOf(
+                // Highest priority: Gmail, iCloud and Zoho from files carried in the app.
+                createBundledAutoconfigDiscovery(),
                 createProviderAutoconfigDiscovery(
                     okHttpClient = okHttpClient,
                     config = autoconfigUrlConfig,
