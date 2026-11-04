@@ -1,18 +1,19 @@
 package com.fsck.k9.ui.settings
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Typeface
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
+import androidx.activity.ComponentActivity
 import androidx.preference.Preference
 
 /**
  * A settings row for something that cannot be undone. A tap changes its words to [armedTitle];
- * a second tap within six seconds runs [onConfirmed]; otherwise it goes back to [restingTitle].
+ * a second tap runs [onConfirmed]. There is no timer: it stays armed until the person does
+ * something else (a tap anywhere else, Back, leaving the screen), and then goes back to
+ * [restingTitle]. The rule itself is the shared ArmedWatch (ArmedViews.kt).
  */
 class ArmedPreference(
     context: Context,
@@ -20,28 +21,42 @@ class ArmedPreference(
     private val armedTitle: CharSequence,
     private val onConfirmed: () -> Unit,
 ) : Preference(context) {
-    private val action = ArmedAction()
-    private val handler = Handler(Looper.getMainLooper())
-    private val disarm = Runnable {
-        action.disarm()
+    private val disarmRow: () -> Unit = {
+        armedHere = false
         showResting()
     }
+
+    /** Only used if the row is ever shown outside an activity, where there is no ArmedWatch. */
+    private var armedHere = false
 
     init {
         isIconSpaceReserved = false
         showResting()
         setOnPreferenceClickListener {
-            handler.removeCallbacks(disarm)
-            if (action.tap(SystemClock.elapsedRealtime())) {
+            val watch = watch()
+            if (watch == null) {
+                if (armedHere) {
+                    disarmRow()
+                    onConfirmed()
+                } else {
+                    showArmed()
+                    armedHere = true
+                }
+            } else if (watch.isArmed(disarmRow)) {
+                watch.done(disarmRow)
                 showResting()
                 onConfirmed()
             } else {
-                title = SpannableString(armedTitle).apply {
-                    setSpan(StyleSpan(Typeface.BOLD), 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                }
-                handler.postDelayed(disarm, ArmedAction.ARM_WINDOW_MILLIS)
+                showArmed()
+                watch.arm(disarmRow)
             }
             true
+        }
+    }
+
+    private fun showArmed() {
+        title = SpannableString(armedTitle).apply {
+            setSpan(StyleSpan(Typeface.BOLD), 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
     }
 
@@ -49,9 +64,18 @@ class ArmedPreference(
         title = restingTitle
     }
 
+    private fun watch(): ArmedWatch? {
+        var c: Context? = context
+        while (c is ContextWrapper) {
+            if (c is ComponentActivity) return ArmedWatch.of(c)
+            c = c.baseContext
+        }
+        return null
+    }
+
     override fun onDetached() {
-        handler.removeCallbacks(disarm)
-        action.disarm()
+        watch()?.let { if (it.isArmed(disarmRow)) it.disarm() }
+        armedHere = false
         super.onDetached()
     }
 }
