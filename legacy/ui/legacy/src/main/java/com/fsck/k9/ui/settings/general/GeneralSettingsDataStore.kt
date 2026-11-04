@@ -61,6 +61,7 @@ class GeneralSettingsDataStore(
             "threaded_view" -> inboxSettings.isThreadedViewEnabled
             "messageview_fixedwidth_font" -> visualSettings.isUseMessageViewFixedWidthFont
             "messageview_autofit_width" -> visualSettings.isAutoFitWidth
+            "messageview_plain_text" -> visualSettings.bodyContentType == BodyContentType.TEXT_PLAIN
             "drawerExpandAllFolder" -> visualSettings.drawerExpandAllFolder
             "quiet_time_enabled" -> notificationSettings.isQuietTimeEnabled
             "disable_notifications_during_quiet_time" -> !notificationSettings.isNotificationDuringQuietTimeEnabled
@@ -107,6 +108,9 @@ class GeneralSettingsDataStore(
             "threaded_view" -> setIsThreadedViewEnabled(isThreadedViewEnabled = value)
             "messageview_fixedwidth_font" -> setIsUseMessageViewFixedWidthFont(isUseMessageViewFixedWidthFont = value)
             "messageview_autofit_width" -> setIsAutoFitWidth(isAutoFitWidth = value)
+            "messageview_plain_text" -> setBodyContentType(
+                if (value) BodyContentType.TEXT_PLAIN else BodyContentType.TEXT_HTML,
+            )
             "quiet_time_enabled" -> setIsQuietTimeEnabled(isQuietTimeEnabled = value)
             "disable_notifications_during_quiet_time" -> setIsNotificationDuringQuietTimeEnabled(!value)
             "notification_summary_delete" -> setIsSummaryDeleteActionEnabled(isSummaryDeleteActionEnabled = value)
@@ -174,7 +178,6 @@ class GeneralSettingsDataStore(
             "background_ops" -> networkSettings.backgroundOps.name
             "quiet_time_starts" -> notificationSettings.quietTimeStarts
             "quiet_time_ends" -> notificationSettings.quietTimeEnds
-            "messageview_body_content_type" -> visualSettings.bodyContentType.name
             "message_list_subject_font" -> K9.fontSizes.messageListSubject.toString()
             "message_list_sender_font" -> K9.fontSizes.messageListSender.toString()
             "message_list_date_font" -> K9.fontSizes.messageListDate.toString()
@@ -216,7 +219,6 @@ class GeneralSettingsDataStore(
             }
 
             "background_ops" -> setBackgroundOps(value)
-            "messageview_body_content_type" -> setBodyContentType(value)
             "quiet_time_starts" -> setQuietTimeStarts(quietTimeStarts = value)
             "quiet_time_ends" -> setQuietTimeEnds(quietTimeEnds = value)
             "message_list_subject_font" -> K9.fontSizes.messageListSubject = value.toInt()
@@ -868,13 +870,13 @@ class GeneralSettingsDataStore(
         else -> throw AssertionError()
     }
 
-    private fun setBodyContentType(value: String) {
+    private fun setBodyContentType(value: BodyContentType) {
         skipSaveSettings = true
         generalSettingsManager.update { settings ->
             settings.copy(
                 display = settings.display.copy(
                     visualSettings = settings.display.visualSettings.copy(
-                        bodyContentType = BodyContentType.valueOf(value),
+                        bodyContentType = value,
                     ),
                 ),
             )
