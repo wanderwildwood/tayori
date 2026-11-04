@@ -18,6 +18,9 @@ just a promise.
 - **Pictures in a message** come from wherever the sender put them, and are fetched only
   when you press "Show pictures".
 
+Your mail provider's privacy policy covers what it keeps of your mail; Mozilla's covers
+`autoconfig.thunderbird.net`: <https://www.mozilla.org/privacy/>.
+
 There is no sign-in through Google, Microsoft or anyone else, no push service, no update
 check and no server of this project's.
 
@@ -58,3 +61,31 @@ Google Play services.
 ```
 aapt2 dump badging tayori.apk | grep uses-permission
 ```
+
+<!-- shared-about privacy section -->
+## Who we are
+
+Mailbox is made by wander wildwood, an independent developer: one person, not a company. wander wildwood is the data controller for anything the app itself handles, and that is very little. Mailbox keeps what you put in it on your phone, apart from what it sends to your mail provider and Mozilla's autoconfig service as described above, and sends nothing to the developer, so the developer holds no data about you.
+
+## How to contact us
+
+Write to email@wanderthe.dev about your data, this policy or anything else. The same address is in the app, under About.
+
+## Your rights
+
+If you are in the EU, the EEA or the UK, the GDPR gives you the right to:
+
+- see the personal data held about you (access)
+- have it corrected (rectification) or deleted (erasure)
+- limit how it is used (restriction)
+- object to its use (objection)
+- get a copy to take elsewhere (portability)
+- withdraw your consent at any time, where something rests on it
+- complain to a data protection supervisory authority, for example the one where you live
+
+Similar laws elsewhere, such as the CCPA in California, give you the right to know, delete and correct, and to opt out of the sale or sharing of your data. Nothing from Mailbox is sold or shared.
+
+Since Mailbox keeps what it stores only on your phone, you can exercise most of these rights yourself: remove an account or delete mail in the app, export your settings to a file, clear the app's data in Android's settings, or uninstall the app, which deletes all of it. For anything you cannot do yourself, write to the address above.
+
+Mailbox connects to your mail provider and Mozilla's autoconfig service. They are separate from this app and from its developer, and what they receive is covered by their own privacy policies; ask them about what they hold.
+<!-- /shared-about privacy section -->
