@@ -16,6 +16,7 @@ plugins {
     id("net.thunderbird.gradle.plugin.quality.coverage")
     id("net.thunderbird.gradle.plugin.quality.spotless")
     alias(libs.plugins.tb.featureflag.root)
+    id("com.mikepenz.aboutlibraries.plugin.android") version "15.3.0" apply false
 }
 
 featureFlag {

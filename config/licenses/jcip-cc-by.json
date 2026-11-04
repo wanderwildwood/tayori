@@ -1,0 +1,7 @@
+{
+  "hash": "jcip-cc-by",
+  "name": "Creative Commons Attribution 2.5 (the notice in JCIP's annotations)",
+  "spdxId": "CC-BY-2.5",
+  "url": "https://creativecommons.org/licenses/by/2.5/",
+  "content": "Copyright (c) 2005 Brian Goetz and Tim Peierls\nReleased under the Creative Commons Attribution License\n  (http://creativecommons.org/licenses/by/2.5)\nOfficial home: http://www.jcip.net\n\nAny republication or derived work distributed in source code form\nmust include this copyright and license notice.\n"
+}
