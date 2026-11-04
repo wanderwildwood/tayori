@@ -123,7 +123,7 @@ class MessageSourceFragment : Fragment() {
 
     companion object {
         private const val ARG_REFERENCE = "reference"
-        private const val TEXT_SIZE_SP = 14f
+        private const val TEXT_SIZE_SP = 16f
 
         fun newInstance(reference: MessageReference): MessageSourceFragment {
             return MessageSourceFragment().withArguments(

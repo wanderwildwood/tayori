@@ -44,6 +44,9 @@
         <item name="textAppearanceLabelLarge">@style/TextAppearance.Mmd.LabelLarge</item>
         <item name="textAppearanceLabelMedium">@style/TextAppearance.Mmd.LabelMedium</item>
         <item name="textAppearanceLabelSmall">@style/TextAppearance.Mmd.LabelSmall</item>
+        <!-- The older small appearances, which a few inherited layouts still name, at the floor too. -->
+        <item name="android:textAppearanceSmall">@style/TextAppearance.Mmd.Small</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Mmd.Small</item>
 
         <!-- Buttons: black and white, a 2dp line, 8dp corners, 48dp tall, no ripple. -->
         <item name="materialButtonStyle">@style/Widget.App.Button.Filled</item>
@@ -145,6 +148,9 @@
         <item name="textAppearanceLabelLarge">@style/TextAppearance.Mmd.LabelLarge</item>
         <item name="textAppearanceLabelMedium">@style/TextAppearance.Mmd.LabelMedium</item>
         <item name="textAppearanceLabelSmall">@style/TextAppearance.Mmd.LabelSmall</item>
+        <!-- The older small appearances, which a few inherited layouts still name, at the floor too. -->
+        <item name="android:textAppearanceSmall">@style/TextAppearance.Mmd.Small</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Mmd.Small</item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.Material3.MediumComponent</item>
@@ -178,7 +184,9 @@
     <style name="Theme2.Main.Startup" parent="Theme2.Main.Dark" />
 
     <!-- Material 3's text appearances name their font outright, so a theme-wide font never
-         reaches them. Each gets a Lato twin at the same size. -->
+         reaches them. Each gets a Lato twin, at the same size down to 16sp: nothing is smaller
+         than 16sp (Mudita's review, 4 Nov 2026), so Material's 14, 12 and 11sp styles are raised
+         to it, the same floor as the Compose screens' houseTypography. -->
     <style name="TextAppearance.Mmd.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge">
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
@@ -212,6 +220,9 @@
         <item name="fontFamily">@font/lato</item>
     </style>
     <style name="TextAppearance.Mmd.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
     </style>
@@ -220,22 +231,45 @@
         <item name="fontFamily">@font/lato</item>
     </style>
     <style name="TextAppearance.Mmd.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
     </style>
     <style name="TextAppearance.Mmd.BodySmall" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
     </style>
     <style name="TextAppearance.Mmd.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
     </style>
     <style name="TextAppearance.Mmd.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
     </style>
     <style name="TextAppearance.Mmd.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="fontFamily">@font/lato</item>
+    </style>
+
+    <style name="TextAppearance.Mmd.Small" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineHeight">22sp</item>
+        <item name="lineHeight">22sp</item>
         <item name="android:fontFamily">@font/lato</item>
         <item name="fontFamily">@font/lato</item>
     </style>

@@ -111,7 +111,7 @@ fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
         feedTheLlamas = stringResource(R.string.account_common_about_feed_the_llamas),
         noBrowser = { address -> resources.getString(R.string.account_common_no_browser_address, address) },
     )
-    ThemeMMD(colorScheme = monochrome) {
+    ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
         HouseAboutDialog(data, labels, R.drawable.account_common_llama, onDismiss) { modifier, back ->
             LicencesScreen(rememberLicencesData(), rememberLicencesLabels(), onBack = back, modifier = modifier)
         }
