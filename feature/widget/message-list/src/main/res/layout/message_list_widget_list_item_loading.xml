@@ -9,6 +9,6 @@
     android:gravity="center"
     android:maxLines="1"
     android:padding="16dp"
-    android:textSize="15sp"
+    android:textSize="16sp"
     tools:text="@string/message_list_widget_list_item_loading"
     />

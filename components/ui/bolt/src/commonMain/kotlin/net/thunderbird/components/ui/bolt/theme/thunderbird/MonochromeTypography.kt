@@ -16,9 +16,11 @@ import net.thunderbird.components.ui.bolt.theme.ThemeTypography
 import org.jetbrains.compose.resources.Font
 
 /**
- * Mudita Mindful Design's type: Lato, on MMD's own scale (28 / 24 / 20 / 18 / 16 / 15 / 14),
- * with 14sp as the floor. MMD chose Lato because the E Ink panel loses the thin end of every
- * stroke, and Lato's open apertures survive that at arm's length.
+ * Mudita Mindful Design's type: Lato, on the house scale (28 / 24 / 20 / 18 / 16), with 16sp as
+ * the floor: MMD's 15 and 14 sp small styles are raised to 16 (Mudita's review, 4 Nov 2026), so a
+ * note line is at least 24 px tall on the Kompakt, as in the shared houseTypography. MMD chose
+ * Lato because the E Ink panel loses the thin end of every stroke, and Lato's open apertures
+ * survive that at arm's length.
  *
  * A composable rather than a value, because a Compose Multiplatform resource font can only be
  * loaded inside composition.
@@ -51,9 +53,9 @@ internal fun monochromeTypography(): ThemeTypography {
         titleSmall = style(16, 22),
         bodyLarge = style(20, 26),
         bodyMedium = style(18, 24),
-        bodySmall = style(15, 20),
+        bodySmall = style(16, 22),
         labelLarge = style(18, 24),
-        labelMedium = style(15, 20),
-        labelSmall = style(14, 18),
+        labelMedium = style(16, 22),
+        labelSmall = style(16, 22),
     )
 }

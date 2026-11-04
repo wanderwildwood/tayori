@@ -23,7 +23,7 @@
         style="@style/PreferenceCategoryTitleTextStyle"
         android:textAllCaps="true"
         android:textStyle="bold"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="#000000"/>
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="viewStart"
         android:maxLines="10"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="#000000"/>
 
 </LinearLayout>
