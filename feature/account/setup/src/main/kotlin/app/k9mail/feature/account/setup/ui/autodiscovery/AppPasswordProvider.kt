@@ -18,9 +18,12 @@ internal fun appPasswordProviderFor(emailAddress: String): AppPasswordProvider? 
     return when {
         domain == "gmail.com" || domain == "googlemail.com" -> AppPasswordProvider.GMAIL
         domain == "icloud.com" || domain == "me.com" || domain == "mac.com" -> AppPasswordProvider.ICLOUD
-        domain == "zoho.com" || domain.startsWith("zohomail.") -> AppPasswordProvider.ZOHO
+        domain in ZOHO_DOMAINS || domain.startsWith("zohomail.") -> AppPasswordProvider.ZOHO
         domain == "yahoo.com" || domain == "ymail.com" || domain == "rocketmail.com" -> AppPasswordProvider.YAHOO
         domain == "aol.com" -> AppPasswordProvider.AOL
         else -> null
     }
 }
+
+/** Zoho's mail domains in each of its regions (.com, .eu, .in, .com.au, .jp). */
+private val ZOHO_DOMAINS = setOf("zoho.com", "zoho.eu", "zoho.in", "zoho.com.au", "zoho.jp")
