@@ -65,7 +65,7 @@ aapt2 dump badging tayori.apk | grep uses-permission
 <!-- shared-about privacy section -->
 ## Who we are
 
-Mailbox is made by wander wildwood, an independent developer: one person, not a company. wander wildwood is the data controller for anything the app itself handles, and that is very little. Mailbox keeps what you put in it on your phone, apart from what it sends to your mail provider and Mozilla's autoconfig service as described above, and sends nothing to the developer, so the developer holds no data about you.
+Mailbox is made by wander wildwood, an independent developer: one person, not a company. wander wildwood is the data controller for anything the app itself handles, and that is very little. What you put in Mailbox stays on your phone. The only things that go out are the requests described above: the connections to your mail servers, which carry your login and the mail you fetch and send; when you set up an account, the lookup of how to reach your provider, which tells the address's own domain, DNS and Mozilla's autoconfig service the domain, not the address; and the pictures in a message, fetched from wherever the sender put them when you choose to show them. The developer receives nothing, so the developer holds no data about you.
 
 ## How to contact us
 

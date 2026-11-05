@@ -29,7 +29,7 @@
     <string name="account_common_about_write_to">Write to %1$s</string>
     <string name="account_common_about_no_mail_app">No email app is installed. The address is %1$s.</string>
     <string name="account_common_privacy_who_title">Who we are</string>
-    <string name="account_common_privacy_who">This app is made by wander wildwood, an independent developer: one person, not a company. That makes wander wildwood the data controller for anything the app itself handles, and that is very little: what you put in stays on this phone unless you send it somewhere yourself, or the app sends it to your mail provider and Mozilla\'s autoconfig service as described above, and nothing comes to the developer.</string>
+    <string name="account_common_privacy_who">This app is made by wander wildwood, an independent developer: one person, not a company. That makes wander wildwood the data controller for anything the app itself handles, and that is very little. What you put in stays on this phone. The only things that go out are the requests described above: the connections to your mail servers, which carry your login and the mail you fetch and send; when you set up an account, a lookup that tells the address\'s own domain and Mozilla\'s list of mail providers the domain, not the address; and the pictures in a message, fetched from wherever the sender put them when you choose to show them. Nothing comes to the developer.</string>
     <string name="account_common_privacy_contact_title">How to contact us</string>
     <string name="account_common_privacy_contact">Write to email@wanderthe.dev, about your data or anything else.</string>
     <string name="account_common_privacy_rights_title">Your rights</string>
