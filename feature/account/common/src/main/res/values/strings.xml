@@ -6,7 +6,7 @@
     <string name="account_common_error_server_message">The server returned the following message:\n%s</string>
     <string name="account_common_licences_title">Licenses</string>
     <string name="account_common_licences_source_head">Source code</string>
-    <string name="account_common_licences_licence">Mailbox is free software: GPL-3.0-only, copyright wander wildwood for what is written here. It is built on Thunderbird for Android; that and everything else it bundles keeps its own license, each on its own page.</string>
+    <string name="account_common_licences_licence">Mailbox is free software: GPL-3.0-only, copyright wander wildwood for what is written here. It is built on Thunderbird for Android; that and everything else it bundles keeps its own license, listed below.</string>
     <string name="account_common_licences_back">Back</string>
     <string name="account_common_licences_gpl">GNU General Public License, version 3</string>
     <string name="account_common_licences_apache">Apache License, version 2.0</string>
@@ -15,6 +15,7 @@
     <string name="account_common_licences_full_head">Full texts</string>
     <!-- About dialog. Keep the names of the app, people, projects and licences as they are -->
     <string name="account_common_about_title">Mailbox %1$s</string>
+    <string name="account_common_about_what">Any mail account that takes a password, read and written in black and white, a page at a time. Thunderbird for Android, redrawn for this screen.</string>
     <string name="account_common_about_privacy_heading">Privacy</string>
     <string name="account_common_about_privacy">It connects only to the mail servers you enter. Nothing is sent to us, and your address and password stay on this phone. Setting up an account, it also asks the address\'s own domain, and Mozilla\'s list of mail providers, which is told the domain and not the address.</string>
     <string name="account_common_about_licence">GNU General Public License v3</string>
@@ -28,6 +29,10 @@
     <!-- shared-about: contact row + privacy section (edit in /opt/projects/shared-about; names carry this module's account_common_ prefix) -->
     <string name="account_common_about_write_to">Write to %1$s</string>
     <string name="account_common_about_no_mail_app">No email app is installed. The address is %1$s.</string>
+    <string name="account_common_about_open_drawer">Open %1$s</string>
+    <string name="account_common_about_close_drawer">Close %1$s</string>
+    <string name="account_common_about_contact_head">Contact</string>
+    <string name="account_common_about_links_head">Links</string>
     <string name="account_common_privacy_who_title">Who we are</string>
     <string name="account_common_privacy_who">This app is made by wander wildwood, an independent developer: one person, not a company. That makes wander wildwood the data controller for anything the app itself handles, and that is very little. What you put in stays on this phone. The only things that go out are the requests described above: the connections to your mail servers, which carry your login and the mail you fetch and send; when you set up an account, a lookup that tells the address\'s own domain and Mozilla\'s list of mail providers the domain, not the address; and the pictures in a message, fetched from wherever the sender put them when you choose to show them. Nothing comes to the developer.</string>
     <string name="account_common_privacy_contact_title">How to contact us</string>
