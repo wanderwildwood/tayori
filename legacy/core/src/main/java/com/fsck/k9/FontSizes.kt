@@ -54,21 +54,25 @@ class FontSizes {
     }
 
     fun load(storage: Storage) {
-        messageListSubject = storage.getInt(MESSAGE_LIST_SUBJECT, messageListSubject)
-        messageListSender = storage.getInt(MESSAGE_LIST_SENDER, messageListSender)
-        messageListDate = storage.getInt(MESSAGE_LIST_DATE, messageListDate)
-        messageListPreview = storage.getInt(MESSAGE_LIST_PREVIEW, messageListPreview)
+        messageListSubject = storage.getInt(MESSAGE_LIST_SUBJECT, messageListSubject).atLeastFloor()
+        messageListSender = storage.getInt(MESSAGE_LIST_SENDER, messageListSender).atLeastFloor()
+        messageListDate = storage.getInt(MESSAGE_LIST_DATE, messageListDate).atLeastFloor()
+        messageListPreview = storage.getInt(MESSAGE_LIST_PREVIEW, messageListPreview).atLeastFloor()
 
-        messageViewAccountName = storage.getInt(MESSAGE_VIEW_ACCOUNT_NAME, messageViewAccountName)
-        messageViewSender = storage.getInt(MESSAGE_VIEW_SENDER, messageViewSender)
-        messageViewRecipients = storage.getInt(MESSAGE_VIEW_RECIPIENTS, messageViewRecipients)
-        messageViewSubject = storage.getInt(MESSAGE_VIEW_SUBJECT, messageViewSubject)
-        messageViewDate = storage.getInt(MESSAGE_VIEW_DATE, messageViewDate)
+        messageViewAccountName = storage.getInt(MESSAGE_VIEW_ACCOUNT_NAME, messageViewAccountName).atLeastFloor()
+        messageViewSender = storage.getInt(MESSAGE_VIEW_SENDER, messageViewSender).atLeastFloor()
+        messageViewRecipients = storage.getInt(MESSAGE_VIEW_RECIPIENTS, messageViewRecipients).atLeastFloor()
+        messageViewSubject = storage.getInt(MESSAGE_VIEW_SUBJECT, messageViewSubject).atLeastFloor()
+        messageViewDate = storage.getInt(MESSAGE_VIEW_DATE, messageViewDate).atLeastFloor()
 
         loadMessageViewContentPercent(storage)
 
-        messageComposeInput = storage.getInt(MESSAGE_COMPOSE_INPUT, messageComposeInput)
+        messageComposeInput = storage.getInt(MESSAGE_COMPOSE_INPUT, messageComposeInput).atLeastFloor()
     }
+
+    // House floor: no text under 16 sp. Sizes of 10, 12 and 14 sp are no longer offered, and one saved
+    // before (or imported from an old settings file) is read as 16 sp.
+    private fun Int.atLeastFloor(): Int = if (this != FONT_DEFAULT && this < FONT_16SP) FONT_16SP else this
 
     private fun loadMessageViewContentPercent(storage: Storage) {
         messageViewContentAsPercent = storage.getInt(MESSAGE_VIEW_CONTENT_PERCENT, DEFAULT_CONTENT_SIZE_IN_PERCENT)
