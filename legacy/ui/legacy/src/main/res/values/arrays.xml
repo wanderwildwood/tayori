@@ -35,9 +35,6 @@
 
     <string-array name="font_entries">
         <item>@string/font_size_default</item>
-        <item>@string/font_size_tiniest</item>
-        <item>@string/font_size_tiny</item>
-        <item>@string/font_size_smaller</item>
         <item>@string/font_size_small</item>
         <item>@string/font_size_medium</item>
         <item>@string/font_size_large</item>
@@ -46,9 +43,6 @@
 
     <string-array name="font_values" translatable="false">
         <item>-1</item>
-        <item>10</item>
-        <item>12</item>
-        <item>14</item>
         <item>16</item>
         <item>18</item>
         <item>20</item>
