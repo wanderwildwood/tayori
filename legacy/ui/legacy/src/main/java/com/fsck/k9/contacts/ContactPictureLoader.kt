@@ -1,6 +1,8 @@
 package com.fsck.k9.contacts
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.net.Uri
 import android.widget.ImageView
@@ -22,6 +24,7 @@ class ContactPictureLoader(
     }
 
     fun setContactPicture(imageView: ImageView, address: Address) {
+        if (imageView.screenIsGone()) return
         Glide.with(imageView.context)
             .load(createContactImage(address, contactLetterOnly = false))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -39,6 +42,7 @@ class ContactPictureLoader(
     }
 
     private fun setContactPicture(imageView: ImageView, contactPictureUri: Uri) {
+        if (imageView.screenIsGone()) return
         Glide.with(imageView.context)
             .load(contactPictureUri)
             .placeholder(Icons.Outlined.AccountCircle)
@@ -49,11 +53,26 @@ class ContactPictureLoader(
     }
 
     private fun setFallbackPicture(imageView: ImageView, address: Address) {
+        if (imageView.screenIsGone()) return
         Glide.with(imageView.context)
             .load(createContactImage(address, contactLetterOnly = true))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
             .dontAnimate()
             .into(imageView)
+    }
+
+    /**
+     * True when the screen this view belongs to has already closed. A contact picked in another app
+     * can come back after the compose screen was destroyed, and Glide refuses to load for a
+     * destroyed activity (crash on 2026-11-05). Nothing is shown there any more, so skip the load.
+     */
+    private fun ImageView.screenIsGone(): Boolean {
+        var c: Context? = context
+        while (c is ContextWrapper) {
+            if (c is Activity) return c.isDestroyed || c.isFinishing
+            c = c.baseContext
+        }
+        return false
     }
 
     @WorkerThread
