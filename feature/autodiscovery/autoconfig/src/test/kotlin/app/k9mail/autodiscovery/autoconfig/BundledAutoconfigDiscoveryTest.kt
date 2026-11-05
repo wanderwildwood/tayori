@@ -9,12 +9,21 @@ import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isNull
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlinx.coroutines.test.runTest
 import net.thunderbird.core.common.mail.toUserEmailAddress
+import net.thunderbird.core.logging.testing.TestLogger
+import net.thunderbird.legacy.logging.Log
 
 class BundledAutoconfigDiscoveryTest {
     private val discovery = createBundledAutoconfigDiscovery()
+
+    @BeforeTest
+    fun setUp() {
+        // The parser logs the elements it skips; without a logger the first log call throws.
+        Log.logger = TestLogger()
+    }
 
     private suspend fun discover(address: String): Pair<ImapServerSettings, SmtpServerSettings> {
         val runnables = discovery.initDiscovery(address.toUserEmailAddress())
