@@ -21,8 +21,9 @@ redrawn for this one.
 
 - **Black and white, in Lato**, the face Mudita's own apps use, the message body included.
 - **A swipe turns one page and stops**, in the inbox, in a message and in settings. In
-  the inbox and settings a page holds whole rows: one that does not fit at the foot waits for
-  the next page. In a message, the line the old page cut through opens the new one. Nothing scrolls on its own
+  settings a page holds whole rows: one that does not fit at the foot waits for the next page.
+  In the inbox the message the foot cuts through shows there, and opens the next page whole.
+  In a message, the line the old page cut through opens the new one. Nothing scrolls on its own
   and nothing animates.
 - **No avatars and no icons on settings rows.** The name is the thing.
 - **Dialogs and menus are white inside a black rim**, and never gray out the screen behind

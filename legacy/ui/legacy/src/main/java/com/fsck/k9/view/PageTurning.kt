@@ -12,17 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 
 /**
- * A swipe moves the list one page, and then stops, and every page is made of WHOLE rows.
+ * A swipe moves the list one page, and then stops, and every page opens on a row.
  *
  * The same rules as the Compose lists' `PagedColumn` (3 Nov 2026: pages end on whole rows),
- * for the screens that are still RecyclerViews -- the inbox, settings, folder settings, the
- * message source:
+ * for the screens that are still RecyclerViews -- settings, folder settings, the message source,
+ * and the inbox:
  *
  * - a turn forward brings the first row that did not fit to the top of the page;
  * - a row that does not fit at the foot is not drawn, and cannot be pressed, until the next page;
  * - a blank tail after the last row lets that row come to the top, so the last page also starts
  *   on a row and is never pulled back to end flush, half a row showing at its top;
  * - a turn back goes one page back and lands on a row.
+ *
+ * [showsCutRow] is the inbox's exception (5 Nov 2026): the row the foot cuts through stays in
+ * sight and can be pressed, so a page has no blank band at its foot, and the next page opens on
+ * it, whole. There is no blank tail either: the last page ends flush, its bottom padding lifting
+ * the last row clear of the compose button, and may open on the bottom of a row the page before
+ * already showed.
  *
  * A row taller than the whole page is read a page at a time within it.
  *
@@ -31,13 +37,13 @@ import kotlin.math.abs
  * swipe actions underneath. Once a page has turned the rest of the drag is swallowed: one swipe
  * is one page, however far the finger keeps travelling.
  */
-fun RecyclerView.turnsAPageOnSwipe() {
+fun RecyclerView.turnsAPageOnSwipe(showsCutRow: Boolean = false) {
     // Letting go stops the list rather than throwing it across four screens of history.
     onFlingListener = object : RecyclerView.OnFlingListener() {
         override fun onFling(velocityX: Int, velocityY: Int) = true
     }
 
-    addItemDecoration(WholeRowPages(this))
+    if (!showsCutRow) addItemDecoration(WholeRowPages(this))
 
     val slop = ViewConfiguration.get(context).scaledTouchSlop
     addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
@@ -54,7 +60,7 @@ fun RecyclerView.turnsAPageOnSwipe() {
                     downX = e.x
                     downY = e.y
                     turned = false
-                    val hiddenFrom = rv.hiddenFrom()
+                    val hiddenFrom = if (showsCutRow) null else rv.hiddenFrom()
                     onHiddenRow = hiddenFrom != null && e.y >= hiddenFrom
                     return onHiddenRow
                 }
@@ -85,9 +91,9 @@ fun RecyclerView.turnsAPageOnSwipe() {
 
 /**
  * Where a page's rows may sit. A list that clips to its padding keeps its rows inside it. One
- * that does not is the inbox, whose rows run to the bottom of the screen: its bottom padding
- * only let the last row scroll up past the compose button, which the blank tail now does, so
- * its page is the whole view.
+ * that does not is the inbox, whose rows run to the bottom of the screen, so its page is the
+ * whole view: its bottom padding only shows after the last row, letting it scroll up past the
+ * compose button.
  */
 private val RecyclerView.page get() = if (clipToPadding) height - paddingTop - paddingBottom else height
 private val RecyclerView.topEdge get() = if (clipToPadding) paddingTop else 0
@@ -99,11 +105,18 @@ private fun RecyclerView.rows(): List<View> =
 
 private fun RecyclerView.rowTop(row: View) = layoutManager?.getDecoratedTop(row) ?: row.top
 
-/** A row's foot, its divider included and the blank tail ([WholeRowPages]) left out. */
+/** A row's foot, its divider included and the blank tail ([WholeRowPages]), if any, left out. */
 private fun RecyclerView.rowBottom(row: View): Int {
     val decorated = layoutManager?.getDecoratedBottom(row) ?: row.bottom
-    return if (isLastRow(row)) row.bottom + (decorated - row.bottom - page).coerceAtLeast(0) else decorated
+    return if (isLastRow(row) && hasBlankTail) {
+        row.bottom + (decorated - row.bottom - page).coerceAtLeast(0)
+    } else {
+        decorated
+    }
 }
+
+private val RecyclerView.hasBlankTail
+    get() = (0 until itemDecorationCount).any { getItemDecorationAt(it) is WholeRowPages }
 
 private fun RecyclerView.isLastRow(row: View): Boolean {
     val position = getChildAdapterPosition(row)
@@ -158,8 +171,9 @@ private fun RecyclerView.turnPageBack(page: Int) {
     val top = topEdge
     val opener = rows().firstOrNull { rowBottom(it) > top }
     val openerPosition = opener?.let { getChildAdapterPosition(it) } ?: RecyclerView.NO_POSITION
-    // Mid-way through a tall row: back a page within it, or to its top.
-    if (opener != null && rowTop(opener) < top) {
+    // Mid-way through a tall row: back a page within it, or to its top. (The inbox's last page
+    // may also open part-way down a row that is not tall; that row is simply turned back past.)
+    if (opener != null && rowTop(opener) < top && rowBottom(opener) - rowTop(opener) > page) {
         scrollBy(0, -minOf(page, top - rowTop(opener)))
         return
     }
