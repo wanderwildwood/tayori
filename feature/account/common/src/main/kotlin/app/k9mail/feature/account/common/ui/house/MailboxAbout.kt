@@ -1,9 +1,6 @@
 package app.k9mail.feature.account.common.ui.house
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
@@ -56,9 +53,10 @@ fun rememberLicencesLabels(): LicencesLabels {
 }
 
 /**
- * Mailbox's About: only the words and the address. The dialog, its one Close button, the Licences
- * row, the links and the llama are the shared HouseAbout.kt, the same in every app. It is the one
- * About for both places that open it: before any account exists (account setup) and in Settings.
+ * Mailbox's About: only the words and the address. The dialog, its drawers, its one Close button,
+ * the Licenses drawer, the links and the llama are the shared HouseAbout.kt, the same in every app.
+ * It is the one About for both places that open it: before any account exists (account setup) and
+ * in Settings.
  */
 @Composable
 fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
@@ -66,13 +64,14 @@ fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
     val data = AboutData(
         title = stringResource(R.string.account_common_about_title, version),
         sections = listOf(
+            AboutSection(null, stringResource(R.string.account_common_about_what)),
             AboutSection(stringResource(R.string.account_common_about_privacy_heading), stringResource(R.string.account_common_about_privacy)),
             AboutSection(stringResource(R.string.account_common_privacy_who_title), stringResource(R.string.account_common_privacy_who)),
             AboutSection(stringResource(R.string.account_common_privacy_contact_title), stringResource(R.string.account_common_privacy_contact)),
             AboutSection(stringResource(R.string.account_common_privacy_rights_title), stringResource(R.string.account_common_privacy_rights)),
+            AboutSection(stringResource(R.string.account_common_about_terms_heading), stringResource(R.string.account_common_about_terms)),
             AboutSection(null, stringResource(R.string.account_common_about_licence)),
             AboutSection(null, stringResource(R.string.account_common_about_after)),
-            AboutSection(stringResource(R.string.account_common_about_terms_heading), stringResource(R.string.account_common_about_terms)),
         ),
         sourceUrl = SOURCE_URL,
     )
@@ -83,10 +82,12 @@ fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
         noBrowser = { address -> resources.getString(R.string.account_common_no_browser_address, address) },
         writeTo = { address -> resources.getString(R.string.account_common_about_write_to, address) },
         noMailApp = { address -> resources.getString(R.string.account_common_about_no_mail_app, address) },
+        openDrawer = { heading -> resources.getString(R.string.account_common_about_open_drawer, heading) },
+        closeDrawer = { heading -> resources.getString(R.string.account_common_about_close_drawer, heading) },
+        contact = stringResource(R.string.account_common_about_contact_head),
+        links = stringResource(R.string.account_common_about_links_head),
     )
     ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
-        HouseAboutDialog(data, labels, R.drawable.account_common_llama, onDismiss) { modifier, back ->
-            LicencesScreen(rememberLicencesData(), rememberLicencesLabels(), onBack = back, modifier = modifier)
-        }
+        HouseAboutDialog(data, labels, R.drawable.account_common_llama, onDismiss)
     }
 }
