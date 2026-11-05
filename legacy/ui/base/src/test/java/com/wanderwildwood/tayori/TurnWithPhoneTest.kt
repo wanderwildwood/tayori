@@ -55,7 +55,9 @@ class TurnWithPhoneTest {
         assertEquals("top to the left", TurnWithPhone.LANDSCAPE, screenAt(trace, 18.0))
         assertEquals("top to the right", TurnWithPhone.REVERSE_LANDSCAPE, screenAt(trace, 28.0))
         assertEquals("laid flat: stays as it was", TurnWithPhone.REVERSE_LANDSCAPE, screenAt(trace, 38.0))
-        assertEquals("upright again", TurnWithPhone.PORTRAIT, screenAt(trace, 60.0))
+        assertEquals("still tilted forward (overhead): stays as it was", TurnWithPhone.REVERSE_LANDSCAPE, screenAt(trace, 55.0))
+        // Upright again only from about 58 s, so portrait comes at the very end of the recording.
+        assertEquals("upright again", TurnWithPhone.PORTRAIT, trace.last().second)
     }
 
     @Test fun onTheDeskAtASlightTiltNeverTurns() {

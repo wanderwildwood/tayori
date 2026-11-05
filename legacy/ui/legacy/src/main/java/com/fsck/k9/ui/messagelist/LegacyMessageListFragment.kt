@@ -585,7 +585,8 @@ class LegacyMessageListFragment :
 
         recyclerView.layoutManager = LinearLayoutManager()
         recyclerView.itemAnimator = null
-        recyclerView.turnsAPageOnSwipe()
+        // The row the foot cuts through stays in sight, rather than a blank band (5 Nov 2026).
+        recyclerView.turnsAPageOnSwipe(showsCutRow = true)
 
         val itemTouchHelper = ItemTouchHelper(
             MessageListSwipeCallback(
