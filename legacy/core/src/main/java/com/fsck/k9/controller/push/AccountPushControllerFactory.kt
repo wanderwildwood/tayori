@@ -15,6 +15,7 @@ internal class AccountPushControllerFactory(
     private val pushFolderTrackingRepository: PushFolderTrackingRepository,
     private val pushFoldersQueryRepository: PushFoldersQueryRepository,
     private val logger: Logger,
+    private val pushNotSupportedNotes: PushNotSupportedNotes,
 ) {
     fun create(accountId: AccountId): AccountPushController {
         return AccountPushController(
@@ -26,6 +27,7 @@ internal class AccountPushControllerFactory(
                 pushFolderTrackingRepository = pushFolderTrackingRepository,
                 accountId = accountId,
                 logger = logger,
+                pushNotSupportedNotes = pushNotSupportedNotes,
             ),
             accountId = accountId,
             logger = logger,

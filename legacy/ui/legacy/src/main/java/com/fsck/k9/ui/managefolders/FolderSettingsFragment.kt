@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.k9mail.legacy.ui.folder.FolderNameFormatter
 import com.fsck.k9.ui.settings.ArmedPreference
 import com.fsck.k9.fragment.ConfirmationDialogFragment.ConfirmationDialogFragmentListener
+import com.fsck.k9.controller.push.PushNotSupportedNotes
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.livedata.observeNotNull
 import com.fsck.k9.ui.settings.withoutIconSpace
@@ -28,6 +29,7 @@ import com.fsck.k9.ui.base.R as BaseR
 
 class FolderSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFragmentListener {
     private val viewModel: FolderSettingsViewModel by viewModel()
+    private val pushNotSupportedNotes: PushNotSupportedNotes by inject()
     private val folderNameFormatter: FolderNameFormatter by inject()
 
     override fun onCreateRecyclerView(
@@ -60,7 +62,10 @@ class FolderSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFra
             .observeNotNull(viewLifecycleOwner) { folderSettingsResult ->
                 when (folderSettingsResult) {
                     is FolderNotFound -> navigateBack()
-                    is FolderSettingsData -> initPreferences(folderSettingsResult)
+                    is FolderSettingsData -> {
+                        initPreferences(folderSettingsResult)
+                        if (!folderSettingsResult.folder.isLocalOnly) explainPush(accountUuid)
+                    }
                 }
             }
 
@@ -105,6 +110,24 @@ class FolderSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFra
             requirePreference<Preference>(PREFERENCE_SYNC).isVisible = false
             requirePreference<Preference>(PREFERENCE_PUSH).isVisible = false
             requirePreference<Preference>(PREFERENCE_NOTIFICATIONS).isVisible = false
+        }
+    }
+
+    /**
+     * A server without IMAP IDLE turns push off for the whole account as soon as it is tried, so
+     * the switch went back off with no word. Say why under it; switching it on tries once more.
+     */
+    private fun explainPush(accountUuid: String) {
+        val push = requirePreference<Preference>(PREFERENCE_PUSH)
+        if (pushNotSupportedNotes.isMarked(accountUuid)) {
+            push.summary = getString(R.string.folder_settings_push_not_supported)
+        }
+        push.setOnPreferenceChangeListener { preference, newValue ->
+            if (newValue == true) {
+                pushNotSupportedNotes.clear(accountUuid)
+                preference.summary = null
+            }
+            true
         }
     }
 

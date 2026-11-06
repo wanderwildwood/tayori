@@ -14,8 +14,10 @@ internal val controllerPushModule = module {
             pushFolderTrackingRepository = get(),
             pushFoldersQueryRepository = get(),
             logger = get(),
+            pushNotSupportedNotes = get(),
         )
     }
+    single { PushNotSupportedNotes(context = get<android.content.Context>()) }
     single {
         PushController(
             accountManager = get(),
