@@ -5,13 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
+import com.wanderwildwood.tayori.files.FilesPicker
 
 class CreateDocumentResultContract : ActivityResultContract<CreateDocumentResultContract.Input, Uri?>() {
     override fun createIntent(context: Context, input: Input): Intent {
-        return Intent(Intent.ACTION_CREATE_DOCUMENT)
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .setType(input.mimeType)
             .putExtra(Intent.EXTRA_TITLE, input.title)
+        return FilesPicker.aim(context, intent, writable = true)
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): Uri? {

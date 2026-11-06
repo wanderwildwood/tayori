@@ -2,9 +2,9 @@ package net.thunderbird.feature.account.settings.impl.ui.general
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import com.eygraber.uri.toKmpUri
+import com.wanderwildwood.tayori.files.FilesOpenDocument
 import net.thunderbird.core.ui.contract.mvi.observe
 import net.thunderbird.core.ui.setting.SettingViewProvider
 import net.thunderbird.feature.account.AccountId
@@ -25,7 +25,7 @@ internal fun GeneralSettingsScreen(
     provider: SettingViewProvider = koinInject(),
     builder: SettingsBuilder = koinInject(),
 ) {
-    val imagePicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+    val imagePicker = rememberLauncherForActivityResult(FilesOpenDocument(writable = false)) { uri ->
         if (uri != null) {
             viewModel.event(Event.OnAvatarImagePicked(uri.toKmpUri()))
         }

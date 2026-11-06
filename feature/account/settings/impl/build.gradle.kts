@@ -33,6 +33,7 @@ dependencies {
     implementation(projects.core.ui.contract)
     implementation(projects.core.ui.navigation)
     implementation(projects.core.common)
+    implementation(projects.core.android.common)
 
     implementation(libs.uri)
 

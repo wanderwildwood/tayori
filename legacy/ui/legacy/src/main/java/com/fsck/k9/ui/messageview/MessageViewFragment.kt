@@ -21,7 +21,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.collectAsState
@@ -72,6 +71,7 @@ import com.fsck.k9.ui.messagesource.MessageSourceActivity
 import com.fsck.k9.ui.messageview.MessageCryptoPresenter.MessageCryptoMvpView
 import com.fsck.k9.ui.settings.account.AccountSettingsActivity
 import com.fsck.k9.ui.share.ShareIntentBuilder
+import com.wanderwildwood.tayori.files.FilesOpenTree
 import java.util.Locale
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -141,7 +141,7 @@ class MessageViewFragment :
             onCreateDocumentResult(documentUri)
         }
     private val openDocumentTreeLauncher: ActivityResultLauncher<Uri?> =
-        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { directoryUri ->
+        registerForActivityResult(FilesOpenTree()) { directoryUri ->
             onOpenDocumentTreeResult(directoryUri)
         }
     private val chooseFolderForCopyLauncher: ActivityResultLauncher<ChooseFolderResultContract.Input> =

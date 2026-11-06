@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
@@ -25,6 +24,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.wanderwildwood.tayori.files.FilesGetContent
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import com.fsck.k9.ui.base.R as BaseR
@@ -45,7 +45,7 @@ class SettingsImportFragment : Fragment() {
     }
 
     private val pickDocumentLauncher = registerForActivityResult(
-        ActivityResultContracts.GetContent(),
+        FilesGetContent(),
         pickDocumentCallback,
     )
     private val qrCodeScannerLauncher = registerForActivityResult(
