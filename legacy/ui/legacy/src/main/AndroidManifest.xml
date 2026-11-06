@@ -26,6 +26,9 @@
         <!-- Wallet (satsuire): "Add to Wallet" on a pass, ticket picture or PDF. See WalletLink. -->
         <package android:name="com.wanderwildwood.satsuire" />
 
+        <!-- Glance (hitome), so GlanceProvider can check who is asking. -->
+        <package android:name="com.wanderwildwood.hitome" />
+
         <intent>
             <!-- Used to check whether to display the "Add from Contacts" menu item in the compose screen -->
             <action android:name="android.intent.action.PICK" />
