@@ -138,6 +138,7 @@ import com.fsck.k9.ui.helper.SizeFormatter;
 import com.fsck.k9.ui.messagelist.DefaultFolderProvider;
 import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.textview.MaterialTextView;
+import com.wanderwildwood.tayori.files.FilesPicker;
 import net.thunderbird.core.android.account.MessageFormat;
 import net.thunderbird.core.android.contact.ContactIntentHelper;
 import net.thunderbird.core.featureflag.FeatureFlagProvider;
@@ -2140,7 +2141,9 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
             i.setType("*/*");
             isInSubActivity = true;
 
-            startActivityForResult(Intent.createChooser(i, null), requestCode);
+            // Files (tana) is asked by name when it answers; otherwise the phone's own chooser.
+            FilesPicker.INSTANCE.aim(MessageCompose.this, i, false);
+            startActivityForResult(i.getPackage() != null ? i : Intent.createChooser(i, null), requestCode);
         }
 
         @Override

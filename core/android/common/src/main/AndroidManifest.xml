@@ -9,6 +9,10 @@
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
+
+        <!-- Files (tana), asked by name for opening, saving and choosing a folder when it is
+             installed. See FilesPicker. -->
+        <package android:name="com.wanderwildwood.tana" />
     </queries>
 
     <application android:supportsRtl="true">

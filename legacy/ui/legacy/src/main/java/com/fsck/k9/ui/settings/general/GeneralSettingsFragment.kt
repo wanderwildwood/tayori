@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.preference.Preference
@@ -28,6 +27,7 @@ import com.fsck.k9.ui.settings.withoutIconSpace
 import com.fsck.k9.view.turnsAPageOnSwipe
 import com.google.android.material.snackbar.Snackbar
 import com.takisoft.preferencex.PreferenceFragmentCompat
+import com.wanderwildwood.tayori.files.FilesCreateDocument
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -47,20 +47,20 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
     private var currentUiState: GeneralSettingsUiState? = null
     private var snackbar: Snackbar? = null
 
-    private val exportLogsResultContract = registerForActivityResult(CreateDocument("text/plain")) { contentUri ->
+    private val exportLogsResultContract = registerForActivityResult(FilesCreateDocument("text/plain")) { contentUri ->
         if (contentUri != null) {
             viewModel.exportLogs(contentUri)
         }
     }
 
     private val exportSyncDebugLogsResultContract =
-        registerForActivityResult(CreateDocument("text/plain")) { contentUri ->
+        registerForActivityResult(FilesCreateDocument("text/plain")) { contentUri ->
             if (contentUri != null) {
                 viewModel.fileExport(contentUri.toString())
             }
         }
     private val choseFileSyncDebugLogsResultContract =
-        registerForActivityResult(CreateDocument("text/plain")) { contentUri ->
+        registerForActivityResult(FilesCreateDocument("text/plain")) { contentUri ->
             if (contentUri != null) {
                 context?.contentResolver?.takePersistableUriPermission(
                     contentUri,
