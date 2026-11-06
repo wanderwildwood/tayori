@@ -15,6 +15,7 @@ class AccountBackendPusherCallback(
     private val pushFolderTrackingRepository: PushFolderTrackingRepository,
     private val accountId: AccountId,
     private val logger: Logger,
+    private val pushNotSupportedNotes: PushNotSupportedNotes,
 ) : BackendPusherCallback {
     override fun onPushEvent(folderServerId: String) {
         val account = accountManager.getAccount(accountId.toString())
@@ -28,6 +29,7 @@ class AccountBackendPusherCallback(
 
     override suspend fun onPushNotSupported() {
         logger.verbose(TAG) { "Push not supported for account $accountId. Disabling push." }
+        pushNotSupportedNotes.mark(accountId.toString())
         pushFolderTrackingRepository.disable(accountId)
     }
 }
