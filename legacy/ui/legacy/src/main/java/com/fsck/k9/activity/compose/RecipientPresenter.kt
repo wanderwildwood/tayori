@@ -73,6 +73,7 @@ class RecipientPresenter(
     private var isReplyToEncryptedMessage = false
 
     private var lastFocusedType = RecipientType.TO
+    private var pendingPickType: RecipientType? = null
     private var currentCryptoMode = CryptoMode.NO_CHOICE
     private var forceShowCcBcc: Boolean = false
 
@@ -117,6 +118,7 @@ class RecipientPresenter(
     init {
         recipientMvpView.setPresenter(this)
         recipientMvpView.setLoaderManager(loaderManager)
+        recipientMvpView.setContactPickerButtonVisible(hasContactPicker())
 
         onSwitchAccount(account)
     }
@@ -330,7 +332,7 @@ class RecipientPresenter(
             menu.findItem(R.id.openpgp_sign_only_disable).isVisible = false
         }
 
-        menu.findItem(R.id.add_from_contacts).isVisible = hasContactPermission() && hasContactPicker()
+        menu.findItem(R.id.add_from_contacts).isVisible = hasContactPicker()
     }
 
     fun onSwitchAccount(account: LegacyAccountDto) {
@@ -539,8 +541,31 @@ class RecipientPresenter(
     }
 
     fun onMenuAddFromContacts() {
-        val requestCode = lastFocusedType.toRequestCode()
-        recipientMvpView.showContactPicker(requestCode)
+        pickContact(lastFocusedType)
+    }
+
+    fun onClickToContacts() {
+        pickContact(RecipientType.TO)
+    }
+
+    /**
+     * Opens the contacts picker for [recipientType]. Without the Contacts permission it is asked
+     * for first, here where it is wanted (it also lets names come up while typing an address);
+     * the picker opens whatever the answer, as the picked address is readable either way.
+     */
+    private fun pickContact(recipientType: RecipientType) {
+        if (hasContactPermission()) {
+            recipientMvpView.showContactPicker(recipientType.toRequestCode())
+        } else {
+            pendingPickType = recipientType
+            recipientMvpView.requestContactsPermission()
+        }
+    }
+
+    fun onContactsPermissionResult() {
+        val recipientType = pendingPickType ?: RecipientType.TO
+        pendingPickType = null
+        recipientMvpView.showContactPicker(recipientType.toRequestCode())
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
