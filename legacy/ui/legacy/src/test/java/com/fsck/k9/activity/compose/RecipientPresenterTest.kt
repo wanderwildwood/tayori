@@ -1,5 +1,7 @@
 package com.fsck.k9.activity.compose
 
+import android.Manifest
+import android.app.Application
 import androidx.test.core.app.ApplicationProvider
 import assertk.assertThat
 import assertk.assertions.isEqualTo
@@ -31,6 +33,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.koin.test.inject
 import org.mockito.ArgumentMatchers.eq
+import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doAnswer
@@ -42,6 +45,7 @@ import org.openintents.openpgp.OpenPgpApiManager
 import org.openintents.openpgp.OpenPgpApiManager.OpenPgpApiManagerCallback
 import org.openintents.openpgp.OpenPgpApiManager.OpenPgpProviderState
 import org.openintents.openpgp.util.OpenPgpApi
+import org.robolectric.Shadows.shadowOf
 
 private val TO_ADDRESS = Address("to@domain.example")
 private val CC_ADDRESS = Address("cc@domain.example")
@@ -84,6 +88,40 @@ class RecipientPresenterTest : K9RobolectricTest() {
             replyToParser,
             autocryptDraftStateHeaderParser,
         )
+    }
+
+    @Test
+    fun clickToContacts_withoutPermission_asksForItThenOpensPickerForTo() {
+        recipientPresenter.onClickToContacts()
+
+        verify(recipientMvpView).requestContactsPermission()
+        verify(recipientMvpView, never()).showContactPicker(any())
+
+        recipientPresenter.onContactsPermissionResult()
+
+        verify(recipientMvpView).showContactPicker(eq(1))
+    }
+
+    @Test
+    fun clickToContacts_withPermission_opensPickerForTo() {
+        shadowOf(ApplicationProvider.getApplicationContext<Application>())
+            .grantPermissions(Manifest.permission.READ_CONTACTS)
+
+        recipientPresenter.onClickToContacts()
+
+        verify(recipientMvpView, never()).requestContactsPermission()
+        verify(recipientMvpView).showContactPicker(eq(1))
+    }
+
+    @Test
+    fun menuAddFromContacts_afterCcFocused_opensPickerForCc() {
+        shadowOf(ApplicationProvider.getApplicationContext<Application>())
+            .grantPermissions(Manifest.permission.READ_CONTACTS)
+
+        recipientPresenter.onCcFocused()
+        recipientPresenter.onMenuAddFromContacts()
+
+        verify(recipientMvpView).showContactPicker(eq(2))
     }
 
     @Test

@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -47,6 +48,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -310,6 +313,15 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
     private SimpleMessageFormat currentMessageFormat;
 
     private boolean isInSubActivity = false;
+
+    // Asked for the first time a contact is picked, never sooner; the picker opens either way.
+    private final ActivityResultLauncher<String> contactsPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestPermission(), granted -> {
+                isInSubActivity = false;
+                if (recipientPresenter != null) {
+                    recipientPresenter.onContactsPermissionResult();
+                }
+            });
 
     private boolean navigateUp;
 
@@ -1007,6 +1019,11 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
         Context context = getApplicationContext();
         Toast toast = Toast.makeText(context, txt, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    public void requestContactsPermission() {
+        isInSubActivity = true;
+        contactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS);
     }
 
     public void showContactPicker(int requestCode) {

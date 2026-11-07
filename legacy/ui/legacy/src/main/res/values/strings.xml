@@ -939,6 +939,7 @@
     <!-- Note: This references message_view_download_remainder -->
     <string name="preview_encrypted">*Encrypted*</string>
     <string name="add_from_contacts">Add from contacts</string>
+    <string name="compose_pick_contact">Choose a contact</string>
     <string name="recipient_cc">Cc</string>
     <string name="recipient_bcc">Bcc</string>
     <string name="recipient_to">To</string>

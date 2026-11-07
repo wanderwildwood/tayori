@@ -29,6 +29,7 @@ class RecipientMvpView(private val activity: MessageCompose) : View.OnFocusChang
     private val bccWrapper: View = activity.findViewById(R.id.bcc_wrapper)
     private val bccDivider: View = activity.findViewById(R.id.bcc_divider)
     private val recipientExpanderContainer: ViewAnimator = activity.findViewById(R.id.recipient_expander_container)
+    private val toContactsButton: View = activity.findViewById(R.id.to_contacts)
     private val cryptoStatusView: ToolableViewAnimator = activity.findViewById(R.id.crypto_status)
     private val cryptoSpecialModeIndicator: ToolableViewAnimator = activity.findViewById(R.id.crypto_special_mode)
     private val textWatchers: MutableSet<TextWatcher> = HashSet()
@@ -42,6 +43,7 @@ class RecipientMvpView(private val activity: MessageCompose) : View.OnFocusChang
         bccView.onFocusChangeListener = this
 
         activity.findViewById<View>(R.id.recipient_expander).setOnClickListener(this)
+        toContactsButton.setOnClickListener(this)
         activity.findViewById<View>(R.id.to_label).setOnClickListener(this)
         activity.findViewById<View>(R.id.cc_label).setOnClickListener(this)
         activity.findViewById<View>(R.id.bcc_label).setOnClickListener(this)
@@ -339,6 +341,14 @@ class RecipientMvpView(private val activity: MessageCompose) : View.OnFocusChang
         activity.showContactPicker(requestCode)
     }
 
+    fun requestContactsPermission() {
+        activity.requestContactsPermission()
+    }
+
+    fun setContactPickerButtonVisible(visible: Boolean) {
+        toContactsButton.isVisible = visible
+    }
+
     fun showErrorIsSignOnly() {
         Toast.makeText(activity, R.string.error_sign_only_no_encryption, Toast.LENGTH_LONG).show()
     }
@@ -383,6 +393,7 @@ class RecipientMvpView(private val activity: MessageCompose) : View.OnFocusChang
             R.id.cc_label -> presenter.onClickCcLabel()
             R.id.bcc_label -> presenter.onClickBccLabel()
             R.id.recipient_expander -> presenter.onClickRecipientExpander()
+            R.id.to_contacts -> presenter.onClickToContacts()
             R.id.crypto_status -> presenter.onClickCryptoStatus()
             R.id.crypto_special_mode -> presenter.onClickCryptoSpecialModeIndicator()
         }
