@@ -91,8 +91,8 @@ class RecipientPresenterTest : K9RobolectricTest() {
     }
 
     @Test
-    fun clickToContacts_withoutPermission_asksForItThenOpensPickerForTo() {
-        recipientPresenter.onClickToContacts()
+    fun menuAddFromContacts_withoutPermission_asksForItThenOpensPickerForTo() {
+        recipientPresenter.onMenuAddFromContacts()
 
         verify(recipientMvpView).requestContactsPermission()
         verify(recipientMvpView, never()).showContactPicker(any())
@@ -103,11 +103,11 @@ class RecipientPresenterTest : K9RobolectricTest() {
     }
 
     @Test
-    fun clickToContacts_withPermission_opensPickerForTo() {
+    fun menuAddFromContacts_withPermission_opensPickerForTo() {
         shadowOf(ApplicationProvider.getApplicationContext<Application>())
             .grantPermissions(Manifest.permission.READ_CONTACTS)
 
-        recipientPresenter.onClickToContacts()
+        recipientPresenter.onMenuAddFromContacts()
 
         verify(recipientMvpView, never()).requestContactsPermission()
         verify(recipientMvpView).showContactPicker(eq(1))

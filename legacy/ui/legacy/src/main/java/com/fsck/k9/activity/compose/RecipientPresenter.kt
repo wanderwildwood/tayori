@@ -118,7 +118,6 @@ class RecipientPresenter(
     init {
         recipientMvpView.setPresenter(this)
         recipientMvpView.setLoaderManager(loaderManager)
-        recipientMvpView.setContactPickerButtonVisible(hasContactPicker())
 
         onSwitchAccount(account)
     }
@@ -542,10 +541,6 @@ class RecipientPresenter(
 
     fun onMenuAddFromContacts() {
         pickContact(lastFocusedType)
-    }
-
-    fun onClickToContacts() {
-        pickContact(RecipientType.TO)
     }
 
     /**
