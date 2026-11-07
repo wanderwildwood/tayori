@@ -295,7 +295,7 @@
             android:layout_width="match_parent"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/to_label"
-            android:layout_toStartOf="@+id/to_contacts"
+            android:layout_marginEnd="30dp"
             android:inputType="textEmailAddress|textMultiLine"
             android:imeOptions="actionNext"
             android:background="@android:color/transparent"
@@ -305,20 +305,6 @@
             android:dropDownAnchor="@id/to_wrapper"
             tools:text="Recipient"
             style="@style/RecipientEditText"
-            />
-
-        <!-- Pick a person with an email address from the phone's contacts. -->
-        <ImageView
-            android:id="@+id/to_contacts"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_toStartOf="@+id/recipient_expander_container"
-            android:layout_centerVertical="true"
-            android:padding="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/compose_pick_contact"
-            android:tooltipText="@string/compose_pick_contact"
-            app:srcCompat="@drawable/ic_person"
             />
 
         <ViewAnimator
