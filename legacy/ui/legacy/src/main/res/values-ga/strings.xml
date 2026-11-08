@@ -680,7 +680,7 @@
     <string name="fetching_attachment_dialog_title_save">Dréacht a shábháil</string>
     <string name="fetching_attachment_dialog_message">Iatán á fháil…</string>
     <string name="preview_encrypted">*Criptithe *</string>
-    <string name="add_from_contacts">Cuir ó Theagmhálacha</string>
+    <string name="add_from_contacts">Cuir ó theagmhálacha</string>
     <string name="recipient_cc">Cc</string>
     <string name="recipient_bcc">Bcc</string>
     <string name="recipient_to">Chun</string>

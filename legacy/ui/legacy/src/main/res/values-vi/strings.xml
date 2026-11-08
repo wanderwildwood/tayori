@@ -838,7 +838,7 @@
     <string name="remote_search_sending_query">Đang gửi yêu cầu đến máy chủ</string>
     <string name="account_settings_remote_search_num_results_entries_1000">1000</string>
     <string name="account_settings_remote_search_num_label">Giới hạn tìm kiếm của máy chủ</string>
-    <string name="add_from_contacts">Thêm từ Danh bạ</string>
+    <string name="add_from_contacts">Thêm từ danh bạ</string>
     <string name="font_size_message_list_preview">Xem qua</string>
     <string name="font_size_message_view_account">Tên tài khoản</string>
     <string name="font_size_message_view_recipients">Người nhận</string>

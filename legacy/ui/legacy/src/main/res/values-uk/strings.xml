@@ -669,7 +669,7 @@
     <string name="fetching_attachment_dialog_message">Отримання вкладення…</string>
     <!--Note: This references message_view_download_remainder-->
     <string name="preview_encrypted">*Зашифровано*</string>
-    <string name="add_from_contacts">Додати з Контактів</string>
+    <string name="add_from_contacts">Додати з контактів</string>
     <string name="recipient_cc">Копія</string>
     <string name="recipient_bcc">Прихована копія</string>
     <string name="recipient_to">До</string>

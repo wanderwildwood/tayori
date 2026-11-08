@@ -663,7 +663,7 @@
     <string name="fetching_attachment_dialog_message">Se preia anexa…</string>
     <!--Note: This references message_view_download_remainder-->
     <string name="preview_encrypted">*Criptat*</string>
-    <string name="add_from_contacts">Adaugă din Contacte</string>
+    <string name="add_from_contacts">Adaugă din contacte</string>
     <string name="recipient_cc">Cc</string>
     <string name="recipient_bcc">Bcc</string>
     <string name="recipient_to">Către</string>

@@ -666,7 +666,7 @@
     <string name="fetching_attachment_dialog_message">Yn nôl yr atodiad…</string>
     <!--Note: This references message_view_download_remainder-->
     <string name="preview_encrypted">*Wedi amgryptio*</string>
-    <string name="add_from_contacts">Ychwanegu o\'r Cysylltiadau</string>
+    <string name="add_from_contacts">Ychwanegu o\'r cysylltiadau</string>
     <string name="recipient_cc">Cc</string>
     <string name="recipient_bcc">Bcc</string>
     <string name="recipient_to">At</string>

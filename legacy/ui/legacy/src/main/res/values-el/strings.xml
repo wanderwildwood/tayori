@@ -657,7 +657,7 @@
     <string name="fetching_attachment_dialog_message">Λήψη συνημμένου…</string>
     <!--Note: This references message_view_download_remainder-->
     <string name="preview_encrypted">*Κρυπτογραφημένο*</string>
-    <string name="add_from_contacts">Προσθήκη από τις Επαφές</string>
+    <string name="add_from_contacts">Προσθήκη από τις επαφές</string>
     <string name="recipient_cc">Κοιν</string>
     <string name="recipient_bcc">Κρυφή Κοιν</string>
     <string name="recipient_to">Προς</string>

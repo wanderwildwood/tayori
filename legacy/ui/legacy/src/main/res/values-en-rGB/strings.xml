@@ -675,7 +675,7 @@
     <string name="messageview_decrypt_cancelled">Decryption was cancelled.</string>
     <string name="ac_transfer_show_code">Show Setup Code</string>
     <string name="recipient_cc">Cc</string>
-    <string name="add_from_contacts">Add from Contacts</string>
+    <string name="add_from_contacts">Add from contacts</string>
     <string name="ac_transfer_intro">An Autocrypt Setup Message securely shares your end-to-end setup with other devices.</string>
     <string name="webview_contextmenu_phone_clipboard_label">Phone number</string>
     <string name="locked_attach_unencrypted">This part was not encrypted, and may be insecure.</string>
