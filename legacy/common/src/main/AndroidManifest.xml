@@ -173,6 +173,20 @@
             android:label="@string/general_settings_title"
             />
 
+        <!-- Glance's door to "Unread mail on the lock screen": opens the Notifications settings,
+             where that switch is, and takes nothing from the intent but its action. -->
+        <activity-alias
+            android:name="com.fsck.k9.ui.settings.general.LockScreenSetting"
+            android:exported="true"
+            android:label="@string/general_settings_title"
+            android:targetActivity="com.fsck.k9.ui.settings.general.GeneralSettingsActivity"
+            >
+            <intent-filter>
+                <action android:name="com.wanderwildwood.tayori.action.LOCK_SCREEN_SETTING" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity-alias>
+
         <activity
             android:name="com.fsck.k9.ui.settings.notificationactions.NotificationActionsSettingsActivity"
             android:label="@string/notification_actions_settings_title"

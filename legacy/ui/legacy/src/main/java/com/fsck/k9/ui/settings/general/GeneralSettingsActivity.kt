@@ -53,7 +53,10 @@ class GeneralSettingsActivity : BaseActivity(), OnPreferenceStartScreenCallback,
 
         if (savedInstanceState == null) {
             fragmentTransaction {
-                add(R.id.generalSettingsContainer, GeneralSettingsFragment.create())
+                // Glance's door opens straight at the Notifications screen, which holds "Unread
+                // mail on the lock screen"; Back from there goes back to Glance.
+                val rootKey = if (intent?.action == ACTION_LOCK_SCREEN_SETTING) NOTIFICATION_SCREEN else null
+                add(R.id.generalSettingsContainer, GeneralSettingsFragment.create(rootKey))
             }
         } else {
             searchQuery = savedInstanceState.getString(KEY_SEARCH_QUERY, "")
@@ -159,6 +162,10 @@ class GeneralSettingsActivity : BaseActivity(), OnPreferenceStartScreenCallback,
     companion object {
         private const val KEY_SEARCH_QUERY = "search_query"
         private const val KEY_SEARCH_ENABLED = "search_enabled"
+
+        /** Glance's door, through the exported alias LockScreenSetting in the manifest. */
+        const val ACTION_LOCK_SCREEN_SETTING = "com.wanderwildwood.tayori.action.LOCK_SCREEN_SETTING"
+        private const val NOTIFICATION_SCREEN = "notification_preferences"
         fun start(context: Context) {
             val intent = Intent(context, GeneralSettingsActivity::class.java)
             context.startActivity(intent)
