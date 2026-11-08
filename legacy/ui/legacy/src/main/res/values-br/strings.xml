@@ -578,7 +578,7 @@
     <string name="fetching_attachment_dialog_message">O kerc’hat ar genstagadenn…</string>
     <!--Note: This references message_view_download_remainder-->
     <string name="preview_encrypted">*Enrineget*</string>
-    <string name="add_from_contacts">Ouzhpennañ eus an Darempredoù</string>
+    <string name="add_from_contacts">Ouzhpennañ eus an darempredoù</string>
     <string name="recipient_cc">Cc</string>
     <string name="recipient_bcc">Bcc</string>
     <string name="recipient_to">Da</string>

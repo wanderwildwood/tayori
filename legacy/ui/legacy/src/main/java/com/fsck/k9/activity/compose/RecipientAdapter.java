@@ -7,7 +7,10 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.text.Spannable;
+import android.graphics.Typeface;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +154,17 @@ public class RecipientAdapter extends BaseAdapter implements Filterable {
     }
 
     private Spannable highlightText(String text) {
+        // The letters typed so far are shown in the strongest text color, in bold: the blue they
+        // had came out as a pale grey on the e-ink panel, weaker than the rest of the row.
+        TypedValue primary = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.textColorPrimary, primary, true);
+        int strongest = primary.resourceId != 0
+                ? context.getResources().getColorStateList(primary.resourceId, context.getTheme()).getDefaultColor()
+                : primary.data;
+        return highlightText(text, highlight, strongest);
+    }
+
+    static Spannable highlightText(String text, String highlight, int color) {
         Spannable highlightedSpannable = Spannable.Factory.getInstance().newSpannable(text);
 
         if (highlight == null) {
@@ -160,8 +174,9 @@ public class RecipientAdapter extends BaseAdapter implements Filterable {
         Pattern pattern = Pattern.compile(highlight, Pattern.LITERAL | Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
-            highlightedSpannable.setSpan(
-                    new ForegroundColorSpan(context.getResources().getColor(android.R.color.holo_blue_light)),
+            highlightedSpannable.setSpan(new ForegroundColorSpan(color),
+                    matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            highlightedSpannable.setSpan(new StyleSpan(Typeface.BOLD),
                     matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
