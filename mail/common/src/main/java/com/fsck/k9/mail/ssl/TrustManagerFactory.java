@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fsck.k9.mail.CertificateChainException;
+import com.fsck.k9.mail.ssl.tls.CertificateBlocklist;
+import com.fsck.k9.mail.ssl.tls.CompromisedCertificateException;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -91,9 +93,14 @@ public class TrustManagerFactory {
             Throwable cause;
 
             try {
+                CertificateBlocklist.INSTANCE.checkCertificateBlockList(chain);
                 defaultTrustManager.checkServerTrusted(chain, authType);
                 hostnameVerifier.verify(mHost, certificate);
                 return;
+            } catch (CompromisedCertificateException e) {
+                // part of cert. chain is on the block list
+                message = e.getMessage();
+                cause = e;
             } catch (CertificateException e) {
                 // cert. chain can't be validated
                 message = e.getMessage();
