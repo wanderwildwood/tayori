@@ -90,6 +90,14 @@ private fun rememberPrefixAnnotatedString(
     buildAnnotatedString {
         configuration.leadingItems.forEach { leadingItem ->
             when (leadingItem) {
+                is MessageSublineLeadingIndicator.RepliedIcon -> {
+                    appendInlineContent(
+                        id = MessageItemDefaults.REPLIED_ICON_INLINE_COMPOSABLE_ID,
+                        alternateText = MessageItemDefaults.REPLIED_ICON_INLINE_COMPOSABLE_REPLACEMENT,
+                    )
+                    append(" ")
+                }
+
                 is MessageSublineLeadingIndicator.AttachmentIcon -> {
                     appendInlineContent(
                         id = MessageItemDefaults.ATTACHMENT_ICON_INLINE_COMPOSABLE_ID,
@@ -113,11 +121,23 @@ private fun rememberPrefixAnnotatedString(
 @Composable
 private fun rememberInlineContent(configuration: MessageSublineConfiguration): ImmutableMap<String, InlineTextContent> {
     val badgeHeight = calculateBadgeHeight()
-    return remember(configuration) {
+    val repliedDescription = androidx.compose.ui.res.stringResource(net.thunderbird.feature.mail.message.list.R.string.message_list_replied)
+    return remember(configuration, repliedDescription) {
         configuration
             .leadingItems
             .associate { leadingItem ->
                 when (leadingItem) {
+                    is MessageSublineLeadingIndicator.RepliedIcon ->
+                        MessageItemDefaults.REPLIED_ICON_INLINE_COMPOSABLE_ID to InlineTextContent(
+                            Placeholder(
+                                width = 16.sp,
+                                height = 16.sp,
+                                placeholderVerticalAlign = PlaceholderVerticalAlign.Center,
+                            ),
+                        ) {
+                            Icon(imageVector = Icons.Outlined.Reply, contentDescription = repliedDescription)
+                        }
+
                     is MessageSublineLeadingIndicator.AttachmentIcon ->
                         MessageItemDefaults.ATTACHMENT_ICON_INLINE_COMPOSABLE_ID to InlineTextContent(
                             Placeholder(

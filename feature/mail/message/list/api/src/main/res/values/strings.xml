@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Read aloud for the reply arrow on an inbox row: the newest message in it has been answered -->
+    <string name="message_list_replied">Replied</string>
     <string name="sort_by">Sort by…</string>
     <string name="sort_by_date_asc">Date (oldest first)</string>
     <string name="sort_by_date_desc">Date (newest first)</string>

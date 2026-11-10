@@ -106,6 +106,10 @@ private fun buildLeadingItems(
     messageItemUi: MessageItemUi,
     color: MessageConversationCounterBadgeColor,
 ): PersistentList<MessageSublineLeadingIndicator> = buildList {
+    // First, so the arrow sits at the very start of the line where it is seen at a glance.
+    if (messageItemUi.answered) {
+        add(MessageSublineLeadingIndicator.RepliedIcon)
+    }
     if (messageItemUi.threadCount > 1) {
         add(
             MessageSublineLeadingIndicator.ConversationCounterBadge(

@@ -45,6 +45,12 @@ sealed interface MessageSublineLeadingIndicator {
     data object AttachmentIcon : MessageSublineLeadingIndicator
 
     /**
+     * Represents a reply arrow for a message that has been replied to: in a thread, its newest
+     * message, so the arrow says the last word in the conversation was answered.
+     */
+    data object RepliedIcon : MessageSublineLeadingIndicator
+
+    /**
      * Represents a badge displaying the count of messages in a conversation thread.
      *
      * @property count The number of messages in the conversation thread to be displayed
