@@ -128,7 +128,10 @@ internal class DefaultAccountDefaultsProvider(
             NotificationSettings(
                 isRingEnabled = true,
                 ringtone = DEFAULT_RINGTONE_URI,
-                light = NotificationLight.Disabled,
+                // On unless switched off: a phone with a notification light (KompaktOS) blinks
+                // it only for a channel made with lights on, and "Disabled" made every new
+                // account's channel without them. A phone with no light is not changed.
+                light = NotificationLight.SystemDefaultColor,
                 vibration = NotificationVibration.DEFAULT,
             )
         }

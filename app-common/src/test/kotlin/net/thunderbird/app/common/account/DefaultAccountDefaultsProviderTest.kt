@@ -61,7 +61,7 @@ class DefaultAccountDefaultsProviderTest {
         val notificationSettings = NotificationSettings(
             isRingEnabled = true,
             ringtone = DEFAULT_RINGTONE_URI,
-            light = NotificationLight.Disabled,
+            light = NotificationLight.SystemDefaultColor,
             vibration = NotificationVibration.DEFAULT,
         )
         val testSubject = DefaultAccountDefaultsProvider(
