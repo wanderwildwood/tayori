@@ -299,7 +299,9 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
             }
 
             findPreference<ListPreference>(PREFERENCE_NOTIFICATION_LIGHT)?.let { preference ->
-                notificationLightPreference = preference
+                // Only on a phone whose system drives a notification light. The Kompakt's own
+                // system does not (KompaktOS does), and a row that changes nothing only puzzles.
+                if (hasNotificationLight()) notificationLightPreference = preference else preference.remove()
             }
 
             findPreference<VibrationPreference>(PREFERENCE_NOTIFICATION_VIBRATION)?.let { preference ->
@@ -323,6 +325,13 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
             findPreference<PreferenceCategory>(PREFERENCE_NOTIFICATION_CHANNELS).remove()
         }
     }
+
+    /** What Android's own channel page goes by when it decides to show "Blink light". */
+    private fun hasNotificationLight(): Boolean = runCatching {
+        val system = android.content.res.Resources.getSystem()
+        val id = system.getIdentifier("config_intrusiveNotificationLed", "bool", "android")
+        id != 0 && system.getBoolean(id)
+    }.getOrDefault(false)
 
     private fun maybeUpdateNotificationPreferences(account: LegacyAccountDto) {
         if (notificationSoundPreference != null ||
