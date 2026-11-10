@@ -90,7 +90,7 @@ SELECT
   preview, 
   aggregated.read AS read, 
   aggregated.flagged AS flagged, 
-  aggregated.answered AS answered, 
+  messages.answered AS answered, 
   aggregated.forwarded AS forwarded, 
   aggregated.attachment_count AS attachment_count, 
   root, 

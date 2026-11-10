@@ -18,6 +18,8 @@ import net.thunderbird.core.preference.display.visualSettings.message.list.UiDen
 object MessageItemDefaults {
     const val ATTACHMENT_ICON_INLINE_COMPOSABLE_ID = "attachment_icon_inline_composable_id"
     const val ATTACHMENT_ICON_INLINE_COMPOSABLE_REPLACEMENT = "[attachment_icon]"
+    const val REPLIED_ICON_INLINE_COMPOSABLE_ID = "replied_icon_inline_composable_id"
+    const val REPLIED_ICON_INLINE_COMPOSABLE_REPLACEMENT = "[replied]"
     const val CONVERSATION_COUNTER_INLINE_COMPOSABLE_ID = "conversation_counter_inline_composable_id"
     const val CONVERSATION_COUNTER_INLINE_COMPOSABLE_REPLACEMENT = "[conversation_counter]"
 
