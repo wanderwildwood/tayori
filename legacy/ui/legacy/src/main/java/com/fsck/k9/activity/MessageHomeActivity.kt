@@ -12,6 +12,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.isGone
@@ -305,24 +306,16 @@ open class MessageHomeActivity :
             return
         }
 
-        if (savedInstanceState != null) {
-            val savedDisplayMode = BundleCompat.getSerializable(
-                savedInstanceState,
-                STATE_DISPLAY_MODE,
-                DisplayMode::class.java,
-            )
-
-            if (savedDisplayMode != null && savedDisplayMode != DisplayMode.SPLIT_VIEW) {
-                displayMode = savedDisplayMode
-                return
-            }
+        val savedDisplayMode = savedInstanceState?.let {
+            BundleCompat.getSerializable(it, STATE_DISPLAY_MODE, DisplayMode::class.java)
         }
 
-        displayMode = if (messageViewContainerFragment != null || messageReference != null) {
-            DisplayMode.MESSAGE_VIEW
-        } else {
-            DisplayMode.MESSAGE_LIST
-        }
+        displayMode = resolveDisplayMode(
+            savedMode = savedDisplayMode,
+            isRestoring = savedInstanceState != null,
+            hasMessageView = messageViewContainerFragment != null,
+            hasMessageReference = messageReference != null,
+        )
     }
 
     // The list and the open message side by side whenever the screen is turned sideways, and one at a
@@ -1443,7 +1436,7 @@ open class MessageHomeActivity :
         )
     }
 
-    private enum class DisplayMode {
+    internal enum class DisplayMode {
         MESSAGE_LIST,
         MESSAGE_VIEW,
         SPLIT_VIEW,
@@ -1458,6 +1451,25 @@ open class MessageHomeActivity :
     )
 
     companion object : KoinComponent {
+        /**
+         * Resolve the non-split display mode.
+         *
+         * The intent's message reference is only opened on first launch (see [initializeFragments]), so when
+         * restoring, [DisplayMode.MESSAGE_VIEW] is only valid if a message view fragment was actually restored.
+         */
+        @VisibleForTesting
+        internal fun resolveDisplayMode(
+            savedMode: DisplayMode?,
+            isRestoring: Boolean,
+            hasMessageView: Boolean,
+            hasMessageReference: Boolean,
+        ): DisplayMode = when {
+            savedMode == DisplayMode.MESSAGE_LIST -> DisplayMode.MESSAGE_LIST
+            hasMessageView -> DisplayMode.MESSAGE_VIEW
+            !isRestoring && hasMessageReference -> DisplayMode.MESSAGE_VIEW
+            else -> DisplayMode.MESSAGE_LIST
+        }
+
         private const val EXTRA_SEARCH = "search_bytes"
         private const val EXTRA_NO_THREADING = "no_threading"
 
