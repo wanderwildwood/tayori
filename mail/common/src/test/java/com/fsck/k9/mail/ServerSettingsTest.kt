@@ -1,6 +1,8 @@
 package com.fsck.k9.mail
 
 import assertk.assertFailure
+import assertk.assertThat
+import assertk.assertions.doesNotContain
 import assertk.assertions.hasMessage
 import assertk.assertions.isInstanceOf
 import kotlin.test.Test
@@ -103,5 +105,21 @@ class ServerSettingsTest {
             )
         }.isInstanceOf<IllegalArgumentException>()
             .hasMessage("password must not contain line break")
+    }
+
+    @Test
+    fun `sensitive information should not appear in toString`() {
+        val settings = ServerSettings(
+            type = "imap",
+            host = "imap.domain.example",
+            port = 993,
+            connectionSecurity = ConnectionSecurity.SSL_TLS_REQUIRED,
+            authenticationType = AuthType.PLAIN,
+            username = "user",
+            password = "123456",
+            clientCertificateAlias = null,
+        )
+        assertThat(settings.toString()).doesNotContain("123456")
+        assertThat(settings.toString()).doesNotContain("user")
     }
 }
