@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="Theme.Thunderbird.Startup" parent="Theme2.Main.Startup" />
+    <style name="Theme.Thunderbird.Startup" parent="Theme2.Main.Startup">
+        <!-- No start-up window: in dark mode it would flash white before the first frame. -->
+        <item name="android:windowDisablePreview">true</item>
+    </style>
 
     <style name="Theme.Thunderbird.Light" parent="Theme2.Thunderbird.Light">
         <item name="actionModeCloseDrawable">@drawable/ic_close</item>
