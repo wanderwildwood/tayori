@@ -21,6 +21,7 @@ import net.thunderbird.components.ui.bolt.atom.text.TextBodyMedium
 import net.thunderbird.components.ui.bolt.atom.text.TextBodySmall
 import net.thunderbird.components.ui.bolt.atom.text.TextLabelLarge
 import net.thunderbird.components.ui.bolt.atom.text.TextTitleMedium
+import app.k9mail.feature.account.common.ui.house.DarkWindow
 import com.fsck.k9.mailstore.AttachmentViewInfo
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.helper.SizeFormatter
@@ -50,6 +51,7 @@ internal fun AttachmentListModalBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
     ) {
+        DarkWindow()
         AttachmentListContent(
             attachments = attachments,
             sizeFormatter = sizeFormatter,

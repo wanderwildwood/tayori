@@ -1212,4 +1212,7 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="duraspeed_later">Not now</string>
     <string name="duraspeed_not_yet">Not yet</string>
     <string name="duraspeed_ask_done">Is Mailbox switched on in DuraSpeed now?</string>
+
+    <string name="settings_dark">Dark mode</string>
+    <string name="settings_dark_note">White on black, in this app. Home has one switch for every app.</string>
 </resources>

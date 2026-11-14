@@ -59,6 +59,7 @@ import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons;
+import app.k9mail.feature.account.common.ui.house.DarkMode;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fsck.k9.activity.compose.MessageComposeInAppNotificationFragment;
@@ -2211,6 +2212,7 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
 
                     ImageView preview = view.findViewById(R.id.attachment_preview);
                     preview.setVisibility(View.VISIBLE);
+                    DarkMode.INSTANCE.keep(preview);
                     Glide.with(MessageCompose.this)
                             .load(new File(attachment.getFileName()))
                             .centerCrop()

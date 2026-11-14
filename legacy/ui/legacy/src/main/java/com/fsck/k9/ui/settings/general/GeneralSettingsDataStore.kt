@@ -2,6 +2,7 @@ package com.fsck.k9.ui.settings.general
 
 import org.koin.core.context.GlobalContext
 import com.wanderwildwood.tayori.TurnSideways
+import app.k9mail.feature.account.common.ui.house.DarkMode
 import com.wanderwildwood.tayori.glance.LockScreen
 import android.content.Context
 import androidx.preference.PreferenceDataStore
@@ -70,6 +71,7 @@ class GeneralSettingsDataStore(
             "privacy_hide_useragent" -> privacySettings.isHideUserAgent
             "lock_screen_unread" -> LockScreen.on(GlobalContext.get().get<Context>())
             "turn_with_phone" -> TurnSideways.on(GlobalContext.get().get<Context>())
+            "dark_mode" -> DarkMode.on
             "privacy_hide_timezone" -> privacySettings.isHideTimeZone
             "privacy_incognito_keyboard" -> privacySettings.isIncognitoKeyboardEnabled
             "debug_logging" -> debuggingSettings.isDebugLoggingEnabled
@@ -121,6 +123,7 @@ class GeneralSettingsDataStore(
             "privacy_hide_useragent" -> setIsHideUserAgent(isHideUserAgent = value)
             "lock_screen_unread" -> LockScreen.set(GlobalContext.get().get<Context>(), value)
             "turn_with_phone" -> TurnSideways.set(GlobalContext.get().get<Context>(), value)
+            "dark_mode" -> DarkMode.set(GlobalContext.get().get<Context>(), value)
             "privacy_hide_timezone" -> setIsHideTimeZone(isHideTimeZone = value)
             "privacy_incognito_keyboard" -> setIsIncognitoKeyboardEnabled(isIncognitoKeyboardEnabled = value)
             "debug_logging" -> setIsDebugLoggingEnabled(isDebugLoggingEnabled = value)

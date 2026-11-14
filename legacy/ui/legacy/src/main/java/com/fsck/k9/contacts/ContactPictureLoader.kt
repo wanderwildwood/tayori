@@ -8,6 +8,7 @@ import android.net.Uri
 import android.widget.ImageView
 import androidx.annotation.WorkerThread
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
+import app.k9mail.feature.account.common.ui.house.DarkMode
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.FutureTarget
@@ -25,6 +26,8 @@ class ContactPictureLoader(
 
     fun setContactPicture(imageView: ImageView, address: Address) {
         if (imageView.screenIsGone()) return
+        // A contact's photo keeps its colours in dark mode.
+        DarkMode.keep(imageView)
         Glide.with(imageView.context)
             .load(createContactImage(address, contactLetterOnly = false))
             .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -43,6 +46,7 @@ class ContactPictureLoader(
 
     private fun setContactPicture(imageView: ImageView, contactPictureUri: Uri) {
         if (imageView.screenIsGone()) return
+        DarkMode.keep(imageView)
         Glide.with(imageView.context)
             .load(contactPictureUri)
             .placeholder(Icons.Outlined.AccountCircle)

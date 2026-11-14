@@ -46,6 +46,12 @@
                 android:title="@string/general_settings_turn_with_phone_title"
                 />
 
+            <CheckBoxPreference
+                android:key="dark_mode"
+                android:summary="@string/settings_dark_note"
+                android:title="@string/settings_dark"
+                />
+
             <PreferenceScreen
                 android:key="font_size"
                 android:summary="@string/font_size_settings_description"
