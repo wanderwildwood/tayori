@@ -22,7 +22,8 @@ val LICENCE_RAW: List<Pair<String, Int>> = listOf(
 
 @Composable
 fun rememberLicencesData(): LicencesData = LicencesData(
-    appName = "Mailbox",
+    // This module cannot see the app's R: the name is the one the phone shows under the icon.
+    appName = LocalContext.current.let { it.applicationInfo.loadLabel(it.packageManager).toString() },
     sourceUrl = SOURCE_URL,
     licenceLine = stringResource(R.string.account_common_licences_licence),
     // One row per artifact in the APK, listed by the build in the app module (AboutLibraries plugin,
