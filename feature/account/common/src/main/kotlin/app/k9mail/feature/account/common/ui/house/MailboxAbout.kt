@@ -88,7 +88,7 @@ fun MailboxAboutDialog(version: String, onDismiss: () -> Unit) {
         contact = stringResource(R.string.account_common_about_contact_head),
         links = stringResource(R.string.account_common_about_links_head),
     )
-    ThemeMMD(colorScheme = monochrome, typography = houseTypography) {
+    ThemeMMD(colorScheme = monochrome, typography = houseTypography) { DarkSelection {
         HouseAboutDialog(data, labels, R.drawable.account_common_llama, onDismiss)
-    }
+    } }
 }
