@@ -59,7 +59,7 @@ class DefaultTrustedSocketFactory(
 
     private fun hardenSocket(sock: SSLSocket) {
         ENABLED_CIPHERS?.let { sock.enabledCipherSuites = it }
-        ENABLED_PROTOCOLS?.let { sock.enabledProtocols = it }
+        sock.enabledProtocols = ENABLED_PROTOCOLS ?: allowedProtocols(sock.enabledProtocols)
     }
 
     @Suppress("TooGenericExceptionCaught")
@@ -88,8 +88,11 @@ class DefaultTrustedSocketFactory(
             "TLS_RSA_WITH_NULL_SHA256",
         )
 
+        // TLS 1.0 and 1.1 are retired (RFC 8996); a server that offers nothing newer is refused, not spoken to.
         private val DISALLOWED_PROTOCOLS = arrayOf<String>(
             "SSLv3",
+            "TLSv1",
+            "TLSv1.1",
         )
 
         private val ENABLED_CIPHERS: Array<String>?
@@ -117,8 +120,10 @@ class DefaultTrustedSocketFactory(
             }
 
             ENABLED_CIPHERS = enabledCiphers?.let { remove(it, DISALLOWED_CIPHERS) }
-            ENABLED_PROTOCOLS = supportedProtocols?.let { remove(it, DISALLOWED_PROTOCOLS) }
+            ENABLED_PROTOCOLS = supportedProtocols?.let { allowedProtocols(it) }
         }
+
+        internal fun allowedProtocols(protocols: Array<String>): Array<String> = remove(protocols, DISALLOWED_PROTOCOLS)
 
         private fun remove(enabled: Array<String>, disallowed: Array<String>): Array<String> {
             return enabled.filterNot { it in disallowed }.toTypedArray()

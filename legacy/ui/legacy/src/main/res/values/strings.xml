@@ -202,6 +202,7 @@
 
 
     <string name="send_failure_subject">Failed to send some messages</string>
+    <string name="send_failure_old_tls">The outgoing server only offers an old version of TLS (1.0 or 1.1), which is no longer safe, so the app will not connect to it. Ask the mail provider to turn on TLS 1.2 or newer.</string>
 
     <string name="version">Version</string>
     <string name="debug_enable_debug_logging_title">Enable debug logging</string>

@@ -3,6 +3,7 @@ package com.fsck.k9.notification
 import android.app.Notification
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.fsck.k9.mail.ssl.isTlsVersionRefused
 import net.thunderbird.core.android.account.LegacyAccountDto
 import net.thunderbird.core.common.exception.rootCauseMessage
 import net.thunderbird.core.preference.GeneralSettingsManager
@@ -17,7 +18,11 @@ internal class SendFailedNotificationController(
 ) {
     fun showSendFailedNotification(account: LegacyAccountDto, exception: Exception) {
         val title = resourceProvider.sendFailedTitle()
-        val text = exception.rootCauseMessage.orEmpty()
+        val text = if (exception.isTlsVersionRefused()) {
+            resourceProvider.sendFailedOldTls()
+        } else {
+            exception.rootCauseMessage.orEmpty()
+        }
 
         val notificationId = NotificationIds.getSendFailedNotificationId(account)
 

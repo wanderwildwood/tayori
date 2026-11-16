@@ -68,6 +68,8 @@ class TestNotificationResourceProvider : NotificationResourceProvider {
 
     override fun sendFailedTitle(): String = "Failed to send some messages"
 
+    override fun sendFailedOldTls(): String = "The outgoing server only offers an old version of TLS"
+
     override fun sendingMailTitle(): String = "Sending mail"
 
     override fun sendingMailBody(accountName: String): String = "Sending mail: $accountName"

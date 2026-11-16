@@ -2,6 +2,8 @@
 <resources>
     <string name="account_server_validation_error_authentication">Authentication error</string>
     <string name="account_server_validation_error_network">Network error</string>
+    <string name="account_server_validation_error_secure_connection">Could not make a secure connection to the server</string>
+    <string name="account_server_validation_error_old_tls">The server only offers an old version of TLS (1.0 or 1.1), which is no longer safe, so the app will not connect to it. Ask the mail provider to turn on TLS 1.2 or newer.</string>
     <string name="account_server_validation_error_server">Server error</string>
     <string name="account_server_validation_error_timed_out">The server did not answer in 30 seconds. Try again, or go back and check the server name and port.</string>
     <string name="account_server_validation_error_unknown">Unknown error</string>

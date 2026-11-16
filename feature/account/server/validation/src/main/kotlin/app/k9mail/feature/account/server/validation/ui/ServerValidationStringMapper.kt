@@ -4,6 +4,8 @@ import android.content.res.Resources
 import androidx.annotation.StringRes
 import app.k9mail.feature.account.server.validation.R
 import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.Error
+import com.fsck.k9.mail.ssl.isTlsFailure
+import com.fsck.k9.mail.ssl.isTlsVersionRefused
 import app.k9mail.feature.account.common.R as CommonR
 
 internal fun Error.toResourceString(resources: Resources): String {
@@ -18,9 +20,15 @@ internal fun Error.toResourceString(resources: Resources): String {
             )
         }
 
-        is Error.NetworkError -> {
-            resources.buildErrorString(
-                titleResId = R.string.account_server_validation_error_network,
+        is Error.NetworkError -> when {
+            exception.isTlsVersionRefused() -> resources.getString(R.string.account_server_validation_error_old_tls)
+
+            else -> resources.buildErrorString(
+                titleResId = if (exception.isTlsFailure()) {
+                    R.string.account_server_validation_error_secure_connection
+                } else {
+                    R.string.account_server_validation_error_network
+                },
                 detailsResId = R.string.account_server_validation_error_details,
                 detailsMessage = exception.message,
             )

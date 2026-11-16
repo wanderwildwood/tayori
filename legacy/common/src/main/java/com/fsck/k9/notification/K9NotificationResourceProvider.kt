@@ -81,6 +81,8 @@ class K9NotificationResourceProvider(private val context: Context) : Notificatio
 
     override fun sendFailedTitle(): String = context.getString(R.string.send_failure_subject)
 
+    override fun sendFailedOldTls(): String = context.getString(R.string.send_failure_old_tls)
+
     override fun sendingMailTitle(): String = context.getString(R.string.notification_bg_send_title)
 
     override fun sendingMailBody(accountName: String): String =

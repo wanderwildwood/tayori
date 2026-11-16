@@ -50,6 +50,7 @@ interface NotificationResourceProvider {
     fun noSender(): String
 
     fun sendFailedTitle(): String
+    fun sendFailedOldTls(): String
     fun sendingMailTitle(): String
     fun sendingMailBody(accountName: String): String
 
