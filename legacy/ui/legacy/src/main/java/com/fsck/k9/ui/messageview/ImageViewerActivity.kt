@@ -15,6 +15,7 @@ import android.util.DisplayMetrics
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import app.k9mail.feature.account.common.ui.house.DarkMode
 import androidx.lifecycle.lifecycleScope
 import com.fsck.k9.ui.R
 import kotlin.math.max
@@ -35,6 +36,8 @@ class ImageViewerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         uri = intent.data ?: return finish()
         val view = ZoomImageView(this, lifecycleScope)
+        // The picture keeps its colors in dark mode.
+        DarkMode.keep(view)
         setContentView(FrameLayout(this).apply { addView(view) })
         lifecycleScope.launch {
             val screen = DisplayMetrics().also { windowManager.defaultDisplay.getRealMetrics(it) }

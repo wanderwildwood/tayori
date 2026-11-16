@@ -5,12 +5,15 @@ import android.app.Application
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.Modifier
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import app.k9mail.feature.account.common.ui.house.DarkMode
 import app.k9mail.feature.account.common.ui.house.DarkWindow
+import app.k9mail.feature.account.common.ui.house.keepColors
+import net.thunderbird.components.ui.bolt.atom.image.BoltPicture
 import net.thunderbird.components.ui.bolt.organism.BoltWindow
 
 /**
@@ -26,6 +29,8 @@ object DarkWindows {
 
     fun install(application: Application) {
         BoltWindow.opened = { DarkWindow() }
+        // The design system's pictures (attachment thumbnails, avatars) keep their colors.
+        BoltPicture.kept = Modifier.keepColors()
         application.registerActivityLifecycleCallbacks(
             object : Application.ActivityLifecycleCallbacks {
                 override fun onActivityCreated(activity: Activity, state: Bundle?) {

@@ -60,7 +60,7 @@ fun RemoteImage(
         loading = {
             placeholder?.invoke(this)
         },
-        modifier = modifier,
+        modifier = modifier.then(BoltPicture.kept),
         previewPlaceholder = previewPlaceholder,
     )
 }

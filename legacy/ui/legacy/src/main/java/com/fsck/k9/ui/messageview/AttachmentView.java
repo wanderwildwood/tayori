@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import app.k9mail.core.android.common.activity.ContextHelper;
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons;
+import app.k9mail.feature.account.common.ui.house.DarkMode;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.fsck.k9.K9;
@@ -133,6 +134,8 @@ public class AttachmentView extends FrameLayout implements OnClickListener {
         }
 
         preview.setVisibility(View.VISIBLE);
+        // A picture's thumbnail keeps its colors in dark mode.
+        DarkMode.INSTANCE.keep(preview);
         Glide.with(context)
                 .load(attachment.internalUri)
                 .centerCrop()
