@@ -14,7 +14,8 @@ class MessagePrinter(
     private val appName: String,
     private val noSubjectText: String,
 ) {
-    fun print(messageViewInfo: MessageViewInfo) {
+    // The printed copy loads remote pictures only when the open mail is showing them.
+    fun print(messageViewInfo: MessageViewInfo, loadPictures: Boolean) {
         val printManager = context.getSystemService(Context.PRINT_SERVICE) as? PrintManager ?: return
 
         val subject = messageViewInfo.message.subject ?: noSubjectText
@@ -25,6 +26,7 @@ class MessagePrinter(
         val fullHtml = buildFullHtml(headerHtml, cleanBodyHtml)
 
         val printWebView = MessageWebView(context)
+        printWebView.blockNetworkData(!loadPictures)
         printWebView.displayHtmlContentWithInlineAttachments(
             htmlText = fullHtml,
             attachmentResolver = null,

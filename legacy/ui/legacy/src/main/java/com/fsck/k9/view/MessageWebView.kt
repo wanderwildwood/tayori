@@ -28,6 +28,17 @@ class MessageWebView : WebView, KoinComponent, ThunderbirdWebViewSettings {
 
     private val webViewClientFactory: WebViewClientFactory by inject()
 
+    // Every view of a mail, the printed copy too: no script, no files, no content of this or another app, and no
+    // network until the reader allows the pictures. A picture inside the mail comes through K9WebViewClient (cid:).
+    init {
+        with(settings) {
+            javaScriptEnabled = false
+            allowFileAccess = false
+            allowContentAccess = false
+        }
+        blockNetworkData(true)
+    }
+
     // The Kompakt's selection bar keeps two items and drops the rest; SelectionMenu gives them back behind a ⋮.
     override fun startActionMode(callback: ActionMode.Callback, type: Int): ActionMode? =
         super.startActionMode(SelectionMenu.fold(this, callback), type)

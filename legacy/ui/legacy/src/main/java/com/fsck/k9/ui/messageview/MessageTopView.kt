@@ -110,6 +110,9 @@ class MessageTopView(
         }
     }
 
+    val isShowingPictures: Boolean
+        get() = (containerView.getChildAt(0) as? MessageContainerView)?.isShowingPictures == true
+
     private fun showPicturesInAllContainerViews() {
         val messageContainerViewCandidate = containerView.getChildAt(0)
         if (messageContainerViewCandidate is MessageContainerView) {

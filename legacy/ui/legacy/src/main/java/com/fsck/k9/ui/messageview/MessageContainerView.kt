@@ -78,7 +78,8 @@ class MessageContainerView(context: Context, attrs: AttributeSet?) :
     private lateinit var unsignedTextDivider: View
     private lateinit var unsignedText: MaterialTextView
 
-    private var isShowingPictures = false
+    var isShowingPictures = false
+        private set
     private var currentHtmlText: String? = null
     private val attachmentViewMap = mutableMapOf<AttachmentViewInfo, AttachmentView>()
     private val attachments = mutableMapOf<Uri, AttachmentViewInfo>()

@@ -533,7 +533,7 @@ class MessageViewFragment :
             context = requireContext(),
             appName = appNameProvider.appName,
             noSubjectText = getString(R.string.general_no_subject),
-        ).print(messageViewInfo)
+        ).print(messageViewInfo, loadPictures = messageTopView.isShowingPictures)
     }
 
     // The same choice as in Settings. Recreating the screen keeps this message open and redraws it at the new size.
