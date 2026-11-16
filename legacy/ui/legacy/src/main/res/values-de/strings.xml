@@ -961,5 +961,4 @@
     <string name="message_view_from_me_text">mir</string>
 
     <string name="settings_dark">Dunkelmodus</string>
-    <string name="settings_dark_note">Weiß auf Schwarz, in dieser App. Home hat einen Schalter für alle Apps.</string>
 </resources>

@@ -48,7 +48,6 @@
 
             <CheckBoxPreference
                 android:key="dark_mode"
-                android:summary="@string/settings_dark_note"
                 android:title="@string/settings_dark"
                 />
 
