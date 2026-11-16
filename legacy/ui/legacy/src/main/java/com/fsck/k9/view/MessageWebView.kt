@@ -5,9 +5,15 @@ import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.view.ActionMode
 import android.webkit.WebView
+import androidx.compose.runtime.snapshotFlow
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import app.k9mail.feature.account.common.ui.house.DarkMode
 import com.fsck.k9.core.BuildConfig
 import com.fsck.k9.mailstore.AttachmentResolver
 import kotlin.math.roundToInt
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import net.thunderbird.core.android.common.view.showInDarkMode
 import net.thunderbird.core.android.common.view.showInLightMode
 import net.thunderbird.core.android.webkit.ThunderbirdWebViewSettings
@@ -118,8 +124,43 @@ class MessageWebView : WebView, KoinComponent, ThunderbirdWebViewSettings {
     }
 
     private fun setHtmlContent(htmlText: String) {
-        loadDataWithBaseURL("about:blank", htmlText, "text/html", "utf-8", null)
+        shownHtml = htmlText
+        shownDark = DarkMode.on
+        val page = if (shownDark) htmlText + PICTURES_KEEP_COLORS else htmlText
+        loadDataWithBaseURL("about:blank", page, "text/html", "utf-8", null)
         resumeTimers()
+    }
+
+    // Dark mode draws the whole window through an inverting filter, the mail with it. While it is on, the mail's
+    // pictures are inverted once more by the page itself, so they show their real colors and the text stays white
+    // on black. Switched while a mail is open, the mail is shown again.
+    private var shownHtml: String? = null
+    private var shownDark = false
+    private var darkWatch: Job? = null
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        darkWatch?.cancel()
+        darkWatch = findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
+            snapshotFlow { DarkMode.on }.collect { dark ->
+                val html = shownHtml
+                if (dark != shownDark && html != null) setHtmlContent(html)
+            }
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        darkWatch?.cancel()
+        darkWatch = null
+        super.onDetachedFromWindow()
+    }
+
+    private companion object {
+        // Appended after the mail, so it comes last and no doctype is pushed out of first place. A picture is drawn
+        // on white, as on a light page, so a logo with see-through parts keeps its dark lines visible.
+        const val PICTURES_KEEP_COLORS =
+            "<style>img, video, canvas, svg, embed, object " +
+                "{ filter: invert(1) !important; background-color: #fff; }</style>"
     }
 
     fun interface OnPageFinishedListener {
