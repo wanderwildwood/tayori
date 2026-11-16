@@ -169,9 +169,20 @@ class MessageWebView : WebView, KoinComponent, ThunderbirdWebViewSettings {
     private companion object {
         // Appended after the mail, so it comes last and no doctype is pushed out of first place. A picture is drawn
         // on white, as on a light page, so a logo with see-through parts keeps its dark lines visible.
+        // A picture set as a background (a background= attribute, or url( in an inline style) cannot be inverted
+        // apart from what is written over it, so the whole element is: it shows as the mail drew it in light,
+        // picture and text together, since the text was colored to be read against that picture. It gets the
+        // same white backing unless the mail gives it a color of its own (any rule of the mail's beats :where).
+        // Inside it everything is already back to its real colors, so nothing in it is inverted a second time.
+        // A background set from the mail's own style sheet cannot be seen from here, and stays inverted.
         const val PICTURES_KEEP_COLORS =
             "<style>img, video, canvas, svg, embed, object " +
-                "{ filter: invert(1) !important; background-color: #fff; }</style>"
+                "{ filter: invert(1) !important; background-color: #fff; }" +
+                ":where([background], [style*=\"url(\" i]) { filter: invert(1) !important; }" +
+                ":where([background]:not([bgcolor]), [style*=\"url(\" i]) { background-color: #fff; }" +
+                ":where([background], [style*=\"url(\" i]) " +
+                ":is(img, video, canvas, svg, embed, object, [background], [style*=\"url(\" i]) " +
+                "{ filter: none !important; }</style>"
     }
 
     fun interface OnPageFinishedListener {
