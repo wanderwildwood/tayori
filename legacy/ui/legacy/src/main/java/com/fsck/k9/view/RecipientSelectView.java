@@ -43,6 +43,7 @@ import com.fsck.k9.activity.compose.RecipientAdapter;
 import com.fsck.k9.activity.compose.RecipientLoader;
 import com.fsck.k9.helper.ClipboardManager;
 import com.fsck.k9.mail.Address;
+import com.fsck.k9.ui.DarkWindows;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.ui.compose.RecipientCircleImageView;
 import com.fsck.k9.view.RecipientSelectView.Recipient;
@@ -407,6 +408,7 @@ public class RecipientSelectView extends TokenCompleteTextView<Recipient> implem
         // Clear the checked item.
         alternatesPopup.show();
         ListView listView = alternatesPopup.getListView();
+        DarkWindows.popup(listView);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 

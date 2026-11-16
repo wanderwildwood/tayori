@@ -61,6 +61,7 @@ import com.fsck.k9.mailstore.AttachmentViewInfo
 import com.fsck.k9.mailstore.LocalMessage
 import com.fsck.k9.mailstore.MessageViewInfo
 import com.fsck.k9.provider.RawMessageProvider
+import com.fsck.k9.ui.DarkWindows
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.base.extensions.withArguments
 import com.fsck.k9.ui.choosefolder.ChooseFolderActivity
@@ -560,6 +561,7 @@ class MessageViewFragment :
                 }
             }
             .show()
+            .also { DarkWindows.dialog(it) }
     }
 
     private fun onShowHeaders() {

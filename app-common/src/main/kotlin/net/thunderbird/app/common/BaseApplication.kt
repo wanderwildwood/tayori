@@ -13,6 +13,7 @@ import com.fsck.k9.MessagingListenerProvider
 import com.fsck.k9.controller.MessagingController
 import com.fsck.k9.job.WorkManagerConfigurationProvider
 import com.fsck.k9.notification.NotificationChannelManager
+import com.fsck.k9.ui.DarkWindows
 import com.fsck.k9.ui.base.AppLanguageManager
 import com.fsck.k9.ui.base.extensions.currentLocale
 import java.util.Locale
@@ -66,6 +67,7 @@ abstract class BaseApplication : Application(), WorkManagerConfiguration.Provide
         initializeAppLanguage()
         updateNotificationChannelsOnAppLanguageChanges()
         themeManager.init()
+        DarkWindows.install(this)
         messageListWidgetManager.init()
 
         messagingListenerProvider.listeners.forEach { listener ->

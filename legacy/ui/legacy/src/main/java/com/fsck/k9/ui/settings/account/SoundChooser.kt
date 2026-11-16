@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.fsck.k9.ui.DarkWindows
 import com.fsck.k9.ui.R
 
 /**
@@ -87,6 +88,7 @@ object SoundChooser {
             .create()
         dialog.window?.setWindowAnimations(0)
         dialog.show()
+        DarkWindows.dialog(dialog)
         // AlertDialog closes on a press of a list item; this list stays open until Done.
         dialog.listView.setOnItemClickListener { _, _, which, _ ->
             chosen = which

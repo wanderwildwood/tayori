@@ -5,10 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.os.Build
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatEditText
+import com.fsck.k9.ui.DarkWindows
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.theme.MaterialComponentsViewInflater
 
@@ -86,6 +89,10 @@ class SteadyViewInflater : MaterialComponentsViewInflater() {
     override fun createView(context: Context, name: String, attrs: AttributeSet): View? =
         if (name == "com.google.android.material.textfield.TextInputEditText") {
             SteadyTextInputEditText(context, attrs)
+        } else if (name.endsWith(".ListMenuItemView") && Build.VERSION.SDK_INT >= 29) {
+            // A row of a popup or overflow menu (the AndroidX one or the platform's): made as the
+            // inflater would make it, and its window drawn dark when the row is put in it.
+            LayoutInflater.from(context).createView(context, name, null, attrs)?.also { DarkWindows.menuRow(it) }
         } else {
             null
         }

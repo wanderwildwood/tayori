@@ -92,6 +92,7 @@ import com.fsck.k9.mail.AuthType
 import com.fsck.k9.mailstore.LocalStoreProvider
 import com.fsck.k9.search.getLegacyAccounts
 import com.fsck.k9.ui.BuildConfig
+import com.fsck.k9.ui.DarkWindows
 import com.fsck.k9.ui.R
 import com.fsck.k9.ui.choosefolder.ChooseFolderActivity
 import com.fsck.k9.ui.choosefolder.ChooseFolderResultContract
@@ -2502,6 +2503,7 @@ class MessageListFragment :
             true,
         )
         popup.showAsDropDown(anchor)
+        DarkWindows.popup(parent)
     }
 
     /**

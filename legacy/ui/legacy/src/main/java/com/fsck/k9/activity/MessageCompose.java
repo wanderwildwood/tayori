@@ -131,6 +131,7 @@ import com.fsck.k9.message.PgpMessageBuilder;
 import com.fsck.k9.message.QuotedTextMode;
 import com.fsck.k9.message.SimpleMessageBuilder;
 import com.fsck.k9.message.SimpleMessageFormat;
+import com.fsck.k9.ui.DarkWindows;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.ui.base.BaseActivity;
 import com.fsck.k9.ui.compose.IntentData;
@@ -1165,10 +1166,10 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
             for (int i = 0; i < cameras.size(); i++) {
                 labels[i] = cameras.get(i).getLabel();
             }
-            new AlertDialog.Builder(this)
+            DarkWindows.dialog(new AlertDialog.Builder(this)
                 .setTitle(R.string.camera_choose)
                 .setItems(labels, (dialog, which) -> openCamera(cameras.get(which)))
-                .show();
+                .show());
         }
     }
 
@@ -1409,6 +1410,12 @@ public class MessageCompose extends BaseActivity implements OnClickListener,
 
     public void onProgressCancel(ProgressDialogFragment fragment) {
         attachmentPresenter.attachmentProgressDialogCancelled();
+    }
+
+    @Override
+    public void onPrepareDialog(int id, Dialog dialog) {
+        super.onPrepareDialog(id, dialog);
+        DarkWindows.dialog(dialog);
     }
 
     @Override

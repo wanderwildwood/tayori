@@ -20,6 +20,8 @@ fun ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         modifier = modifier,
-        content = content,
-    )
+    ) {
+        BoltWindow.Opened()
+        content()
+    }
 }

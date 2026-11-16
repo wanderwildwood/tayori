@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import net.thunderbird.components.ui.bolt.PreviewWithThemes
+import net.thunderbird.components.ui.bolt.organism.BoltWindow
 import androidx.compose.material3.DropdownMenu as Material3DropdownMenu
 import androidx.compose.material3.DropdownMenuItem as Material3DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox as Material3ExposedDropdownMenuBox
@@ -88,6 +89,7 @@ fun <T> TextFieldOutlinedSelect(
                 tonalElevation = 0.dp,
                 border = BorderStroke(2.dp, Color.Black),
             ) {
+                BoltWindow.Opened()
                 options.forEach { option ->
                     Material3DropdownMenuItem(
                         text = {

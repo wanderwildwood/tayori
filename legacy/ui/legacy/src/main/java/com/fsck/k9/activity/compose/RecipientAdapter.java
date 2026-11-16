@@ -20,6 +20,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 
 import com.fsck.k9.activity.misc.ContactPicture;
+import com.fsck.k9.ui.DarkWindows;
 import com.fsck.k9.ui.R;
 import com.fsck.k9.view.RecipientSelectView.Recipient;
 import com.fsck.k9.view.RecipientSelectView.RecipientCryptoStatus;
@@ -75,6 +76,7 @@ public class RecipientAdapter extends BaseAdapter implements Filterable {
 
     private View newView(ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.recipient_dropdown_item, parent, false);
+        DarkWindows.menuRow(view);
 
         RecipientTokenHolder holder = new RecipientTokenHolder(view);
         view.setTag(holder);

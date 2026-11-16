@@ -30,6 +30,7 @@ fun EInkDialogWindow(
         ),
     ) {
         DialogWindowNoDim()
+        BoltWindow.Opened()
         Box(
             modifier = modifier
                 .padding(horizontal = 14.dp)

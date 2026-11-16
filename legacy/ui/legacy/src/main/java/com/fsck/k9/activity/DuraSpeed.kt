@@ -14,6 +14,7 @@ import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
 import app.k9mail.core.ui.legacy.designsystem.atom.icon.Icons
+import com.fsck.k9.ui.DarkWindows
 import com.fsck.k9.ui.R
 
 /**
@@ -149,6 +150,7 @@ object DuraSpeed {
                 .setNegativeButton(R.string.duraspeed_allowed) { _, _ -> markAllowed(activity) }
                 .setNeutralButton(R.string.duraspeed_later, null)
                 .show()
+                .also { DarkWindows.dialog(it) }
         } else if (askOnReturn) {
             askOnReturn = false
             AlertDialog.Builder(activity)
@@ -156,6 +158,7 @@ object DuraSpeed {
                 .setPositiveButton(R.string.duraspeed_allowed) { _, _ -> markAllowed(activity) }
                 .setNegativeButton(R.string.duraspeed_not_yet, null)
                 .show()
+                .also { DarkWindows.dialog(it) }
         }
     }
 }
