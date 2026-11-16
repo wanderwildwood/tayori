@@ -3,15 +3,14 @@ package com.fsck.k9.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.PopupMenu;
 
 import net.thunderbird.core.android.account.Identity;
 import com.fsck.k9.Preferences;
@@ -43,8 +42,16 @@ public class ManageIdentities extends ChooseIdentity {
             }
         });
 
+        // A long press opens the identity's menu as a popup by the row: a popup the app makes
+        // itself goes dark with the rest of the app, the platform's context menu would stay white.
         ListView listView = getListView();
-        registerForContextMenu(listView);
+        listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            PopupMenu popup = new PopupMenu(this, view);
+            popup.getMenuInflater().inflate(R.menu.manage_identities_context, popup.getMenu());
+            popup.setOnMenuItemClickListener(item -> onIdentityAction(item.getItemId(), position));
+            popup.show();
+            return true;
+        });
     }
 
     private void editItem(int i) {
@@ -76,41 +83,31 @@ public class ManageIdentities extends ChooseIdentity {
         return true;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle(R.string.manage_identities_context_menu_title);
-        getMenuInflater().inflate(R.menu.manage_identities_context, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(android.view.MenuItem item) {
-        AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo)item.getMenuInfo();
-        int id = item.getItemId();
+    private boolean onIdentityAction(int id, int position) {
         if (id == R.id.edit) {
-            editItem(menuInfo.position);
+            editItem(position);
         } else if (id == R.id.up) {
-            if (menuInfo.position > 0) {
-                Identity identity = identities.remove(menuInfo.position);
-                identities.add(menuInfo.position - 1, identity);
+            if (position > 0) {
+                Identity identity = identities.remove(position);
+                identities.add(position - 1, identity);
                 mIdentitiesChanged = true;
                 refreshView();
             }
         } else if (id == R.id.down) {
-            if (menuInfo.position < identities.size() - 1) {
-                Identity identity = identities.remove(menuInfo.position);
-                identities.add(menuInfo.position + 1, identity);
+            if (position < identities.size() - 1) {
+                Identity identity = identities.remove(position);
+                identities.add(position + 1, identity);
                 mIdentitiesChanged = true;
                 refreshView();
             }
         } else if (id == R.id.top) {
-            Identity identity = identities.remove(menuInfo.position);
+            Identity identity = identities.remove(position);
             identities.add(0, identity);
             mIdentitiesChanged = true;
             refreshView();
         } else if (id == R.id.remove) {
             if (identities.size() > 1) {
-                identities.remove(menuInfo.position);
+                identities.remove(position);
                 mIdentitiesChanged = true;
                 refreshView();
             } else {
