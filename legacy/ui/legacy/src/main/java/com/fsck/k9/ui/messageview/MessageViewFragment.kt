@@ -96,7 +96,6 @@ import net.thunderbird.core.preference.GeneralSettingsManager
 import net.thunderbird.core.preference.interaction.InteractionSettings
 import net.thunderbird.core.ui.contract.mvi.observe
 import net.thunderbird.core.ui.theme.api.FeatureThemeProvider
-import net.thunderbird.core.ui.theme.api.Theme
 import net.thunderbird.core.ui.theme.manager.ThemeManager
 import net.thunderbird.feature.mail.folder.api.OutboxFolderManager
 import net.thunderbird.feature.mail.message.export.MessageExporter
@@ -480,18 +479,8 @@ class MessageViewFragment :
         menu.findItem(R.id.print)?.isVisible = true
         menu.findItem(R.id.view_compose).isVisible = true
 
-        val toggleTheme = menu.findItem(R.id.toggle_message_view_theme)
-        if (generalSettingsManager.getConfig().display.coreSettings.fixedMessageViewTheme) {
-            toggleTheme.isVisible = false
-        } else {
-            // Set title of menu item to switch to dark/light theme
-            if (themeManager.messageViewTheme === Theme.DARK) {
-                toggleTheme.setTitle(R.string.message_view_theme_action_light)
-            } else {
-                toggleTheme.setTitle(R.string.message_view_theme_action_dark)
-            }
-            toggleTheme.isVisible = true
-        }
+        // The message view has no theme of its own: dark mode (Settings, or the phone) darkens the whole app.
+        menu.findItem(R.id.toggle_message_view_theme).isVisible = false
     }
 
     @Suppress("CyclomaticComplexMethod", "ReturnCount")
