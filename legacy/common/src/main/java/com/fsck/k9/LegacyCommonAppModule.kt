@@ -1,5 +1,6 @@
 package com.fsck.k9
 
+import android.content.Context
 import app.k9mail.feature.widget.message.list.messageListWidgetModule
 import app.k9mail.feature.widget.unread.UnreadWidgetUpdateListener
 import app.k9mail.feature.widget.unread.unreadWidgetModule
@@ -12,6 +13,7 @@ import com.fsck.k9.notification.notificationModule
 import com.fsck.k9.preferences.K9StoragePersister
 import com.fsck.k9.resources.resourcesModule
 import com.fsck.k9.storage.storageModule
+import com.wanderwildwood.tayori.glance.UnreadOnLockScreenListener
 import net.thunderbird.core.featureflag.FeatureFlagProvider
 import net.thunderbird.core.featureflag.provider.evaluator.MultiFeatureFlagProviderEvaluator
 import net.thunderbird.core.preference.storage.StoragePersister
@@ -23,6 +25,7 @@ val legacyCommonAppModule = module {
         DefaultMessagingListenerProvider(
             listeners = listOf(
                 get<UnreadWidgetUpdateListener>(),
+                UnreadOnLockScreenListener(get<Context>()),
             ),
         )
     }
