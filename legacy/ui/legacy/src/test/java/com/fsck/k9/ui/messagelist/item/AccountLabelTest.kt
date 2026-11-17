@@ -58,13 +58,13 @@ class AccountLabelTest {
         assertNotEquals(result["1"], result["2"])
     }
 
-    private val identities = listOf("" to "ada@adathe.dev", "" to "tomas@adawhitlock.eco", "" to "project@other.test")
+    private val identities = listOf("" to "ada@example.com", "" to "tomas@example.org", "" to "project@other.test")
 
     @Test
     fun `identities on different domains are told apart by domain`() {
         val labels = AccountLabels.forIdentities(identities)
-        assertEquals("adathe.dev", labels["ada@adathe.dev"])
-        assertEquals("adawhitlock.eco", labels["tomas@adawhitlock.eco"])
+        assertEquals("example.com", labels["ada@example.com"])
+        assertEquals("example.org", labels["tomas@example.org"])
     }
 
     @Test
@@ -83,7 +83,7 @@ class AccountLabelTest {
     @Test
     fun `a message is badged by the identity it was sent to, by To or Cc`() {
         val labels = AccountLabels.forIdentities(identities)
-        assertEquals("adawhitlock.eco", AccountLabels.badge(listOf("tomas@adawhitlock.eco"), labels, "acct"))
+        assertEquals("example.org", AccountLabels.badge(listOf("tomas@example.org"), labels, "acct"))
         assertEquals("other.test", AccountLabels.badge(listOf("someone@z.test", "project@other.test"), labels, "acct"))
     }
 
@@ -97,7 +97,7 @@ class AccountLabelTest {
     @Test
     fun `matching ignores case and plus tags`() {
         val labels = AccountLabels.forIdentities(identities)
-        assertEquals("adathe.dev", AccountLabels.badge(listOf("Ada+news@Example.com"), labels, "acct"))
+        assertEquals("example.com", AccountLabels.badge(listOf("Ada+news@Example.com"), labels, "acct"))
     }
 
     @Test
