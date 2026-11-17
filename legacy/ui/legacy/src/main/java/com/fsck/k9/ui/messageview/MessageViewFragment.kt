@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.SystemClock
+import android.provider.DocumentsContract
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.Menu
@@ -868,6 +869,10 @@ class MessageViewFragment :
     private fun onCreateDocumentResult(uri: Uri?) {
         val remoteImage = pendingRemoteImage
         pendingRemoteImage = null
+        // Read and cleared before anything else, so a cancelled export is not taken for the
+        // next attachment save.
+        val emlExport = pendingEmlExport
+        pendingEmlExport = false
         if (uri == null) return
         require(uri.scheme == ContentResolver.SCHEME_CONTENT) { "content: URI required" }
 
@@ -876,7 +881,10 @@ class MessageViewFragment :
             // Not tied to this screen: leaving the message must not cut a save half way.
             RemoteImage.scope.launch {
                 val saved = withContext(Dispatchers.IO) {
-                    runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri) }.isSuccess
+                    runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri) }.isSuccess.also { ok ->
+                        // A failed download leaves no empty or half file behind.
+                        if (!ok) runCatching { DocumentsContract.deleteDocument(ctx.contentResolver, uri) }
+                    }
                 }
                 Toast.makeText(
                     ctx,
@@ -887,10 +895,8 @@ class MessageViewFragment :
             return
         }
 
-        if (pendingEmlExport) {
-            // Handle EML export via exporter and reset flag regardless of outcome
+        if (emlExport) {
             val exportUri = uri
-            pendingEmlExport = false
             viewLifecycleOwner.lifecycleScope.launch {
                 val ctx = requireContext()
                 val rawUri = RawMessageProvider.getRawMessageUri(messageReference)
@@ -973,6 +979,7 @@ class MessageViewFragment :
                 ),
             )
         } catch (_: ActivityNotFoundException) {
+            pendingEmlExport = false
             Toast.makeText(requireContext(), R.string.error_activity_not_found, Toast.LENGTH_LONG).show()
         }
     }
@@ -1300,6 +1307,11 @@ class MessageViewFragment :
     }
 
     override fun onSaveRemoteImage(imageUri: Uri) {
+        // Plain http is refused by the app's network settings: say so before a file is made.
+        if (imageUri.scheme?.lowercase() != "https") {
+            Toast.makeText(requireContext(), R.string.message_view_status_attachment_not_saved, Toast.LENGTH_LONG).show()
+            return
+        }
         pendingRemoteImage = imageUri
         val name = RemoteImage.fileName(imageUri.lastPathSegment)
 

@@ -31,11 +31,11 @@ internal object RemoteImage {
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension) ?: "application/octet-stream"
     }
 
-    /** Fetches [source] (http or https only) into [destination]. Call off the main thread. */
+    /** Fetches [source] (https only: plain http is refused by the network settings) into [destination]. Call off the main thread. */
     @Throws(IOException::class)
     fun copy(resolver: ContentResolver, source: Uri, destination: Uri) {
         val scheme = source.scheme?.lowercase()
-        if (scheme != "http" && scheme != "https") throw IOException("unsupported address")
+        if (scheme != "https") throw IOException("unsupported address")
         val connection = URL(source.toString()).openConnection() as HttpURLConnection
         try {
             connection.connectTimeout = 15_000
