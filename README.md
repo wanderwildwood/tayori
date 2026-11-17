@@ -50,7 +50,7 @@ so it cannot be used here.
 Your mail goes between the phone and the servers you give it, and nowhere else. Setting up
 an account also asks the address's own domain, and Mozilla's list of providers at
 `autoconfig.thunderbird.net`, how to reach them; Mozilla is told the domain, not the
-address. Pictures in a message are not fetched unless you ask. See [PRIVACY.md](PRIVACY.md).
+address. Pictures in a message are not fetched unless you ask, per message or for an account. See [PRIVACY.md](PRIVACY.md).
 
 ## On a Mudita Kompakt
 
@@ -106,7 +106,7 @@ The face is [Lato](https://www.latofonts.com/) by Łukasz Dziedzic, SIL Open Fon
 
 ## License
 
-**GNU General Public License, version 3.** See [LICENSE](LICENSE). Thunderbird's own code
+**GNU General Public License, version 3 only (GPL-3.0-only).** See [LICENSE](LICENSE). Thunderbird's own code
 remains under the Apache License 2.0 ([LICENSE-APACHE-2.0](LICENSE-APACHE-2.0), [NOTICE](NOTICE)),
 which lets it be carried into a GPL work.
 

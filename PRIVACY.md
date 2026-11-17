@@ -16,7 +16,8 @@ just a promise.
   `autoconfig.thunderbird.net`, which is told the domain, not the address. The code is in
   `feature/autodiscovery/autoconfig`.
 - **Pictures in a message** come from wherever the sender put them, and are fetched only
-  when you press "Show pictures".
+  when you press "Show remote images", or by themselves for an account whose "Always show
+  images" setting you have changed from its default, No.
 
 Your mail provider's privacy policy covers what it keeps of your mail; Mozilla's covers
 `autoconfig.thunderbird.net`: <https://www.mozilla.org/privacy/>.
@@ -41,7 +42,6 @@ From `aapt2 dump badging` on the APK:
 - `POST_NOTIFICATIONS`, `VIBRATE` — to say when new mail arrives.
 - `RECEIVE_BOOT_COMPLETED`, `SCHEDULE_EXACT_ALARM`, `WAKE_LOCK`, `FOREGROUND_SERVICE*`,
   `READ_SYNC_SETTINGS` — to check for mail on time, and to hold a push connection open.
-- `CAMERA` — only to scan a QR code when importing settings, and asked for only then.
 - `USE_BIOMETRIC`, `USE_FINGERPRINT` — to ask for the phone's own lock before showing a saved
   password in an account's server settings.
 

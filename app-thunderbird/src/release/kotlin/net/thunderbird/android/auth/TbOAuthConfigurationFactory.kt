@@ -4,6 +4,9 @@ import net.thunderbird.core.common.oauth.OAuthConfiguration
 import net.thunderbird.core.common.oauth.OAuthConfigurationFactory
 
 /**
+ * Parked: while MICROSOFT_CLIENT_ID is empty, as it is in the released app, there is no OAuth
+ * sign-in at all, and README and Privacy say so. Revived, the README and Privacy change with it.
+ *
  * Microsoft only, through a client id registered to this app. Thunderbird's sign-ins through
  * Google, Yahoo, AOL and Fastmail use client ids registered to Mozilla's app, not to this one, so
  * those accounts sign in with a password, or an app password where the provider requires one.
