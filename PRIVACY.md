@@ -18,6 +18,9 @@ just a promise.
 - **Pictures in a message** come from wherever the sender put them, and are fetched only
   when you press "Show remote images", or by themselves for an account whose "Always show
   images" setting you have changed from its default, No.
+- **Square, only if you give.** "Feed the llamas" in About opens a donation page
+  (square.link) in your browser, only when you press it. The app sends nothing there; if you
+  give, the payment is handled on that page by Square, not by this app.
 
 Your mail provider's privacy policy covers what it keeps of your mail; Mozilla's covers
 `autoconfig.thunderbird.net`: <https://www.mozilla.org/privacy/>.
@@ -87,5 +90,5 @@ Similar laws elsewhere, such as the CCPA in California, give you the right to kn
 
 Since Mailbox keeps what it stores only on your phone, you can exercise most of these rights yourself: remove an account or delete mail in the app, export your settings to a file, clear the app's data in Android's settings, or uninstall the app, which deletes all of it. For anything you cannot do yourself, write to the address above.
 
-Mailbox connects to your mail provider and Mozilla's autoconfig service. They are separate from this app and from its developer, and what they receive is covered by their own privacy policies; ask them about what they hold.
+Mailbox connects to your mail provider and Mozilla's autoconfig service, and "Feed the llamas" opens Square's donation page in your browser when you press it. They are separate from this app and from its developer, and what they receive is covered by their own privacy policies; ask them about what they hold.
 <!-- /shared-about privacy section -->
