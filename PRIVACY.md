@@ -13,8 +13,10 @@ just a promise.
 - **When you set up an account, and only then**, it looks up how to reach your provider:
   the address's own domain (`autoconfig.<domain>` and `<domain>/.well-known/autoconfig/`),
   its mail exchanger over DNS, and Mozilla's list of providers at
-  `autoconfig.thunderbird.net`, which is told the domain, not the address. The code is in
-  `feature/autodiscovery/autoconfig`.
+  `autoconfig.thunderbird.net`, which is told the domain, not the address. The mail
+  exchanger lookup may not go through the phone's own DNS: the library that makes it can
+  fall back to Google Public DNS (8.8.8.8) or ask the internet's root name servers directly,
+  so Google may be told the domain too. The code is in `feature/autodiscovery/autoconfig`.
 - **Pictures in a message** come from wherever the sender put them, and are fetched only
   when you press "Show remote images", or by themselves for an account whose "Always show
   images" setting you have changed from its default, No.
@@ -23,7 +25,8 @@ just a promise.
   give, the payment is handled on that page by Square, not by this app.
 
 Your mail provider's privacy policy covers what it keeps of your mail; Mozilla's covers
-`autoconfig.thunderbird.net`: <https://www.mozilla.org/privacy/>.
+`autoconfig.thunderbird.net`: <https://www.mozilla.org/privacy/>; Google's covers its Public
+DNS: <https://developers.google.com/speed/public-dns/privacy>.
 
 There is no sign-in through Google, Microsoft or anyone else, no push service, no update
 check and no server of this project's.
@@ -68,7 +71,7 @@ aapt2 dump badging tayori.apk | grep uses-permission
 <!-- shared-about privacy section -->
 ## Who we are
 
-Mailbox is made by wander wildwood, an independent developer: one person, not a company. wander wildwood is the data controller for anything the app itself handles, and that is very little. What you put in Mailbox stays on your phone. The only things that go out are the requests described above: the connections to your mail servers, which carry your login and the mail you fetch and send; when you set up an account, the lookup of how to reach your provider, which tells the address's own domain, DNS and Mozilla's autoconfig service the domain, not the address; and the pictures in a message, fetched from wherever the sender put them when you choose to show them. The developer receives nothing, so the developer holds no data about you.
+Mailbox is made by wander wildwood, an independent developer: one person, not a company. wander wildwood is the data controller for anything the app itself handles, and that is very little. What you put in Mailbox stays on your phone. The only things that go out are the requests described above: the connections to your mail servers, which carry your login and the mail you fetch and send; when you set up an account, the lookup of how to reach your provider, which tells the address's own domain, DNS (possibly Google Public DNS) and Mozilla's autoconfig service the domain, not the address; and the pictures in a message, fetched from wherever the sender put them when you choose to show them. The developer receives nothing, so the developer holds no data about you.
 
 ## How to contact us
 
