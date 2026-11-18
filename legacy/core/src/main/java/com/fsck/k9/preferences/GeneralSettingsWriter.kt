@@ -24,7 +24,6 @@ internal class GeneralSettingsWriter(
         // Mailbox's own settings go back to the files they live in, not to this storage.
         val fork = mergedSettings.filterKeys { it in ForkSettings.KEYS }
         mergedSettings.keys.removeAll(ForkSettings.KEYS)
-        ForkSettings.write(fork)
 
         for ((key, value) in mergedSettings) {
             editor.putStringWithLogging(
@@ -37,6 +36,9 @@ internal class GeneralSettingsWriter(
 
         return if (editor.commit()) {
             Log.v("Committed general settings to the preference storage.")
+
+            // Only once the rest is in, so an import that fails changes none of them.
+            ForkSettings.write(fork)
 
             generalSettingsManager.loadSettings()
             mergedSettings.keys.forEach {
