@@ -6,6 +6,8 @@ plugins {
 dependencies {
     api(projects.feature.autodiscovery.autoconfig)
 
+    testImplementation(projects.core.logging.testing)
+    testImplementation(projects.legacy.logging)
     testImplementation(libs.kxml2)
 }
 
