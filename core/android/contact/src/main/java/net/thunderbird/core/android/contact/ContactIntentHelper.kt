@@ -14,12 +14,13 @@ object ContactIntentHelper {
      * "Complete action using" for each kind of request in turn. When it is not, the request goes
      * out unnamed, exactly as before.
      */
-    const val CONTACTS_APP = "com.wanderwildwood.enishi"
+    const val CONTACTS_APP = HouseApps.CONNECTIONS
 
     @JvmStatic
     fun preferContactsApp(context: Context, intent: Intent): Intent {
-        val named = Intent(intent).setPackage(CONTACTS_APP)
-        return if (named.resolveActivity(context.packageManager) != null) named else intent
+        // Only the real Contacts, signed with its release certificate (HouseApps); an app that only
+        // took its name is treated as not installed.
+        return HouseApps.aimed(context, intent, CONTACTS_APP) ?: intent
     }
 
     /** A person, shown in Contacts if it is here, or in Android's own quick view if not. */
