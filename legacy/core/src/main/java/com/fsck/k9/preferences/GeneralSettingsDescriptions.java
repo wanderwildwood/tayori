@@ -349,8 +349,9 @@ class GeneralSettingsDescriptions {
         ));
         // Mailbox's own settings. Added at the version they were made under rather than a new
         // one, so a file this app writes stays readable by a build of the same version that
-        // does not know them (it passes over them) and the numbering stays upstream's.
-        s.put("textScalePercent", Settings.versions(
+        // does not know them (it passes over them) and the numbering stays upstream's. A file
+        // from before 111 has none of them; GeneralSettingsUpgrader keeps their defaults out.
+        s.put(ForkSettings.TEXT_SCALE, Settings.versions(
             new V(111, new IntegerRangeSetting(50, 300, 100))
         ));
         s.put(ForkSettings.DARK_MODE, Settings.versions(

@@ -6,6 +6,9 @@ internal class GeneralSettingsUpgrader {
             return internalSettings
         }
 
+        // Mailbox's own settings are set only from a file that carries them, never from the
+        // defaults the upgrade fills in.
         return GeneralSettingsDescriptions.upgrade(contentVersion, internalSettings)
+            .filterKeys { it !in ForkSettings.ADDED || it in internalSettings }
     }
 }

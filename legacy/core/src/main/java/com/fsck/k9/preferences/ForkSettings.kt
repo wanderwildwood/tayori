@@ -13,6 +13,16 @@ object ForkSettings {
 
     val KEYS = setOf(DARK_MODE, TURN_WITH_PHONE, LOCK_SCREEN_UNREAD)
 
+    /** The text size, Mailbox's own too but kept in the preference storage. */
+    const val TEXT_SCALE = "textScalePercent"
+
+    /**
+     * Every general setting Mailbox added. They came in under upstream's version 111, so a file
+     * from before (an older Mailbox, K-9 or Thunderbird) carries none of them, and upgrading it
+     * must not fill them in with their defaults over what is set now.
+     */
+    val ADDED = KEYS + TEXT_SCALE
+
     /** Their values now, as "true" or "false" by key. */
     @Volatile
     var read: () -> Map<String, String> = { emptyMap() }
