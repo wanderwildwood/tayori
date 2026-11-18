@@ -15,7 +15,7 @@ redrawn for this one.
 | | |
 |---|---|
 | ![Setting up: type the address](screenshots/1-address.png) | ![The server settings, when none is found for the address](screenshots/2-server.png) |
-| ![About, with privacy, license and terms](screenshots/3-about.png) | ![Licenses, the app and each library it bundles](screenshots/4-licences.png) |
+| ![About, with privacy, license and terms](screenshots/3-about.png) | ![Licenses, the app and each library it bundles](screenshots/4-licenses.png) |
 
 ## What changed from Thunderbird
 
@@ -29,6 +29,8 @@ redrawn for this one.
 - **Dialogs and menus are white inside a black rim**, and never gray out the screen behind
   them.
 - **It opens on your address.** No welcome page and no Thundermail.
+- **Dark mode**, from its own switch in Settings, or following the phone's dark setting.
+  Pictures in a message keep their colors.
 
 ## On the lock screen
 
@@ -38,7 +40,10 @@ on the Kompakt's lock screen, beside Messaging's count. The switch is in Setting
 ## Signing in
 
 Any server that speaks IMAP or POP3 and SMTP with a password. Setting up an account, it
-looks up how to reach your provider; if it cannot find out, you fill the servers in by hand.
+looks up how to reach your provider (Gmail, iCloud and Zoho are already known to it and need no
+lookup); if it cannot find out, you fill the servers in by hand.
+
+Needs Android 8.0 or newer.
 
 **There is no "Sign in with Google" or Microsoft.** Those sign-ins are registered to
 Mozilla's app, not to this one. Gmail, Yahoo, AOL and Fastmail take an app password
