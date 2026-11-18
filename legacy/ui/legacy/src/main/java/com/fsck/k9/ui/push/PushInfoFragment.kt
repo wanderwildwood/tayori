@@ -19,7 +19,7 @@ import com.google.android.material.textview.MaterialTextView
 import net.thunderbird.core.common.provider.AppNameProvider
 import org.koin.android.ext.android.inject
 
-private const val LEARN_MORE_URL = "https://support.mozilla.org/kb/configure-push-email-thunderbird-android"
+private const val LEARN_MORE_URL = "https://github.com/wanderwildwood/tayori#push-email"
 
 class PushInfoFragment : Fragment() {
     private val notificationChannelManager: NotificationChannelManager by inject()

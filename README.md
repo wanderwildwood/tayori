@@ -70,6 +70,15 @@ the phone:
 3. Back in Mailbox, answer **It's switched on**. Mailbox cannot read DuraSpeed's list, so this is how
    it knows; if DuraSpeed shuts it down anyway, the notification comes back.
 
+## Push email
+
+With an account's folders set to push, Mailbox keeps a connection open to the mail server so new
+mail shows up as it arrives. Android then asks for a notification to stay up while Mailbox runs in
+the background. It can be hidden: **Configure notification** on Mailbox's Push info page opens that
+one notification's settings, and switching it off there leaves push working. Mail that need not
+come at once can be checked every so often instead: **Disable push** on the same page, and then no
+notification is needed.
+
 ## Getting it, and keeping it
 
 Download <https://github.com/wanderwildwood/tayori/releases/latest/download/tayori.apk> and
