@@ -884,8 +884,9 @@ class MessageViewFragment :
                     // Only a file this save made is taken away again; one picked to be written
                     // over stays when the download fails.
                     val madeNow = RemoteImage.isEmpty(ctx.contentResolver, uri)
-                    runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri) }.isSuccess.also { ok ->
-                        // A failed download leaves no empty or half file behind.
+                    runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri, ctx.cacheDir) }.isSuccess.also { ok ->
+                        // The download finishes before the file is opened, so one written over
+                        // is untouched by a failed download, and an empty one made now goes.
                         if (!ok && madeNow) runCatching { DocumentsContract.deleteDocument(ctx.contentResolver, uri) }
                     }
                 }
