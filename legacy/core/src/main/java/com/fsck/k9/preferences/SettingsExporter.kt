@@ -67,7 +67,8 @@ class SettingsExporter(
 
             val storage = preferences.storage
 
-            val prefs: Map<String, Any> = storage.getAll().toSortedMap()
+            // Mailbox's own settings live in files of their own; they go in with the rest.
+            val prefs: Map<String, Any> = (storage.getAll() + ForkSettings.read()).toSortedMap()
             if (includeGlobals) {
                 serializer.startTag(null, GLOBAL_ELEMENT)
                 writeSettings(serializer, prefs)

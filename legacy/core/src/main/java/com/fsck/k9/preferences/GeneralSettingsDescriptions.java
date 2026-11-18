@@ -347,6 +347,21 @@ class GeneralSettingsDescriptions {
         s.put("messageListDateTimeFormat", Settings.versions(
             new V(110, new EnumSetting<>(MessageListDateTimeFormat.class, MessageListDateTimeFormat.Contextual))
         ));
+        // Mailbox's own settings. Added at the version they were made under rather than a new
+        // one, so a file this app writes stays readable by a build of the same version that
+        // does not know them (it passes over them) and the numbering stays upstream's.
+        s.put("textScalePercent", Settings.versions(
+            new V(111, new IntegerRangeSetting(50, 300, 100))
+        ));
+        s.put(ForkSettings.DARK_MODE, Settings.versions(
+            new V(111, new BooleanSetting(false))
+        ));
+        s.put(ForkSettings.TURN_WITH_PHONE, Settings.versions(
+            new V(111, new BooleanSetting(true))
+        ));
+        s.put(ForkSettings.LOCK_SCREEN_UNREAD, Settings.versions(
+            new V(111, new BooleanSetting(true))
+        ));
 
         // TODO: Add a way to properly support feature-specific settings.
         if (telemetryManager.isTelemetryFeatureIncluded()) {

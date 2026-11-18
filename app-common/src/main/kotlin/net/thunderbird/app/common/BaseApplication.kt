@@ -68,6 +68,7 @@ abstract class BaseApplication : Application(), WorkManagerConfiguration.Provide
         updateNotificationChannelsOnAppLanguageChanges()
         themeManager.init()
         DarkWindows.install(this)
+        com.wanderwildwood.tayori.OwnSettings.install(this)
         messageListWidgetManager.init()
 
         messagingListenerProvider.listeners.forEach { listener ->

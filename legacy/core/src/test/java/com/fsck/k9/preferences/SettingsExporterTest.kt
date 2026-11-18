@@ -66,6 +66,22 @@ class SettingsExporterTest : K9RobolectricTest() {
         assertThat(document.rootElement.getChild("global")).isNull()
     }
 
+    @Test
+    fun exportPreferences_carriesMailboxsOwnSettings() = runTest {
+        val before = ForkSettings.read
+        ForkSettings.read = { mapOf(ForkSettings.DARK_MODE to "true", ForkSettings.TURN_WITH_PHONE to "false") }
+        try {
+            val global = exportPreferences(true, emptySet()).rootElement.getChild("global")
+            val values = global.children.associate { it.getAttributeValue("key") to it.text }
+            assertThat(values[ForkSettings.DARK_MODE]).isEqualTo("true")
+            assertThat(values[ForkSettings.TURN_WITH_PHONE]).isEqualTo("false")
+            // Not handed over: written as its default.
+            assertThat(values[ForkSettings.LOCK_SCREEN_UNREAD]).isEqualTo("true")
+        } finally {
+            ForkSettings.read = before
+        }
+    }
+
     private suspend fun exportPreferences(globalSettings: Boolean, accounts: Set<String>): Document = runBlocking {
         ByteArrayOutputStream().use { outputStream ->
             settingsExporter.exportPreferences(outputStream, globalSettings, accounts, includePasswords = false)

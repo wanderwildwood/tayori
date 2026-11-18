@@ -21,6 +21,10 @@ internal class GeneralSettingsWriter(
         // Use current general settings as base and overwrite with validated settings read from the import file.
         val mergedSettings = GeneralSettingsDescriptions.getGlobalSettings(preferences.storage).toMutableMap()
         mergedSettings.putAll(stringSettings)
+        // Mailbox's own settings go back to the files they live in, not to this storage.
+        val fork = mergedSettings.filterKeys { it in ForkSettings.KEYS }
+        mergedSettings.keys.removeAll(ForkSettings.KEYS)
+        ForkSettings.write(fork)
 
         for ((key, value) in mergedSettings) {
             editor.putStringWithLogging(
