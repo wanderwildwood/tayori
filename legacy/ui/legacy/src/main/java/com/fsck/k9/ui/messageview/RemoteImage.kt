@@ -2,6 +2,7 @@ package com.fsck.k9.ui.messageview
 
 import android.content.ContentResolver
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -30,6 +31,16 @@ internal object RemoteImage {
         val extension = fileName.substringAfterLast('.', "").lowercase()
         return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension) ?: "application/octet-stream"
     }
+
+    /**
+     * Whether [document] holds nothing: one the save screen made just now. One picked there to be
+     * written over has something in it, and a size that cannot be read counts as something.
+     */
+    fun isEmpty(resolver: ContentResolver, document: Uri): Boolean = runCatching {
+        resolver.query(document, arrayOf(OpenableColumns.SIZE), null, null, null)?.use { cursor ->
+            cursor.moveToFirst() && !cursor.isNull(0) && cursor.getLong(0) == 0L
+        } ?: false
+    }.getOrDefault(false)
 
     /** Fetches [source] (https only: plain http is refused by the network settings) into [destination]. Call off the main thread. */
     @Throws(IOException::class)

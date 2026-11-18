@@ -881,9 +881,12 @@ class MessageViewFragment :
             // Not tied to this screen: leaving the message must not cut a save half way.
             RemoteImage.scope.launch {
                 val saved = withContext(Dispatchers.IO) {
+                    // Only a file this save made is taken away again; one picked to be written
+                    // over stays when the download fails.
+                    val madeNow = RemoteImage.isEmpty(ctx.contentResolver, uri)
                     runCatching { RemoteImage.copy(ctx.contentResolver, remoteImage, uri) }.isSuccess.also { ok ->
                         // A failed download leaves no empty or half file behind.
-                        if (!ok) runCatching { DocumentsContract.deleteDocument(ctx.contentResolver, uri) }
+                        if (!ok && madeNow) runCatching { DocumentsContract.deleteDocument(ctx.contentResolver, uri) }
                     }
                 }
                 Toast.makeText(
