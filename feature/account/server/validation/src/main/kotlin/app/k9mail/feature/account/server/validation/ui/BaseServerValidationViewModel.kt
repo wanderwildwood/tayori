@@ -15,11 +15,12 @@ import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.
 import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.Event
 import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.State
 import com.fsck.k9.mail.server.ServerSettingsValidationResult
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import net.thunderbird.core.ui.contract.mvi.BaseViewModel
 
 @Suppress("TooManyFunctions")
@@ -114,8 +115,11 @@ abstract class BaseServerValidationViewModel(
         }
     }
 
+    private var validation: Job? = null
+
     private fun validateServerSettings() {
-        viewModelScope.launch {
+        validation?.cancel()
+        validation = viewModelScope.launch {
             val serverSettings = state.value.serverSettings
             if (serverSettings == null) {
                 updateError(Error.UnknownError("Server settings not set"))
@@ -126,11 +130,15 @@ abstract class BaseServerValidationViewModel(
                 it.copy(isLoading = true)
             }
 
-            val validationResult = try {
-                withTimeout(VALIDATION_TIMEOUT_MS) { validateServerSettings.execute(serverSettings) }
-            } catch (@Suppress("SwallowedException") e: TimeoutCancellationException) {
+            // The check waits on the server's sockets and cannot be cut short. After 30 seconds the
+            // person is told and can go back or try again; the answer, when it comes, still counts
+            // while that notice is up, so a slow server that does answer is not called wrong.
+            val check = async { validateServerSettings.execute(serverSettings) }
+            val validationResult = withTimeoutOrNull(VALIDATION_TIMEOUT_MS) { check.await() } ?: run {
                 updateError(Error.TimedOut)
-                return@launch
+                val late = check.await()
+                if (state.value.error != Error.TimedOut) return@launch
+                late
             }
 
             when (val result = validationResult) {
@@ -176,6 +184,7 @@ abstract class BaseServerValidationViewModel(
             it.copy(
                 isLoading = false,
                 isSuccess = true,
+                error = null,
             )
         }
 

@@ -250,6 +250,37 @@ abstract class BaseServerValidationViewModelTest<T : BaseServerValidationViewMod
         }
     }
 
+    @Test
+    fun `should tell after 30 seconds that the server is slow and still take its answer when it comes`() =
+        runMviTest {
+            val initialState = State(serverSettings = SERVER_SETTINGS)
+            val testSubject = createTestSubject(
+                validateServerSettings = {
+                    delay(40_000)
+                    ServerSettingsValidationResult.Success
+                },
+                accountStateRepository = InMemoryAccountStateRepository(),
+                authorizationStateRepository = { true },
+                certificateErrorRepository = InMemoryServerCertificateErrorRepository(),
+                oAuthViewModel = FakeAccountOAuthViewModel(),
+                initialState = initialState,
+            )
+            val turbines = turbinesWithInitialStateCheck(testSubject, initialState)
+
+            testSubject.event(Event.ValidateServerSettings)
+
+            assertThat(turbines.stateTurbine.awaitItem()).isEqualTo(initialState.copy(isLoading = true))
+            assertThat(turbines.stateTurbine.awaitItem()).isEqualTo(initialState.copy(error = Error.TimedOut))
+            assertThat(turbines.stateTurbine.awaitItem()).isEqualTo(initialState.copy(isSuccess = true))
+
+            assertThatAndMviTurbinesConsumed(
+                actual = turbines.effectTurbine.awaitItem(),
+                turbines = turbines,
+            ) {
+                isEqualTo(Effect.NavigateNext)
+            }
+        }
+
     abstract fun createTestSubject(
         serverSettingsValidationResult: ServerSettingsValidationResult = ServerSettingsValidationResult.Success,
         accountState: AccountState = AccountState(),
