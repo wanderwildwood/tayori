@@ -23,8 +23,6 @@ constructor(
     ),
     defStyleRes: Int = 0,
 ) : Preference(context, attrs, defStyleAttr, defStyleRes), PreferenceActivityResultListener {
-    var receivedActivityResultJustNow = false
-
     // The sound is chosen in SoundChooser, not in an activity, so there is no result to take.
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: android.content.Intent?) = Unit
 
@@ -45,7 +43,6 @@ constructor(
     override fun onPreferenceClick(fragment: PreferenceFragmentCompat, preference: Preference) {
         SoundChooser.show(context, RingtoneManager.TYPE_NOTIFICATION, title, getPersistedRingtone()) { uri ->
             if (callChangeListener(uri?.toString().orEmpty())) {
-                receivedActivityResultJustNow = true
                 persistRingtone(uri)
                 showName(uri)
             }
