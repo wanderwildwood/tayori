@@ -101,7 +101,8 @@ class MessageListLoader(
                 .mapValues { (_, state) ->
                     val reason = state.sendError?.trim()?.takeIf { it.isNotEmpty() }
                     if (reason != null) {
-                        res.getString(R.string.outbox_not_sent, reason)
+                        NotSentReason.of(reason)?.let { res.getString(it.text) }
+                            ?: res.getString(R.string.outbox_not_sent, reason)
                     } else {
                         res.getString(R.string.outbox_not_sent_no_reason)
                     }
