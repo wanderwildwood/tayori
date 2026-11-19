@@ -1151,7 +1151,7 @@ class MessageListFragment :
     }
 
     private fun onSendPendingMessages() {
-        account?.id?.let { messagingController.sendPendingMessages(it, null) }
+        account?.id?.let { messagingController.retryPendingMessages(it, null) }
     }
 
     private fun onDebugInvalidateAccessTokenServer() {

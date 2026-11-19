@@ -1517,6 +1517,31 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
         });
     }
 
+    /**
+     * Send messages, chosen in the Outbox: every message there gets a fresh start first, so one
+     * given up on after too many failed tries, or after an error, is tried again now.
+     */
+    public void retryPendingMessages(final LegacyAccountDto account, MessagingListener listener) {
+        putBackground("retryPendingMessages", listener, new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    localStoreProvider.getInstance(account).getOutboxStateRepository().resetAll();
+                } catch (Exception e) {
+                    Log.e(e, "Could not give the Outbox a fresh start");
+                }
+                if (OutboxFolderManagerKt.hasPendingMessagesSync(outboxFolderManager, account.getUuid())) {
+                    showSendingNotificationIfNecessary(account);
+                    try {
+                        sendPendingMessagesSynchronous(account);
+                    } finally {
+                        clearSendingNotificationIfNecessary(account);
+                    }
+                }
+            }
+        });
+    }
+
     private void showSendingNotificationIfNecessary(LegacyAccountDto account) {
         if (account.isNotifySync()) {
             notificationController.showSendingNotification(account);
@@ -1643,18 +1668,21 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
                         outboxStateRepository.removeOutboxState(messageId);
                     } catch (AuthenticationFailedException e) {
                         outboxStateRepository.decrementSendAttempts(messageId);
+                        outboxStateRepository.setLastError(messageId, ThrowableExtensions.getRootCauseMessage(e));
                         lastFailure = e;
 
                         handleAuthenticationFailure(account, false);
                         handleSendFailure(account, localFolder, message, e);
                     } catch (CertificateValidationException e) {
                         outboxStateRepository.decrementSendAttempts(messageId);
+                        outboxStateRepository.setLastError(messageId, ThrowableExtensions.getRootCauseMessage(e));
                         lastFailure = e;
 
                         notifyUserIfCertificateProblem(account, e, false);
                         handleSendFailure(account, localFolder, message, e);
                     } catch (MessagingException e) {
                         lastFailure = e;
+                        outboxStateRepository.setLastError(messageId, ThrowableExtensions.getRootCauseMessage(e));
 
                         if (e.isPermanentFailure()) {
                             String errorMessage = e.getMessage();
@@ -1666,6 +1694,7 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
                         handleSendFailure(account, localFolder, message, e);
                     } catch (Exception e) {
                         lastFailure = e;
+                        outboxStateRepository.setLastError(messageId, ThrowableExtensions.getRootCauseMessage(e));
 
                         handleSendFailure(account, localFolder, message, e);
                     }

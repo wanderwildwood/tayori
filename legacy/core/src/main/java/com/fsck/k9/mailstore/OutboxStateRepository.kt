@@ -104,10 +104,76 @@ constructor(
             val contentValues = ContentValues().apply {
                 put(COLUMN_SEND_STATE, SendState.RETRIES_EXCEEDED.databaseName)
                 put(COLUMN_ERROR_TIMESTAMP, sendErrorTimestamp)
-                putNull(COLUMN_ERROR)
             }
 
             db.update(TABLE_NAME, contentValues, "$COLUMN_MESSAGE_ID = ?", arrayOf(messageId.toString()))
+        }
+    }
+
+    /**
+     * Keeps why the last try failed, without changing whether the message will be tried again, so
+     * the Outbox can say why a message is still there.
+     */
+    fun setLastError(messageId: Long, errorMessage: String?) {
+        @OptIn(ExperimentalTime::class)
+        val timestamp = clock.now().toEpochMilliseconds()
+
+        database.execute(false) { db ->
+            val contentValues = ContentValues().apply {
+                put(COLUMN_ERROR_TIMESTAMP, timestamp)
+                if (errorMessage.isNullOrBlank()) putNull(COLUMN_ERROR) else put(COLUMN_ERROR, errorMessage)
+            }
+
+            db.update(TABLE_NAME, contentValues, "$COLUMN_MESSAGE_ID = ?", arrayOf(messageId.toString()))
+        }
+    }
+
+    /** The messages whose last try failed, by message id, with why when it is known. */
+    fun getFailedMessages(): Map<Long, OutboxState> {
+        return database.execute(false) { db ->
+            db.query(
+                TABLE_NAME,
+                arrayOf(COLUMN_MESSAGE_ID) + COLUMNS,
+                "$COLUMN_ERROR_TIMESTAMP > 0 OR $COLUMN_SEND_STATE != ?",
+                arrayOf(SendState.READY.databaseName),
+                null,
+                null,
+                null,
+            ).use { cursor ->
+                buildMap {
+                    while (cursor.moveToNext()) {
+                        val messageId = cursor.getLongOrThrow(COLUMN_MESSAGE_ID)
+                        val sendState = SendState.fromDatabaseName(cursor.getStringOrThrow(COLUMN_SEND_STATE))
+                        put(
+                            messageId,
+                            OutboxState(
+                                sendState,
+                                cursor.getIntOrThrow(COLUMN_NUMBER_OF_SEND_ATTEMPTS),
+                                cursor.getStringOrNull(COLUMN_ERROR),
+                                cursor.getLongOrThrow(COLUMN_ERROR_TIMESTAMP),
+                            ),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Gives every message in the Outbox a fresh start, as when it was first sent: asked for by
+     * choosing Send messages, so a message given up on is tried again. Tries made on their own
+     * still stop after [com.fsck.k9.K9.MAX_SEND_ATTEMPTS].
+     */
+    fun resetAll() {
+        database.execute(false) { db ->
+            val contentValues = ContentValues().apply {
+                put(COLUMN_SEND_STATE, SendState.READY.databaseName)
+                put(COLUMN_NUMBER_OF_SEND_ATTEMPTS, 0)
+                put(COLUMN_ERROR_TIMESTAMP, 0)
+                putNull(COLUMN_ERROR)
+            }
+
+            db.update(TABLE_NAME, contentValues, null, null)
         }
     }
 

@@ -1,11 +1,13 @@
 package com.fsck.k9.ui.messagelist
 
+import android.content.res.Resources
 import app.k9mail.legacy.mailstore.MessageListRepository
 import com.fsck.k9.contacts.ContactLetterBitmapCreator
 import com.fsck.k9.helper.MessageHelper
 import com.fsck.k9.mailstore.LocalStoreProvider
 import com.fsck.k9.mailstore.MessageColumns
 import com.fsck.k9.search.getLegacyAccounts
+import com.fsck.k9.ui.R
 import net.thunderbird.core.android.account.LegacyAccount
 import net.thunderbird.core.android.account.LegacyAccountManager
 import net.thunderbird.core.android.account.SortType
@@ -28,6 +30,7 @@ class MessageListLoader(
     private val outboxFolderManager: OutboxFolderManager,
     private val featureFlagProvider: FeatureFlagProvider,
     private val contactLetterBitmapCreator: ContactLetterBitmapCreator,
+    private val resources: Resources? = null,
 ) {
 
     fun getMessageList(config: MessageListConfig): MessageListInfo {
@@ -63,6 +66,7 @@ class MessageListLoader(
             account,
             messageListPreferencesManager,
             outboxFolderManager,
+            notSent = notSentLines(account),
             contactLetterBitmapCreator = contactLetterBitmapCreator.takeIf {
                 featureFlagProvider.provide(GeneratedFeatureFlagKey.USE_COMPOSE_FOR_MESSAGE_LIST_ITEMS).isEnabled() ||
                     featureFlagProvider.provide(GeneratedFeatureFlagKey.ENABLE_MESSAGE_LIST_NEW_STATE).isEnabled()
@@ -83,6 +87,28 @@ class MessageListLoader(
                 val (selection, selectionArgs) = buildSelection(account, config)
                 messageListRepository.getMessages(accountUuid, selection, selectionArgs, sortOrder, mapper)
             }
+        }
+    }
+
+    /**
+     * For each Outbox message whose last try failed, the line shown in place of its preview,
+     * saying why it is still there (the send-failed notice alone is easy to miss).
+     */
+    private fun notSentLines(account: LegacyAccount): Map<Long, String> {
+        val res = resources ?: return emptyMap()
+        return try {
+            localStoreProvider.getInstanceByLegacyAccount(account).outboxStateRepository.getFailedMessages()
+                .mapValues { (_, state) ->
+                    val reason = state.sendError?.trim()?.takeIf { it.isNotEmpty() }
+                    if (reason != null) {
+                        res.getString(R.string.outbox_not_sent, reason)
+                    } else {
+                        res.getString(R.string.outbox_not_sent_no_reason)
+                    }
+                }
+        } catch (e: Exception) {
+            Log.e(e, "Could not read why Outbox messages were not sent")
+            emptyMap()
         }
     }
 

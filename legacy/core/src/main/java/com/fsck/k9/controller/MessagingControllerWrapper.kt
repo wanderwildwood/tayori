@@ -76,6 +76,12 @@ class MessagingControllerWrapper(
         messagingController.sendPendingMessages(account, listener)
     }
 
+    /** Send messages, chosen in the Outbox: messages given up on are tried again too. */
+    fun retryPendingMessages(id: AccountId, listener: MessagingListener?) {
+        val account = getAccountDtoOrThrow(id)
+        messagingController.retryPendingMessages(account, listener)
+    }
+
     fun setFlagForThreads(id: AccountId, threadIds: List<Long>, flag: Flag, newState: Boolean) {
         val account = getAccountDtoOrThrow(id)
         messagingController.setFlagForThreads(account, threadIds, flag, newState)

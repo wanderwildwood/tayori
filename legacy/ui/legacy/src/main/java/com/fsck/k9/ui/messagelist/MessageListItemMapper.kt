@@ -15,6 +15,7 @@ class MessageListItemMapper(
     private val account: LegacyAccount,
     private val messageListPreferencesManager: MessageListPreferencesManager,
     private val outboxFolderManager: OutboxFolderManager,
+    private val notSent: Map<Long, String> = emptyMap(),
     private val contactLetterBitmapCreator: ContactLetterBitmapCreator?,
 ) : MessageMapper<MessageListItem> {
 
@@ -23,7 +24,8 @@ class MessageListItemMapper(
         val toAddresses = message.toAddresses
         val previewResult = message.preview
         val isMessageEncrypted = previewResult.previewType == PreviewType.ENCRYPTED
-        val previewText = if (previewResult.isPreviewTextAvailable) previewResult.previewText else ""
+        val previewText = notSent[message.id]
+            ?: if (previewResult.isPreviewTextAvailable) previewResult.previewText else ""
         val uniqueId = createUniqueId(account, message.id)
         val showRecipients = DisplayAddressHelper.shouldShowRecipients(outboxFolderManager, account, message.folderId)
         val displayAddress = if (showRecipients) toAddresses.firstOrNull() else fromAddresses.firstOrNull()
