@@ -6,6 +6,7 @@ import com.fsck.k9.contacts.ContactLetterBitmapCreator
 import com.fsck.k9.helper.MessageHelper
 import com.fsck.k9.mailstore.LocalStoreProvider
 import com.fsck.k9.mailstore.MessageColumns
+import com.fsck.k9.mailstore.SendState
 import com.fsck.k9.search.getLegacyAccounts
 import com.fsck.k9.ui.R
 import net.thunderbird.core.android.account.LegacyAccount
@@ -91,16 +92,19 @@ class MessageListLoader(
     }
 
     /**
-     * For each Outbox message whose last try failed, the line shown in place of its preview,
-     * saying why it is still there (the send-failed notice alone is easy to miss).
+     * For each Outbox message, the line shown in place of its preview: why it was not sent when a
+     * try failed (the send-failed notice alone is easy to miss), or that it is waiting to be sent.
      */
     private fun notSentLines(account: LegacyAccount): Map<Long, String> {
         val res = resources ?: return emptyMap()
         return try {
-            localStoreProvider.getInstanceByLegacyAccount(account).outboxStateRepository.getFailedMessages()
+            localStoreProvider.getInstanceByLegacyAccount(account).outboxStateRepository.getOutboxStates()
                 .mapValues { (_, state) ->
                     val reason = state.sendError?.trim()?.takeIf { it.isNotEmpty() }
-                    if (reason != null) {
+                    val failed = state.sendErrorTimestamp > 0 || state.sendState != SendState.READY
+                    if (!failed) {
+                        res.getString(R.string.outbox_waiting)
+                    } else if (reason != null) {
                         NotSentReason.of(reason)?.let { res.getString(it.text) }
                             ?: res.getString(R.string.outbox_not_sent, reason)
                     } else {

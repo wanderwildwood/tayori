@@ -138,6 +138,9 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
 
     private final LocalMessageUidPrefixProvider localMessageUidPrefixProvider;
     private final BlockingQueue<Command> queuedCommands = new PriorityBlockingQueue<>();
+    /** What the background thread is doing now and since when, so a send held up behind it shows in the log. */
+    private volatile String runningCommand = null;
+    private volatile long runningSince = 0;
     private final Set<MessagingListener> listeners = new CopyOnWriteArraySet<>();
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
     private final MemorizingMessagingListener memorizingMessagingListener = new MemorizingMessagingListener();
@@ -257,12 +260,19 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
                         command.sequence,
                         command.isForegroundPriority ? "foreground" : "background");
 
+                    runningCommand = command.description;
+                    runningSince = SystemClock.elapsedRealtime();
                     command.runnable.run();
 
                     Log.i(" Command '%s' completed", command.description);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
+                // Every mail job runs on this one thread. Anything thrown here, an Error included, must not end
+                // it: nothing would be sent or fetched again until the app was restarted, with no word why.
                 Log.e(e, "Error running command '%s'", commandDescription);
+            } finally {
+                runningCommand = null;
+                runningSince = 0;
             }
         }
     }
@@ -1500,6 +1510,7 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
      */
     public void sendPendingMessages(final LegacyAccountDto account,
         MessagingListener listener) {
+        logIfHeldUp("sendPendingMessages");
         putBackground("sendPendingMessages", listener, new Runnable() {
             @Override
             public void run() {
@@ -1522,6 +1533,7 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
      * given up on after too many failed tries, or after an error, is tried again now.
      */
     public void retryPendingMessages(final LegacyAccountDto account, MessagingListener listener) {
+        logIfHeldUp("retryPendingMessages");
         putBackground("retryPendingMessages", listener, new Runnable() {
             @Override
             public void run() {
@@ -1540,6 +1552,18 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
                 }
             }
         });
+    }
+
+    /** Notes in the log when a send has to wait behind a job that has been running a long time. */
+    private void logIfHeldUp(String description) {
+        String running = runningCommand;
+        long since = runningSince;
+        if (running != null && since > 0) {
+            long seconds = (SystemClock.elapsedRealtime() - since) / 1000;
+            if (seconds >= 60) {
+                Log.w("'%s' waits behind '%s', running for %d s", description, running, seconds);
+            }
+        }
     }
 
     private void showSendingNotificationIfNecessary(LegacyAccountDto account) {
@@ -1697,6 +1721,13 @@ public class MessagingController implements MessagingControllerRegistry, Messagi
                         outboxStateRepository.setLastError(messageId, ThrowableExtensions.getRootCauseMessage(e));
 
                         handleSendFailure(account, localFolder, message, e);
+                    } catch (Error e) {
+                        // Kept with the message, so the Outbox says why instead of holding it with no word.
+                        Exception wrapped = new Exception(e);
+                        lastFailure = wrapped;
+                        outboxStateRepository.setLastError(messageId, ThrowableExtensions.getRootCauseMessage(e));
+
+                        handleSendFailure(account, localFolder, message, wrapped);
                     }
                 } catch (Exception e) {
                     lastFailure = e;

@@ -1219,6 +1219,8 @@ You can keep this message and use it as a backup for your secret key. If you wan
     <string name="outbox_not_sent">Not sent: %s</string>
     <!-- The same, when the reason is not known. -->
     <string name="outbox_not_sent_no_reason">Not sent. Choose Send messages to try again.</string>
+    <!-- Shown in place of an Outbox message's preview when it has not been tried yet, or is being sent now. -->
+    <string name="outbox_waiting">Waiting to send. Choose Send messages to send it now.</string>
     <!-- The same, in plain words for the common reasons. -->
     <string name="outbox_not_sent_offline">Not sent: the phone is offline.</string>
     <string name="outbox_not_sent_unknown_host">Not sent: couldn\'t find the mail server. Is the phone online?</string>

@@ -128,14 +128,17 @@ constructor(
         }
     }
 
-    /** The messages whose last try failed, by message id, with why when it is known. */
-    fun getFailedMessages(): Map<Long, OutboxState> {
+    /**
+     * Every message waiting in the Outbox, by message id: whether it will be tried again, and why its
+     * last try failed when one did.
+     */
+    fun getOutboxStates(): Map<Long, OutboxState> {
         return database.execute(false) { db ->
             db.query(
                 TABLE_NAME,
                 arrayOf(COLUMN_MESSAGE_ID) + COLUMNS,
-                "$COLUMN_ERROR_TIMESTAMP > 0 OR $COLUMN_SEND_STATE != ?",
-                arrayOf(SendState.READY.databaseName),
+                null,
+                null,
                 null,
                 null,
                 null,
