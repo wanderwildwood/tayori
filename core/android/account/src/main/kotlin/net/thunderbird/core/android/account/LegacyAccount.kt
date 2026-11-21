@@ -145,4 +145,9 @@ data class LegacyAccount(
 
     fun isIncomingServerPop3(): Boolean =
         incomingServerSettings.type == Protocols.POP3
+
+    // Keeps passwords and sign-in tokens out of logs (upstream Thunderbird 5e80a2e01f).
+    override fun toString(): String {
+        return "LegacyAccount(id=$id)"
+    }
 }
