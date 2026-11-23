@@ -508,7 +508,7 @@ class MessageListFragment :
             v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 val fabMargin = view.resources.getDimensionPixelSize(R.dimen.floatingActionButtonMargin)
 
-                bottomMargin = fabMargin
+                bottomMargin = view.resources.getDimensionPixelSize(R.dimen.floatingActionButtonBottomMargin)
                 rightMargin = fabMargin + insets.right
                 leftMargin = fabMargin + insets.left
             }
@@ -526,7 +526,7 @@ class MessageListFragment :
 
             view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 leftMargin = margin + insets.left
-                bottomMargin = margin + insets.bottom
+                bottomMargin = resources.getDimensionPixelSize(R.dimen.floatingActionButtonBottomMargin) + insets.bottom
                 rightMargin = margin + insets.right
             }
 
