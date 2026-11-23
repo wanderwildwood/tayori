@@ -30,10 +30,10 @@
     <dimen name="fakeAlignImageTopToTextTopPadding">4dp</dimen>
 
     <dimen name="floatingActionButtonMargin">16dp</dimen>
-    <!-- 3dp above the side margin: the compose button sits at Messaging's height, which rests on a 3dp rule -->
-    <dimen name="floatingActionButtonBottomMargin">19dp</dimen>
+    <!-- 6dp above the side margin: measured on the Kompakt, this puts the compose button at the height of Messaging's, which rests on a 3dp rule (19dp still sat 3dp low here) -->
+    <dimen name="floatingActionButtonBottomMargin">22dp</dimen>
     <!-- Height of FloatingActionButton (56dp) plus its side and bottom margins -->
-    <dimen name="floatingActionButtonSpacing">91dp</dimen>
+    <dimen name="floatingActionButtonSpacing">94dp</dimen>
 
     <!-- Edit Identity -->
     <dimen name="edit_identity_screen_padding">16dp</dimen>
