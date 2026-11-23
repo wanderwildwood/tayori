@@ -36,6 +36,13 @@ object LockScreen {
     fun on(context: Context): Boolean =
         context.getSharedPreferences(FILE, Context.MODE_PRIVATE).getBoolean(ON, true)
 
+    /**
+     * Whether the switch is on because someone set it, not because that is how it starts. Without
+     * Glance on the phone, only a chosen switch is worth a row in Settings.
+     */
+    fun chosenOn(context: Context): Boolean =
+        context.getSharedPreferences(FILE, Context.MODE_PRIVATE).let { it.contains(ON) && it.getBoolean(ON, true) }
+
     fun set(context: Context, on: Boolean) {
         context.getSharedPreferences(FILE, Context.MODE_PRIVATE).edit().putBoolean(ON, on).apply()
         GlanceProvider.changed(context)
