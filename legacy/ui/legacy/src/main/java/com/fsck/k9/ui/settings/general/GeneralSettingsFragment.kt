@@ -99,6 +99,18 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
         this.rootKey = rootKey
         setPreferencesFromResource(R.xml.general_settings, rootKey)
 
+        // The lock-screen switch is for Glance: shown when Glance is installed or the switch is already on.
+        findPreference<Preference>("lock_screen_unread")?.let {
+            val glanceHere = runCatching {
+                requireContext().packageManager.getPackageInfo(
+                    com.wanderwildwood.tayori.glance.GlanceProvider.READER,
+                    0,
+                )
+            }.isSuccess
+            it.isVisible = glanceHere ||
+                com.wanderwildwood.tayori.glance.LockScreen.on(requireContext().applicationContext)
+        }
+
         findPreference<Preference>("notification_actions_settings")?.onPreferenceClickListener =
             Preference.OnPreferenceClickListener {
                 context?.let { NotificationActionsSettingsActivity.start(it) }

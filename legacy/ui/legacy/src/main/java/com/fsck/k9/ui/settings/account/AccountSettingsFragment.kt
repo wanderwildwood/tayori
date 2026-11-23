@@ -358,6 +358,10 @@ class AccountSettingsFragment : PreferenceFragmentCompat(), ConfirmationDialogFr
 
     private fun initializeCryptoSettings(account: LegacyAccountDto) {
         findPreference<Preference>(PREFERENCE_OPENPGP)?.let {
+            // Nothing to set up without an OpenPGP app on the phone, unless one is already chosen.
+            val providerHere = OpenPgpProviderUtil.getOpenPgpProviderPackages(requireContext().applicationContext)
+                .isNotEmpty()
+            it.isVisible = providerHere || account.openPgpProvider != null
             configureCryptoPreferences(account)
         }
     }
