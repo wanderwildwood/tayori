@@ -14,8 +14,8 @@ redrawn for this one.
 
 | | |
 |---|---|
-| ![Setting up: type the address](screenshots/1-address.png) | ![The server settings, when none is found for the address](screenshots/2-server.png) |
-| ![About, with privacy, license and terms](screenshots/3-about.png) | ![Licenses, the app and each library it bundles](screenshots/4-licenses.png) |
+| ![The inbox](screenshots/1-inbox.png) | ![A message](screenshots/2-message.png) |
+| ![A reply](screenshots/3-reply.png) | ![Display settings](screenshots/4-display.png) |
 
 ## What changed from Thunderbird
 
