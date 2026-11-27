@@ -55,7 +55,8 @@ so it cannot be used here.
 Your mail goes between the phone and the servers you give it, and nowhere else. Setting up
 an account also asks the address's own domain, and Mozilla's list of providers at
 `autoconfig.thunderbird.net`, how to reach them; Mozilla is told the domain, not the
-address. Pictures in a message are not fetched unless you ask, per message or for an account. See [PRIVACY.md](PRIVACY.md).
+address. The lookup of the domain's mail server may fall back to Google Public DNS, which is
+then told the domain too. Pictures in a message are not fetched unless you ask, per message or for an account. See [PRIVACY.md](PRIVACY.md).
 
 ## On a Mudita Kompakt
 
